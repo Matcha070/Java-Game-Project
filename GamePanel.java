@@ -18,7 +18,9 @@ public class GamePanel extends JPanel {
         enemy = new Enemy();//Test Enemy
         
         timer = new Timer(16, e -> {
-            enemy.update();
+            if (enemy.isAlive()) {
+                enemy.update();
+            }
             repaint();
         });
 
@@ -66,7 +68,9 @@ public class GamePanel extends JPanel {
                     g.fillOval(p.x - 4, p.y - 4, 8, 8);
                 }
 
-                enemy.draw(g);
+                if (enemy.isAlive()) {
+                    enemy.draw(g);
+                }
                 // // วาดเส้นกริด (เอาออกได้)
                 // g.setColor(Color.BLACK);
                 // g.drawRect(

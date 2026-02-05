@@ -71,5 +71,10 @@ public class Enemy {
         return speed;
     }
 
+    public boolean isAlive() {
+        return alive;
+    }
+
+    
     
 }
