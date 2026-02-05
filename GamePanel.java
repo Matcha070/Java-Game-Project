@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -7,7 +8,8 @@ import javax.swing.*;
 public class GamePanel extends JPanel {
 
     BufferedImage grass, path;
-    Enemy enemy;
+    //Enemy enemy;
+    ArrayList<Enemy> enemies = new ArrayList<>();
     Timer timer;
     
     
@@ -15,12 +17,27 @@ public class GamePanel extends JPanel {
     public GamePanel() {
 
         MapData.buildPath();
-        enemy = new Enemy();//Test Enemy
+
+        //Test Enemy
+        //enemy = new Enemy();
+        //Test
+        Timer timers = new Timer(2000, e -> {
+            enemies.add(new Enemy());
+        });
+        timers.start();
+
+
         
         timer = new Timer(16, e -> {
-            if (enemy.isAlive()) {
+            for (int i = enemies.size() - 1; i >= 0; i--) {
+                Enemy enemy = enemies.get(i);
                 enemy.update();
+
+                if (!enemy.isAlive()) {
+                    enemies.remove(i);
+                }
             }
+            
             repaint();
         });
 
@@ -62,15 +79,16 @@ public class GamePanel extends JPanel {
                 );
 
 
-                //DeBug Path
-                g.setColor(Color.RED);
-                for (Point p : MapData.pathPoints) {
-                    g.fillOval(p.x - 4, p.y - 4, 8, 8);
-                }
+                // //DeBug Path
+                // g.setColor(Color.RED);
+                // for (Point p : MapData.pathPoints) {
+                //     g.fillOval(p.x - 4, p.y - 4, 8, 8);
+                // }
+            
 
-                if (enemy.isAlive()) {
-                    enemy.draw(g);
-                }
+                // if (enemy.isAlive()) {
+                //     enemy.draw(g);
+                // }
                 // // วาดเส้นกริด (เอาออกได้)
                 // g.setColor(Color.BLACK);
                 // g.drawRect(
@@ -81,6 +99,10 @@ public class GamePanel extends JPanel {
                 // );
             }
         }
+
+        for (Enemy enemy : enemies) {
+                    enemy.draw(g);
+                }
     }
 
 }

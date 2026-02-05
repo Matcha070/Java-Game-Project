@@ -9,7 +9,7 @@ public class Enemy {
     private double x, y;
     private Point[] pathPoints;
     private int targetIndex = 0;
-    private double speed = 1.0; // speed Enemy
+    private double speed = 2.0; // speed Enemy
 
     private boolean alive = true;
 
