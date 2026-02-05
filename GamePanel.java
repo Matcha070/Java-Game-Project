@@ -1,8 +1,11 @@
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
 
 
 public class GamePanel extends JPanel {
@@ -10,6 +13,7 @@ public class GamePanel extends JPanel {
     BufferedImage grass, path;
     //Enemy enemy;
     ArrayList<Enemy> enemies = new ArrayList<>();
+    ArrayList<Tower> towers = new ArrayList<>();
     Timer timer;
     
     
@@ -55,6 +59,35 @@ public class GamePanel extends JPanel {
                 MapData.MAP[0].length * MapData.TILE_SIZE,
                 MapData.MAP.length * MapData.TILE_SIZE
         ));
+
+
+        //Put Tower
+        addMouseListener(new MouseAdapter() {
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+            int mouseX = e.getX();
+            int mouseY = e.getY();
+
+            int col = mouseX / MapData.TILE_SIZE;
+            int row = mouseY / MapData.TILE_SIZE;
+
+            // กันคลิกนอก map
+            if (row < 0 || row >= MapData.MAP.length ||
+                col < 0 || col >= MapData.MAP[0].length) {
+                return;
+            }
+
+            // วาง tower 0 = grass)
+            if (MapData.MAP[row][col] == 0) {
+
+                int centerX = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
+                int centerY = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
+
+                towers.add(new Tower(centerX, centerY));//new tower
+            }
+            }
+        });
     }
 
     
@@ -103,6 +136,12 @@ public class GamePanel extends JPanel {
         for (Enemy enemy : enemies) {
                     enemy.draw(g);
                 }
+        for (Tower tower : towers) {
+                    tower.draw(g);
+                }
+
     }
+
+
 
 }
