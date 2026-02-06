@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-public class Tower {
+public class Tower implements DrawObj {
     int x, y;
     int size = 30;
     double angle = 0;
@@ -16,6 +16,7 @@ public class Tower {
         this.y = y;
     }
 
+    @Override
     public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 

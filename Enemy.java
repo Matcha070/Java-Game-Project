@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Enemy {
+public class Enemy implements DrawObj {
     private BufferedImage slime;
     private int size = 64;
 
@@ -47,6 +47,7 @@ public class Enemy {
         }
     }
 
+    @Override
     public void draw(Graphics g) {
         // g.setColor(Color.RED);
         // g.fillOval((int)x - 8, (int)y - 8, 16, 16);

@@ -2,7 +2,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Bullet {
+public class Bullet implements DrawObj {
     double x, y;
     double vx, vy;
     int size = 12;
@@ -19,6 +19,7 @@ public class Bullet {
         y += vy;
     }
 
+    @Override
     public void draw(Graphics g) {
         System.out.println("Draw Bullet at (" + x + ", " + y + ")");
         g.setColor(Color.BLACK);
