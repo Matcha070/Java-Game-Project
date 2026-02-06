@@ -47,10 +47,6 @@ public class GamePanel extends JPanel {
 
         timer.start();
 
-        grass = Asset.GRASS;
-        path = Asset.DIRT;
-        
-
         setPreferredSize(new Dimension(
                 MapData.MAP[0].length * MapData.TILE_SIZE,
                 MapData.MAP.length * MapData.TILE_SIZE
@@ -96,7 +92,7 @@ public class GamePanel extends JPanel {
             for (int col = 0; col < MapData.MAP[0].length; col++) {
 
                 BufferedImage img =
-                    (MapData.MAP[row][col] == 1 || MapData.MAP[row][col] == 2 || MapData.MAP[row][col] == 3) ? path : grass;
+                    (MapData.MAP[row][col] == 1 || MapData.MAP[row][col] == 2 || MapData.MAP[row][col] == 3) ? Asset.DIRT : Asset.GRASS;
 
                 g.drawImage(
                     img,
@@ -106,28 +102,26 @@ public class GamePanel extends JPanel {
                     MapData.TILE_SIZE,
                     null
                 );
-
-
-                // //DeBug Path
-                // g.setColor(Color.RED);
-                // for (Point p : MapData.pathPoints) {
-                //     g.fillOval(p.x - 4, p.y - 4, 8, 8);
-                // }
-            
-
-                // if (enemy.isAlive()) {
-                //     enemy.draw(g);
-                // }
-                // // วาดเส้นกริด (เอาออกได้)
-                // g.setColor(Color.BLACK);
-                // g.drawRect(
-                //     col * MapData.TILE_SIZE,
-                //     row * MapData.TILE_SIZE,
-                //     MapData.TILE_SIZE,
-                //     MapData.TILE_SIZE
-                // );
             }
         }
+        // //DeBug Path
+        // g.setColor(Color.RED);
+        // for (Point p : MapData.pathPoints) {
+        //     g.fillOval(p.x - 4, p.y - 4, 8, 8);
+        // }
+    
+
+        // if (enemy.isAlive()) {
+        //     enemy.draw(g);
+        // }
+        // // วาดเส้นกริด (เอาออกได้)
+        // g.setColor(Color.BLACK);
+        // g.drawRect(
+        //     col * MapData.TILE_SIZE,
+        //     row * MapData.TILE_SIZE,
+        //     MapData.TILE_SIZE,
+        //     MapData.TILE_SIZE
+        // );
 
         for (Enemy enemy : enemies) {
                     enemy.draw(g);

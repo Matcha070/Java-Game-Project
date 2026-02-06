@@ -15,9 +15,6 @@ public class Enemy {
 
     public Enemy(int hp) {
         
-        //skin
-        slime = Asset.SLIME;
-
         // Start ที่ จุด start
         Point start = MapData.pathPoints.get(0);
         x = start.x;
@@ -51,7 +48,7 @@ public class Enemy {
         // g.setColor(Color.RED);
         // g.fillOval((int)x - 8, (int)y - 8, 16, 16);
         g.drawImage(
-        slime,
+        Asset.SLIME,
         (int)x - size / 2,
         (int)y - size / 2,
         size,
