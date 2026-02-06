@@ -3,7 +3,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
@@ -20,13 +19,14 @@ public class GamePanel extends JPanel {
 
     public GamePanel() {
 
+        Asset.load();
         MapData.buildPath();
 
         //Test Enemy
         //enemy = new Enemy();
         //Test
         Timer timers = new Timer(2000, e -> {
-            enemies.add(new Enemy());
+            enemies.add(new Enemy(100));
         });
         timers.start();
 
@@ -47,12 +47,8 @@ public class GamePanel extends JPanel {
 
         timer.start();
 
-         try {
-            grass = ImageIO.read(getClass().getResource("asset\\map\\Grass.png"));
-            path = ImageIO.read(getClass().getResource("asset\\map\\Dirt.png"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        grass = Asset.GRASS;
+        path = Asset.DIRT;
         
 
         setPreferredSize(new Dimension(
