@@ -47,6 +47,7 @@ public class Tower {
     }
 
     public boolean isEnemyInRange(Enemy enemy) {
+        // เช็คว่า enemy อยู่ในระยะยิงไหม
         Point enemyPos = enemy.getPosition();
 
         double dx = enemyPos.x - x;
@@ -57,7 +58,8 @@ public class Tower {
 
     public Bullet Shoot(Enemy enemy) {
         cooldown = fireRate;
-
+        
+        // calculate lead
         Point enemyPos = enemy.getPosition();
         double ex = enemyPos.x;
         double ey = enemyPos.y;
