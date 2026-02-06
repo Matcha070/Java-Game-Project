@@ -47,7 +47,7 @@ public class GamePanel extends JPanel{
 
                 Enemy target = null;
                 tower.update();
-
+                // หาเป้าหมาย
                 for (Enemy enemy : enemies) {
                     if (tower.isEnemyInRange(enemy)) {
                         target = enemy;
@@ -154,6 +154,8 @@ public class GamePanel extends JPanel{
         }
         for (Tower tower : towers) {
             tower.draw(g);
+
+            // วาดระยะยิง
             Graphics2D g2 = (Graphics2D) g;
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
             g2.setColor(Color.YELLOW);
