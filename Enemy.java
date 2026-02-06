@@ -7,6 +7,7 @@ public class Enemy {
     private int size = 64;
 
     private double x, y;
+    private double vx, vy;
     private Point[] pathPoints;
     private int targetIndex = 0;
     private double speed = 2.0; // speed Enemy
@@ -17,7 +18,7 @@ public class Enemy {
 
         //skin
         try {
-            slime = ImageIO.read(getClass().getResource("asset\\enemy\\Slime.png"));
+            slime = ImageIO.read(getClass().getResource("asset/enemy/Slime.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,8 +46,10 @@ public class Enemy {
             targetIndex++;
         } else {
             // เดินเข้าไปใกล้เป้าหมาย
-            x += (dx / dist) * speed;
-            y += (dy / dist) * speed;
+            vx = (dx / dist) * speed;
+            vy = (dy / dist) * speed;
+            x += vx;
+            y += vy;
         }
     }
 
@@ -60,7 +63,7 @@ public class Enemy {
         size,
         size,
         null
-    );
+        );
     }
 
     public int getSize() {
@@ -75,6 +78,16 @@ public class Enemy {
         return alive;
     }
 
-    
+    public Point getPosition() {
+       return new Point((int)x, (int)y);
+    }
+
+    public double getVx() {
+        return vx;
+    }
+
+    public double getVy() {
+        return vy;
+    }
     
 }

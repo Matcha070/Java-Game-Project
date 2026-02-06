@@ -7,7 +7,9 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
-        add(new GamePanel());
+        GamePanel gamePanel = new GamePanel();
+        
+        add(gamePanel);
 
         pack();          // ปรับขนาดตาม Panel
         setLocationRelativeTo(null);

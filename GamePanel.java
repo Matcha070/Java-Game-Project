@@ -8,15 +8,14 @@ import javax.swing.*;
 
 
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel{
 
     BufferedImage grass, path;
     //Enemy enemy;
     ArrayList<Enemy> enemies = new ArrayList<>();
     ArrayList<Tower> towers = new ArrayList<>();
+    ArrayList<Bullet> bullets = new ArrayList<>();
     Timer timer;
-    
-    
 
     public GamePanel() {
 
@@ -33,6 +32,9 @@ public class GamePanel extends JPanel {
 
         
         timer = new Timer(16, e -> {
+            for (Bullet bullet : bullets) {
+                bullet.update();
+            }
             for (int i = enemies.size() - 1; i >= 0; i--) {
                 Enemy enemy = enemies.get(i);
                 enemy.update();
@@ -41,6 +43,25 @@ public class GamePanel extends JPanel {
                     enemies.remove(i);
                 }
             }
+            for (Tower tower : towers) {
+
+                Enemy target = null;
+                tower.update();
+
+                for (Enemy enemy : enemies) {
+                    if (tower.isEnemyInRange(enemy)) {
+                        target = enemy;
+                        break; // เจอตัวแรกพอ
+                    }
+                }
+
+                    if (target != null) {
+                        tower.setAngle(target);
+                        if(tower.canShoot()) {
+                            bullets.add(tower.Shoot(target));
+                        }
+                    }
+            }
             
             repaint();
         });
@@ -48,8 +69,8 @@ public class GamePanel extends JPanel {
         timer.start();
 
          try {
-            grass = ImageIO.read(getClass().getResource("asset\\map\\Grass.png"));
-            path = ImageIO.read(getClass().getResource("asset\\map\\Dirt.png"));
+            grass = ImageIO.read(getClass().getResource("asset/map/Grass.png"));
+            path = ImageIO.read(getClass().getResource("asset/map/Dirt.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,12 +104,12 @@ public class GamePanel extends JPanel {
 
                 int centerX = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
                 int centerY = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
-
-                towers.add(new Tower(centerX, centerY));//new tower
+                Tower tower = new Tower(centerX, centerY);
+                towers.add(tower);//new tower
             }
-            }
-        });
-    }
+        }
+    });
+}
 
     
 
@@ -134,14 +155,18 @@ public class GamePanel extends JPanel {
         }
 
         for (Enemy enemy : enemies) {
-                    enemy.draw(g);
-                }
+            enemy.draw(g);
+        }
+        for (Bullet bullet : bullets) {
+            bullet.draw(g);
+        }
         for (Tower tower : towers) {
-                    tower.draw(g);
-                }
-
+            tower.draw(g);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+            g2.setColor(Color.YELLOW);
+            g2.fillOval(tower.x - 200, tower.y - 200, 400, 400);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        }
     }
-
-
-
 }
