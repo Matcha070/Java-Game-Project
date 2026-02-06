@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 
 public class Enemy {
     private BufferedImage slime;
@@ -12,16 +11,11 @@ public class Enemy {
     private int targetIndex = 0;
     private double speed = 2.0; // speed Enemy
 
+    private int hp;
     private boolean alive = true;
-
-    public Enemy() {
-
-        //skin
-        try {
-            slime = ImageIO.read(getClass().getResource("asset/enemy/Slime.png"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        
+    public Enemy(int hp) {
+        
         // Start ที่ จุด start
         Point start = MapData.pathPoints.get(0);
         x = start.x;
@@ -57,7 +51,7 @@ public class Enemy {
         // g.setColor(Color.RED);
         // g.fillOval((int)x - 8, (int)y - 8, 16, 16);
         g.drawImage(
-        slime,
+        Asset.SLIME,
         (int)x - size / 2,
         (int)y - size / 2,
         size,
