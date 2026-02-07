@@ -103,8 +103,17 @@ public class GamePanel extends JPanel{
             }
         }
     });
-}
 
+    addMouseMotionListener(new MouseAdapter() {
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        for (Tower t : towers) {
+            t.hovered = t.contains(e.getPoint());
+        }
+        repaint();
+    }
+    });
+}
     
 
     @Override
@@ -154,13 +163,7 @@ public class GamePanel extends JPanel{
         }
         for (Tower tower : towers) {
             tower.draw(g);
-
-            // วาดระยะยิง
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
-            g2.setColor(Color.YELLOW);
-            g2.fillOval(tower.x - 200, tower.y - 200, 400, 400);
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+            
         }
     }
 }
