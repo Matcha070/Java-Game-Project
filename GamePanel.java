@@ -62,7 +62,21 @@ public class GamePanel extends JPanel{
                         }
                     }
             }
-            
+
+            for (int i = bullets.size() - 1; i >= 0; i--) {
+                Bullet bullet = bullets.get(i);
+
+                for (int j = enemies.size() - 1; j >= 0; j--) {
+                    Enemy enemy = enemies.get(j);
+
+                    if (bullet.hitEnemy(enemy)) {
+                        enemy.takeDamage(bullet.damage);
+                        bullets.remove(i);
+                        break;
+                    }
+                }
+            }
+
             repaint();
         });
 
@@ -90,6 +104,10 @@ public class GamePanel extends JPanel{
             // กันคลิกนอก map
             if (row < 0 || row >= MapData.MAP.length ||
                 col < 0 || col >= MapData.MAP[0].length) {
+                return;
+            }
+            else if (towers.stream().anyMatch(t -> t.contains(e.getPoint()))) {
+                // มี tower อยู่แล้วตรงนี้
                 return;
             }
 

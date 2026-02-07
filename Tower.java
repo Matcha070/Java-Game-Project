@@ -115,7 +115,7 @@ public class Tower implements DrawObj {
         dirX /= len;
         dirY /= len;
 
-        Bullet bullet = new Bullet(x, y, (int)bulletSpeed);
+        Bullet bullet = new Bullet(x, y, (int)bulletSpeed, 20);
         bullet.vx = dirX * bullet.speed;
         bullet.vy = dirY * bullet.speed;
 
