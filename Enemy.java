@@ -20,6 +20,7 @@ public class Enemy implements DrawObj {
         Point start = MapData.pathPoints.get(0);
         x = start.x;
         y = start.y;
+        this.hp = hp;
     }
 
     public void update() {
@@ -59,6 +60,13 @@ public class Enemy implements DrawObj {
         size,
         null
         );
+    }
+
+    public void takeDamage(int damage) {
+        hp -= damage;
+        if (hp <= 0) {
+            alive = false;
+        }
     }
 
     public int getSize() {
