@@ -5,7 +5,7 @@ public class Enemy implements DrawObj {
     private BufferedImage slime;
     private int size = 64;
 
-    private double x, y;
+    double x, y;
     private double vx, vy;
     private Point[] pathPoints;
     private int targetIndex = 0;
