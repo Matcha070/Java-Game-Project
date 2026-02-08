@@ -7,6 +7,7 @@ public class towerUI extends JPanel {
     GamePanel game;
 
     ArrayList<HitButton> buttons = new ArrayList<>();
+    int hoverId = -1;
 
     public towerUI(GamePanel gamePanel) {
         this.game = gamePanel;
@@ -43,6 +44,21 @@ public class towerUI extends JPanel {
                     }
                 }
             }
+
+        });
+
+        addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                hoverId = -1;
+                for (HitButton b : buttons) {
+                    if (b.isClick(e.getPoint())) {
+                        hoverId = b.getId();
+                    }
+                }
+
+                repaint();
+            }
         });
     }
 
@@ -57,13 +73,39 @@ public class towerUI extends JPanel {
         int width = (getWidth() / 2) - 10;
         int height = 3 * MapData.TILE_SIZE;
 
-        
         g.setColor(new Color(0, 0, 0, 150));
         g.fillRect(0, getHeight() - height, width, height);
 
-        
         for (HitButton b : buttons) {
             b.draw(g);
+        }
+        if (hoverId != -1) {
+
+            String text = getHoverText(hoverId);
+
+            g.setFont(new Font("Tahoma", Font.BOLD, 20));
+            g.setColor(Color.WHITE);
+
+            FontMetrics fm = g.getFontMetrics();
+            int tx = (getWidth() - fm.stringWidth(text)) / 2;
+            int ty = getHeight() - 200;
+
+            g.drawString(text, tx, ty);
+        }
+    }
+
+    private String getHoverText(int id) {
+        switch (id) {
+            case 0:
+                return "base tower";
+            case 1:
+                return "speed shoot tower";
+            case 2:
+                return "sniper tower";
+            case 3:
+                return "magic tower";
+            default:
+                return "";
         }
     }
 
