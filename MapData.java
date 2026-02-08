@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class MapData {
 
-    public static final int TILE_SIZE = 64;
+    public static final int TILE_SIZE = 48;
 
     public static final int[][] MAP = {// 0 = Grass, 1 = Path ,2 = Start, 3 = Stop
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},

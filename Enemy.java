@@ -3,7 +3,7 @@ import java.awt.image.BufferedImage;
 
 public class Enemy implements DrawObj {
     private BufferedImage slime;
-    private int size = 64;
+    private int size = MapData.TILE_SIZE;
 
     double x, y;
     private double vx, vy;
@@ -13,9 +13,9 @@ public class Enemy implements DrawObj {
 
     private int hp;
     private boolean alive = true;
-        
+
     public Enemy(int hp) {
-        
+
         // Start ที่ จุด start
         Point start = MapData.pathPoints.get(0);
         x = start.x;
@@ -24,7 +24,7 @@ public class Enemy implements DrawObj {
     }
 
     public void update() {
-        if (targetIndex >= MapData.pathPoints.size()){
+        if (targetIndex >= MapData.pathPoints.size()) {
             alive = false;
             return;
         }
@@ -35,7 +35,7 @@ public class Enemy implements DrawObj {
         double dy = target.y - y;
         double dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < speed) {//กัน case ที่วิ่งไวเกินแล้วย้อนกลับ
+        if (dist < speed) {// กัน case ที่วิ่งไวเกินแล้วย้อนกลับ
             x = target.x;
             y = target.y;
             targetIndex++;
@@ -53,13 +53,12 @@ public class Enemy implements DrawObj {
         // g.setColor(Color.RED);
         // g.fillOval((int)x - 8, (int)y - 8, 16, 16);
         g.drawImage(
-        Asset.SLIME,
-        (int)x - size / 2,
-        (int)y - size / 2,
-        size,
-        size,
-        null
-        );
+                Asset.SLIME,
+                (int) x - size / 2,
+                (int) y - size / 2,
+                size,
+                size,
+                null);
     }
 
     public void takeDamage(int damage) {
@@ -82,7 +81,7 @@ public class Enemy implements DrawObj {
     }
 
     public Point getPosition() {
-       return new Point((int)x, (int)y);
+        return new Point((int) x, (int) y);
     }
 
     public double getVx() {
@@ -92,5 +91,5 @@ public class Enemy implements DrawObj {
     public double getVy() {
         return vy;
     }
-    
+
 }
