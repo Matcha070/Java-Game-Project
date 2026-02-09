@@ -12,6 +12,7 @@ public class Enemy implements DrawObj {
     private double speed = 2.0; // speed Enemy
 
     private int hp;
+    private int maxHp;
     private boolean alive = true;
 
     public Enemy(int hp) {
@@ -21,6 +22,7 @@ public class Enemy implements DrawObj {
         x = start.x;
         y = start.y;
         this.hp = hp;
+        this.maxHp = hp;
     }
 
     public void update() {
@@ -59,6 +61,12 @@ public class Enemy implements DrawObj {
                 size,
                 size,
                 null);
+
+        // hp bar
+        g.setColor(Color.gray);
+        g.fillRect((int) (x - size / 2) + 6, (int) y - size / 2 - 10, (size - 12) * maxHp / maxHp, 5);
+        g.setColor(Color.RED);
+        g.fillRect((int) (x - size / 2) + 6, (int) y - size / 2 - 10, (size - 12) * hp / maxHp, 5);
     }
 
     public void takeDamage(int damage) {
