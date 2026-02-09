@@ -27,6 +27,8 @@ public class Enemy implements DrawObj {
 
     public void update() {
         if (targetIndex >= MapData.pathPoints.size()) {
+            PlayerStat.takeDMG(hp);   
+            System.out.println("Take DMG ");   
             alive = false;
             return;
         }

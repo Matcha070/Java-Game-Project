@@ -30,9 +30,11 @@ public class GamePanel extends JPanel{
 
         
         timer = new Timer(16, e -> {
+
             for (Bullet bullet : bullets) {
                 bullet.update();
             }
+
             for (int i = enemies.size() - 1; i >= 0; i--) {
                 Enemy enemy = enemies.get(i);
                 enemy.update();
@@ -41,6 +43,7 @@ public class GamePanel extends JPanel{
                     enemies.remove(i);
                 }
             }
+            
             for (Tower tower : towers) {
 
                 Enemy target = null;
