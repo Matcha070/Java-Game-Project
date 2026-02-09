@@ -1,6 +1,5 @@
-import javax.swing.*;
-
 import java.awt.event.*;
+import javax.swing.*;
 
 public class GameFrame extends JFrame {
 
@@ -9,19 +8,33 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
-        GamePanel gamePanel = new GamePanel();
-        rightUI hud = new rightUI(gamePanel);
-        towerUI towerUi = new towerUI(gamePanel);
+        // สร้างแค่ชุดเดียว
+        GamePanel game = new GamePanel();
+        towerUI ui = new towerUI(game);
 
-        gamePanel.setLayout(null);
-        add(gamePanel);
-        gamePanel.add(hud);
-        gamePanel.add(towerUi);
+        // Layer
+        JLayeredPane layer = new JLayeredPane();
+        layer.setPreferredSize(game.getPreferredSize());
 
-        pack(); // ปรับขนาดตาม Panel
+        game.setBounds(0, 0,
+                game.getPreferredSize().width,
+                game.getPreferredSize().height);
 
-        paintUI(gamePanel, hud);
-        paintUI(gamePanel, towerUi);
+        ui.setBounds(0, 0,
+                game.getPreferredSize().width,
+                game.getPreferredSize().height);
+
+        layer.add(game, Integer.valueOf(0));
+        layer.add(ui, Integer.valueOf(1));
+
+        // Mouse controller ตัวเดียว
+        InputController input = new InputController(game, ui);
+        layer.addMouseListener(input);
+        layer.addMouseMotionListener(input);
+
+        // ใส่ layer เข้า frame
+        add(layer);
+        pack();
 
         setLocationRelativeTo(null);
         setVisible(true);

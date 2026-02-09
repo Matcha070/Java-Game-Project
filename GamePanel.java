@@ -1,6 +1,4 @@
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -82,56 +80,34 @@ public class GamePanel extends JPanel{
 
         timer.start();
 
-        
-
         setPreferredSize(new Dimension(
                 MapData.MAP[0].length * MapData.TILE_SIZE,
                 MapData.MAP.length * MapData.TILE_SIZE
         ));
-
-
-        //Put Tower
-        addMouseListener(new MouseAdapter() {
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-            int mouseX = e.getX();
-            int mouseY = e.getY();
-
-            int col = mouseX / MapData.TILE_SIZE;
-            int row = mouseY / MapData.TILE_SIZE;
-
-            // กันคลิกนอก map
-            if (row < 0 || row >= MapData.MAP.length ||
-                col < 0 || col >= MapData.MAP[0].length) {
-                return;
-            }
-            else if (towers.stream().anyMatch(t -> t.contains(e.getPoint()))) {
-                // มี tower อยู่แล้วตรงนี้
-                return;
-            }
-
-            // วาง tower 0 = grass)
-            if (MapData.MAP[row][col] == 0) {
-
-                int centerX = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
-                int centerY = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
-                Tower tower = new Tower(centerX, centerY);
-                towers.add(tower);//new tower
-            }
-        }
-    });
-
-    addMouseMotionListener(new MouseAdapter() {
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        for (Tower t : towers) {
-            t.hovered = t.contains(e.getPoint());
-        }
-        repaint();
     }
-    });
-}
+
+    //Put Tower
+    public void handleClick(Point p) {
+        int col = p.x / MapData.TILE_SIZE;
+        int row = p.y / MapData.TILE_SIZE;
+
+        if (row < 0 || row >= MapData.MAP.length ||
+            col < 0 || col >= MapData.MAP[0].length) return;
+
+        if (towers.stream().anyMatch(t -> t.contains(p))) return;
+
+        if (MapData.MAP[row][col] == 0) {
+            int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
+            int cy = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
+            towers.add(new Tower(cx, cy));
+        }
+    }
+
+    public void handleHover(Point p) {
+        for (Tower t : towers) {
+            t.hovered = t.contains(p);
+        }
+    }
     
 
     @Override

@@ -1,7 +1,6 @@
-import javax.swing.*;
-import java.awt.event.*;
 import java.awt.*;
 import java.util.ArrayList;
+import javax.swing.*;
 
 public class towerUI extends JPanel {
     GamePanel game;
@@ -32,34 +31,33 @@ public class towerUI extends JPanel {
 
             buttons.add(new HitButton(i, x, y, btnW, btnH));
         }
+    }
 
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
+    public boolean isOnUI(Point p) {
+    for (HitButton b : buttons) {
+        if (b.isClick(p)) return true;
+    }
+    return false;
+    }
 
-                for (HitButton b : buttons) {
-                    if (b.isClick(e.getPoint())) {
-                        System.out.println("click on: " + b.getId());
-                        onButtonClick(b.getId());
-                    }
-                }
+    public void handleClick(Point p) {
+        for (HitButton b : buttons) {
+            if (b.isClick(p)) {
+                onButtonClick(b.getId());
+                break;
             }
+        }
+    }
 
-        });
-
-        addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                hoverId = -1;
-                for (HitButton b : buttons) {
-                    if (b.isClick(e.getPoint())) {
-                        hoverId = b.getId();
-                    }
-                }
-
-                repaint();
+    public void handleHover(Point p) {
+        hoverId = -1;
+        for (HitButton b : buttons) {
+            if (b.isClick(p)) {
+                hoverId = b.getId();
+                break;
             }
-        });
+        }
+        repaint();
     }
 
     private void onButtonClick(int id) {
