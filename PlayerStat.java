@@ -32,6 +32,7 @@ public class PlayerStat {
         HP -= DMGtaken;
         if (HP <= 0) {
             GAMEOVER = true;
+            System.out.println("Game Over");
         }
     }
 
