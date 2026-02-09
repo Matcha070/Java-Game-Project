@@ -23,7 +23,7 @@ public class GamePanel extends JPanel{
         //enemy = new Enemy();
         //Test
         Timer timers = new Timer(2000, e -> {
-            enemies.add(new Enemy(100));
+            enemies.add(new Slime());
         });
         timers.start();
 
@@ -43,7 +43,7 @@ public class GamePanel extends JPanel{
                     enemies.remove(i);
                 }
             }
-            
+
             for (Tower tower : towers) {
 
                 Enemy target = null;
@@ -102,7 +102,7 @@ public class GamePanel extends JPanel{
         if (MapData.MAP[row][col] == 0) {
             int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
             int cy = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
-            towers.add(new Tower(cx, cy));
+            towers.add(new TowerA(cx, cy));
         }
     }
 
