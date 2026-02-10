@@ -1,10 +1,10 @@
-<<<<<<< HEAD
+
 
 import javax.swing.*;
 
 import java.awt.event.*;
-=======
->>>>>>> b8b1e8c27f05d5b882d411c81b96d3faa49aa6d0
+
+
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
