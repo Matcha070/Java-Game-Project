@@ -1,58 +1,24 @@
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 
-public class Tower implements DrawObj {
-    int x, y;
-    int size = 30;
-    double angle = 0;
-    int range = 200;
+public abstract class Tower implements DrawObj {
+    protected int x, y;
+    protected int size = 30;
 
-    int cooldown = 0;
-    int fireRate = 30; 
-    double bulletSpeed = 30.0;
+    protected double angle = 0;
+    protected int cooldown = 0;
+    protected boolean hovered = false;
 
-    boolean hovered = false;
+    protected int range = 200;
+    protected int fireRate = 30; 
+    protected double bulletSpeed = 30.0;
+    protected int damage = 20;
 
     public Tower(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    @Override
-    public void draw(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-    AffineTransform old = g2.getTransform();
-
-    // วาด tower (หมุน)
-    g2.rotate(angle, x, y);
-    g2.setColor(Color.RED);
-    g2.fillRect(
-        x - size / 2,
-        y - size / 2,
-        size,
-        size
-    );
-
-    // คืน transform
-    g2.setTransform(old);
-
-    // วาดระยะยิง (ไม่หมุน)
-    if (hovered) {
-        g2.setComposite(AlphaComposite.getInstance(
-            AlphaComposite.SRC_OVER, 0.3f
-        ));
-        g2.setColor(Color.YELLOW);
-        g2.fillOval(
-            x - range,
-            y - range,
-            range * 2,
-            range * 2
-        );
-        g2.setComposite(AlphaComposite.getInstance(
-            AlphaComposite.SRC_OVER, 1f
-        ));
-    }
-    }
+    public abstract void draw(Graphics g);
 
     public boolean contains(Point p) {
         Rectangle rect = new Rectangle(
@@ -63,7 +29,7 @@ public class Tower implements DrawObj {
         );
         return rect.contains(p);
     }
-
+    
     public void update() {
         if (cooldown > 0) cooldown--;
     }
@@ -115,7 +81,7 @@ public class Tower implements DrawObj {
         dirX /= len;
         dirY /= len;
 
-        Bullet bullet = new Bullet(x, y, (int)bulletSpeed, 20);
+        Bullet bullet = new Bullet(x, y, (int)bulletSpeed, damage);
         bullet.vx = dirX * bullet.speed;
         bullet.vy = dirY * bullet.speed;
 

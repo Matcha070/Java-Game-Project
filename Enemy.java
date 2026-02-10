@@ -1,30 +1,32 @@
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
-public class Enemy implements DrawObj {
-    private BufferedImage slime;
-    private int size = MapData.TILE_SIZE;
+public abstract  class Enemy implements DrawObj {
+    protected int size = MapData.TILE_SIZE;
+    protected double speed ;
 
-    double x, y;
-    private double vx, vy;
-    private Point[] pathPoints;
-    private int targetIndex = 0;
-    private double speed = 2.0; // speed Enemy
+    protected double x, y;
+    protected double vx, vy;
+    protected int targetIndex = 0;
 
-    private int hp;
-    private boolean alive = true;
+    protected int hp;
+    protected int maxHp;
+    protected boolean alive = true;
 
-    public Enemy(int hp) {
+    public Enemy(int hp, double speed) {
 
         // Start ที่ จุด start
         Point start = MapData.pathPoints.get(0);
-        x = start.x;
-        y = start.y;
+        this.x = start.x;
+        this.y = start.y;
+
         this.hp = hp;
+        this.maxHp = hp;
+        this.speed = speed;
     }
 
     public void update() {
         if (targetIndex >= MapData.pathPoints.size()) {
+            PlayerStat.takeDMG(hp);
             alive = false;
             return;
         }
@@ -35,12 +37,11 @@ public class Enemy implements DrawObj {
         double dy = target.y - y;
         double dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < speed) {// กัน case ที่วิ่งไวเกินแล้วย้อนกลับ
+        if (dist < speed) { //กัน Case
             x = target.x;
             y = target.y;
             targetIndex++;
-        } else {
-            // เดินเข้าไปใกล้เป้าหมาย
+        } else { //Walk
             vx = (dx / dist) * speed;
             vy = (dy / dist) * speed;
             x += vx;
@@ -49,17 +50,7 @@ public class Enemy implements DrawObj {
     }
 
     @Override
-    public void draw(Graphics g) {
-        // g.setColor(Color.RED);
-        // g.fillOval((int)x - 8, (int)y - 8, 16, 16);
-        g.drawImage(
-                Asset.SLIME,
-                (int) x - size / 2,
-                (int) y - size / 2,
-                size,
-                size,
-                null);
-    }
+    public abstract void draw(Graphics g);
 
     public void takeDamage(int damage) {
         hp -= damage;
