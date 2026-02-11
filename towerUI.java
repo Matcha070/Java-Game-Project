@@ -42,13 +42,13 @@ public class TowerUI extends JPanel {
     return false;
     }
 
-    public void handleClick(Point p) {
+    public int handleClick(Point p) {
         for (HitButton b : buttons) {
             if (b.isClick(p)) {
-                onButtonClick(b.getId());
-                break;
+                game.id = b.getId();
             }
         }
+        return -1;
     }
 
     public void handleHover(Point p) {
