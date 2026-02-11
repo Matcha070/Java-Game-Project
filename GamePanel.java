@@ -22,14 +22,16 @@ public class GamePanel extends JPanel{
         //Test Enemy
         //enemy = new Enemy();
         //Test
-        Timer timers = new Timer(2000, e -> {
-            enemies.add(new Slime());
-        });
-        timers.start();
-
+        // Timer timers = new Timer(2000, e -> {
+        //     enemies.add(new Slime());
+        // });
+        // timers.start();
+        WaveManager waveManager = new WaveManager();
 
         
         timer = new Timer(16, e -> {
+
+            waveManager.update(enemies);
 
             for (Bullet bullet : bullets) {
                 bullet.update();

@@ -4,7 +4,7 @@ public class PlayerStat {
     public static int HP;
     public static int STARTERCOIN;
     public static int COIN;
-    public static int WAVE;
+    public static int currentWave;
     public static boolean GAMEOVER = false;
 
     public PlayerStat() {
@@ -12,7 +12,7 @@ public class PlayerStat {
         HP = MaxHP;
         STARTERCOIN = 100;
         COIN = STARTERCOIN;
-        WAVE = 0;
+        currentWave = 0;
     }
 
 
@@ -33,7 +33,7 @@ public class PlayerStat {
     }
 
     public void nextWAVE() {
-        WAVE += 1;
+        currentWave += 1;
     }
     
     
