@@ -8,14 +8,17 @@ public abstract class Tower implements DrawObj {
     protected int cooldown = 0;
     protected boolean hovered = false;
 
-    protected int range = 200;
-    protected int fireRate = 30; 
     protected double bulletSpeed = 30.0;
-    protected int damage = 20;
+    protected int range;
+    protected int fireRate; 
+    protected int damage;
 
-    public Tower(int x, int y) {
+    public Tower(int x, int y, int damage, int range, int fireRate) {
         this.x = x;
         this.y = y;
+        this.damage = damage;
+        this.range = range;
+        this.fireRate = fireRate;
     }
 
     public abstract void draw(Graphics g);
