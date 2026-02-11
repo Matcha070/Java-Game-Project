@@ -1,3 +1,4 @@
+
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -10,7 +11,7 @@ public class GameFrame extends JFrame {
 
         // สร้างแค่ชุดเดียว
         GamePanel game = new GamePanel();
-        towerUI ui = new towerUI(game);
+        TowerUI ui = new TowerUI(game);
 
         // Layer
         JLayeredPane layer = new JLayeredPane();

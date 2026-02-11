@@ -1,12 +1,11 @@
 
+import java.awt.*;
 import javax.swing.*;
 
-import java.awt.*;
-
-public class rightUI extends JPanel {
+public class RightUI extends JPanel {
     GamePanel game;
 
-    public rightUI(GamePanel gamePanel) {
+    public RightUI(GamePanel gamePanel) {
         this.game = gamePanel;
 
         setOpaque(false);

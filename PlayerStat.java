@@ -15,18 +15,6 @@ public class PlayerStat {
         WAVE = 0;
     }
 
-    public int getHP() {
-        return HP;
-    }
-
-    public int getCOIN() {
-        return COIN;
-    }
-
-    public int getWAVE() {
-        return WAVE;
-    }
-
 
     public static void takeDMG(int DMGtaken) {
         HP -= DMGtaken;

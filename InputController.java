@@ -5,9 +5,9 @@ import java.awt.event.MouseEvent;
 public class InputController extends MouseAdapter {
 
     GamePanel game;
-    towerUI ui;
+    TowerUI ui;
 
-    public InputController(GamePanel game, towerUI ui) {
+    public InputController(GamePanel game, TowerUI ui) {
         this.game = game;
         this.ui = ui;
     }

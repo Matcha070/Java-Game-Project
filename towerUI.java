@@ -1,21 +1,16 @@
 
 
-import javax.swing.*;
-
-import java.awt.event.*;
-
-
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class towerUI extends JPanel {
+public class TowerUI extends JPanel {
     GamePanel game;
 
     ArrayList<HitButton> buttons = new ArrayList<>();
     int hoverId = -1;
 
-    public towerUI(GamePanel gamePanel) {
+    public TowerUI(GamePanel gamePanel) {
         this.game = gamePanel;
 
         setOpaque(false);
