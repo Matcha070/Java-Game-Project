@@ -12,6 +12,9 @@ public class GamePanel extends JPanel{
     ArrayList<Enemy> enemies = new ArrayList<>();
     ArrayList<Tower> towers = new ArrayList<>();
     ArrayList<Bullet> bullets = new ArrayList<>();
+
+    int id = -1;
+
     Timer timer;
 
     public GamePanel() {
@@ -104,7 +107,30 @@ public class GamePanel extends JPanel{
         if (MapData.MAP[row][col] == 0) {
             int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
             int cy = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
-            towers.add(new TowerA(cx, cy));
+            if(id == 0)
+            {
+                towers.add(new BaseTower(cx, cy));
+                id = -1;
+            }
+            else if(id == 1)
+            {
+                towers.add(new SpeedShootTower(cx, cy));
+                id = -1;
+            }
+            else if(id == 2)
+            {
+                towers.add(new SniperTower(cx, cy));
+                id = -1;
+            }
+            else if(id == 3)
+            {
+                towers.add(new MagicTower(cx, cy));
+                id = -1;
+            }
+            else
+            {
+                System.out.println("no tower selected");
+            }
         }
     }
 
