@@ -9,7 +9,7 @@ import java.awt.geom.AffineTransform;
 public class SniperTower extends Tower {
     
     public SniperTower(int x, int y) {
-        super(x, y, 50, 250, 60);
+        super(x, y, 50, 250, 60, 20);
     }
 
     @Override
@@ -22,6 +22,27 @@ public class SniperTower extends Tower {
         g2.setTransform(old);
 
         ShowRange(g2);
+    }
+
+    public void drawGuide(Graphics g){
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setComposite(
+                AlphaComposite.getInstance(
+                    AlphaComposite.SRC_OVER, 0.7f
+                )
+            );
+        g2.setColor(Color.MAGENTA);
+        g2.fillRect(
+            x - size / 2,
+            y - size / 2,
+            size,
+            size
+        );
+        g2.setComposite(
+                AlphaComposite.getInstance(
+                    AlphaComposite.SRC_OVER, 1f
+                )
+            );
     }
 
     private void ShowRange(Graphics2D g2) {

@@ -1,5 +1,6 @@
 package Character.Tower;
 import Character.Enemy.Enemy;
+import GameController.Money;
 import java.awt.*;
 
 public abstract class Tower{
@@ -9,21 +10,25 @@ public abstract class Tower{
     protected double angle = 0;
     protected int cooldown = 0;
     protected boolean hovered = false;
+    protected int price;
 
     protected double bulletSpeed = 30.0;
     protected int range;
     protected int fireRate; 
     protected int damage;
 
-    public Tower(int x, int y, int damage, int range, int fireRate) {
+    public Tower(int x, int y, int damage, int range, int fireRate, int price) {
         this.x = x;
         this.y = y;
         this.damage = damage;
         this.range = range;
         this.fireRate = fireRate;
+        this.price = price;
     }
 
     public abstract void draw(Graphics g);
+
+    public abstract void drawGuide(Graphics g);
 
     public boolean contains(Point p) {
         Rectangle rect = new Rectangle(
@@ -99,6 +104,10 @@ public abstract class Tower{
 
     public void setHovered(boolean hovered) {
         this.hovered = hovered;
+    }
+
+    public void place(Money money) {
+        money.decreseAmount(price);
     }
 
 }

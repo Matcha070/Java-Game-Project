@@ -26,7 +26,9 @@ public class GamePanel extends JPanel{
 
     int id = -1;
 
+    Point mousePoint = null;
     Timer timer;
+    Money money;
 
     public GamePanel() {
 
@@ -41,6 +43,7 @@ public class GamePanel extends JPanel{
         // });
         // timers.start();
         WaveManager waveManager = new WaveManager();
+        money = new Money();
 
         
         timer = new Timer(16, e -> {
@@ -103,6 +106,7 @@ public class GamePanel extends JPanel{
                 MapData.MAP[0].length * MapData.TILE_SIZE,
                 MapData.MAP.length * MapData.TILE_SIZE
         ));
+
     }
 
     //Put Tower
@@ -115,27 +119,35 @@ public class GamePanel extends JPanel{
 
         if (towers.stream().anyMatch(t -> t.contains(p))) return;
 
-        if (MapData.MAP[row][col] == 0) {
+        if (MapData.MAP[row][col] == 0 && money.CheckMoney()) {
             int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
             int cy = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
             if(id == 0)
             {
-                towers.add(new BaseTower(cx, cy));
+                Tower t = new BaseTower(cx, cy);
+                t.place(money);
+                towers.add(t);
                 id = -1;
             }
             else if(id == 1)
             {
-                towers.add(new SpeedShootTower(cx, cy));
+                Tower t = new SpeedShootTower(cx, cy);
+                t.place(money);
+                towers.add(t);
                 id = -1;
             }
             else if(id == 2)
             {
-                towers.add(new SniperTower(cx, cy));
+                Tower t = new SniperTower(cx, cy);
+                t.place(money);
+                towers.add(t);
                 id = -1;
             }
             else if(id == 3)
             {
-                towers.add(new MagicTower(cx, cy));
+                Tower t = new MagicTower(cx, cy);
+                t.place(money);
+                towers.add(t);
                 id = -1;
             }
             else
@@ -172,24 +184,8 @@ public class GamePanel extends JPanel{
                 );
             }
         }
-        // //DeBug Path
-        // g.setColor(Color.RED);
-        // for (Point p : MapData.pathPoints) {
-        //     g.fillOval(p.x - 4, p.y - 4, 8, 8);
-        // }
-    
 
-        // if (enemy.isAlive()) {
-        //     enemy.draw(g);
-        // }
-        // // วาดเส้นกริด (เอาออกได้)
-        // g.setColor(Color.BLACK);
-        // g.drawRect(
-        //     col * MapData.TILE_SIZE,
-        //     row * MapData.TILE_SIZE,
-        //     MapData.TILE_SIZE,
-        //     MapData.TILE_SIZE
-        // );
+        GhostPreview(g);
 
         for (Enemy enemy : enemies) {
             enemy.draw(g);
@@ -199,7 +195,40 @@ public class GamePanel extends JPanel{
         }
         for (Tower tower : towers) {
             tower.draw(g);
-            
+        }
+    }
+
+    private void GhostPreview(Graphics g) {
+        if (id != -1 && mousePoint != null) {
+
+            int col = mousePoint.x / MapData.TILE_SIZE;
+            int row = mousePoint.y / MapData.TILE_SIZE;
+
+            if (row >= 0 && row < MapData.MAP.length &&
+                col >= 0 && col < MapData.MAP[0].length &&
+                MapData.MAP[row][col] == 0) {
+
+                int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
+                int cy = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
+
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setComposite(AlphaComposite.getInstance(
+                        AlphaComposite.SRC_OVER, 1f)); // โปร่งใส
+
+                Tower preview = null;
+
+                if (id == 0) preview = new BaseTower(cx, cy);
+                else if (id == 1) preview = new SpeedShootTower(cx, cy);
+                else if (id == 2) preview = new SniperTower(cx, cy);
+                else if (id == 3) preview = new MagicTower(cx, cy);
+
+                if (preview != null) {
+                    //preview.draw(g);
+                    preview.drawGuide(g); // ถ้าอยากให้เห็น range ด้วย
+                }
+
+                g2.dispose();
+            }
         }
     }
 
@@ -209,5 +238,9 @@ public class GamePanel extends JPanel{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setMousePoint(Point mPoint){
+        this.mousePoint = mPoint;
     }
 }

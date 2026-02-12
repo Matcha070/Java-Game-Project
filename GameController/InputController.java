@@ -1,9 +1,8 @@
 package GameController;
 
+import UI.TowerUI;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import UI.TowerUI;
 
 public class InputController extends MouseAdapter {
 
@@ -32,5 +31,7 @@ public class InputController extends MouseAdapter {
     public void mouseMoved(MouseEvent e) {
         ui.handleHover(e.getPoint());
         game.handleHover(e.getPoint());
+
+        game.setMousePoint(e.getPoint());
     }
 }
