@@ -1,3 +1,4 @@
+package Character;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -5,10 +6,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
-public class MagicTower extends Tower {
+public class SpeedShootTower extends Tower {
     
-    public MagicTower(int x, int y) {
-        super(x, y, 100, 150, 30);
+    public SpeedShootTower(int x, int y) {
+        super(x, y, 10, 150, 10);
     }
 
     @Override
@@ -17,7 +18,7 @@ public class MagicTower extends Tower {
         AffineTransform old = g2.getTransform();
 
         g2.rotate(angle, x, y);
-        g2.setColor(Color.BLUE);
+        g2.setColor(Color.cyan);
         g2.fillRect(
             x - size / 2,
             y - size / 2,

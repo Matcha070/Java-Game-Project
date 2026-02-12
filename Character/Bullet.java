@@ -1,4 +1,6 @@
+package Character;
 
+import GameController.DrawObj;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -33,5 +35,9 @@ public class Bullet implements DrawObj {
 
         double r = (e.getSize() / 2.0) + (size / 2.0);
         return dx * dx + dy * dy <= r * r;
+    }
+
+    public int getDamage() {
+        return damage;
     }
 }

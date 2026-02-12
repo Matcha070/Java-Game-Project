@@ -1,3 +1,5 @@
+package Character;
+import GameController.DrawObj;
 import java.awt.*;
 
 public abstract class Tower implements DrawObj {
@@ -89,6 +91,10 @@ public abstract class Tower implements DrawObj {
         bullet.vy = dirY * bullet.speed;
 
         return bullet;
+    }
+
+    public void setHovered(boolean hovered) {
+        this.hovered = hovered;
     }
 
 }

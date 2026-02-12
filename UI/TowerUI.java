@@ -1,5 +1,8 @@
+package UI;
 
 
+import GameController.GamePanel;
+import Map.MapData;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -45,7 +48,7 @@ public class TowerUI extends JPanel {
     public int handleClick(Point p) {
         for (HitButton b : buttons) {
             if (b.isClick(p)) {
-                game.id = b.getId();
+                game.setId(b.getId());
             }
         }
         return -1;

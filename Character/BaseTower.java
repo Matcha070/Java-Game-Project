@@ -1,14 +1,11 @@
-
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+package Character;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-public class SniperTower extends Tower {
-    
-    public SniperTower(int x, int y) {
-        super(x, y, 50, 250, 60);
+public class BaseTower extends Tower {
+
+    public BaseTower(int x, int y) {
+        super(x, y, 20, 150, 30);
     }
 
     @Override
@@ -17,7 +14,7 @@ public class SniperTower extends Tower {
         AffineTransform old = g2.getTransform();
 
         g2.rotate(angle, x, y);
-        g2.setColor(Color.MAGENTA);
+        g2.setColor(Color.RED);
         g2.fillRect(
             x - size / 2,
             y - size / 2,

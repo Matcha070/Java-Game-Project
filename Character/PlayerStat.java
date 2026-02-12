@@ -1,3 +1,4 @@
+package Character;
 public class PlayerStat {
 
     public static int MaxHP;

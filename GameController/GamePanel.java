@@ -1,3 +1,14 @@
+package GameController;
+import Character.BaseTower;
+import Character.Bullet;
+import Character.Enemy;
+import Character.MagicTower;
+import Character.SniperTower;
+import Character.SpeedShootTower;
+import Character.Tower;
+import Map.MapData;
+import Wave.WaveManager;
+import asset.Asset;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -76,7 +87,7 @@ public class GamePanel extends JPanel{
                     Enemy enemy = enemies.get(j);
 
                     if (bullet.hitEnemy(enemy)) {
-                        enemy.takeDamage(bullet.damage);
+                        enemy.takeDamage(bullet.getDamage());
                         bullets.remove(i);
                         break;
                     }
@@ -136,7 +147,7 @@ public class GamePanel extends JPanel{
 
     public void handleHover(Point p) {
         for (Tower t : towers) {
-            t.hovered = t.contains(p);
+            t.setHovered(t.contains(p));
         }
     }
     
@@ -190,5 +201,13 @@ public class GamePanel extends JPanel{
             tower.draw(g);
             
         }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

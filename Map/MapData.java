@@ -1,3 +1,4 @@
+package Map;
 import java.awt.Point;
 import java.util.ArrayList;
 

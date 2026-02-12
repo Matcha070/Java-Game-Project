@@ -1,6 +1,9 @@
+package GameController;
 
 import java.awt.event.*;
 import javax.swing.*;
+
+import UI.TowerUI;
 
 public class GameFrame extends JFrame {
 

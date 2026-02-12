@@ -1,6 +1,9 @@
+package GameController;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import UI.TowerUI;
 
 public class InputController extends MouseAdapter {
 

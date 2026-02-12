@@ -1,4 +1,7 @@
+package Character;
 import java.awt.*;
+
+import asset.Asset;
 
 
 public class Slime extends Enemy {

@@ -1,3 +1,7 @@
+package Character;
+import GameController.DrawObj;
+import Map.MapData;
+
 import java.awt.*;
 
 public abstract  class Enemy implements DrawObj {

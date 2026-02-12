@@ -1,3 +1,6 @@
+package Wave;
+import Character.Slime;
+
 public class Wave1 extends Wave {
 
     public Wave1() {

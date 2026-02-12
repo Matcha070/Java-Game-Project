@@ -1,4 +1,7 @@
+package UI;
 
+import GameController.GamePanel;
+import Map.MapData;
 import java.awt.*;
 import javax.swing.*;
 
