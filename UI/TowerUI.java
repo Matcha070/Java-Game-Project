@@ -65,10 +65,6 @@ public class TowerUI extends JPanel {
         repaint();
     }
 
-    private void onButtonClick(int id) {
-        System.out.println("logic btn: " + id);
-    }
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
