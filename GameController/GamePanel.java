@@ -127,33 +127,32 @@ public class GamePanel extends JPanel{
                 Tower t = new BaseTower(cx, cy);
                 t.place(money);
                 towers.add(t);
-                id = -1;
             }
             else if(id == 1)
             {
                 Tower t = new SpeedShootTower(cx, cy);
                 t.place(money);
                 towers.add(t);
-                id = -1;
             }
             else if(id == 2)
             {
                 Tower t = new SniperTower(cx, cy);
                 t.place(money);
                 towers.add(t);
-                id = -1;
             }
             else if(id == 3)
             {
                 Tower t = new MagicTower(cx, cy);
                 t.place(money);
                 towers.add(t);
-                id = -1;
+                
             }
             else
             {
                 System.out.println("no tower selected");
             }
+            id = -1;
+            System.out.println("Current money: " + money.getAmount());
         }
     }
 
