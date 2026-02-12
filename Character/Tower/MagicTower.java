@@ -24,6 +24,7 @@ public class MagicTower extends Tower {
         ShowRange(g2);
     }
 
+    @Override
     public void drawGuide(Graphics g){
         Graphics2D g2 = (Graphics2D) g;
         g2.setComposite(
