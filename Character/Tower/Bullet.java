@@ -1,12 +1,10 @@
 package Character.Tower;
 
-import GameController.DrawObj;
+import Character.Enemy.Enemy;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import Character.Enemy.Enemy;
-
-public class Bullet implements DrawObj {
+public class Bullet{
     double x, y;
     double vx, vy;
     int size = 12;
@@ -21,12 +19,19 @@ public class Bullet implements DrawObj {
     }
 
     public void update() {
+        Move();
+    }
+
+    private void Move() {
         x += vx;
         y += vy;
     }
 
-    @Override
     public void draw(Graphics g) {
+        DrawBullet(g);
+    }
+
+    private void DrawBullet(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillOval((int)x - size/2, (int)y - size/2, size, size);
     }

@@ -1,10 +1,9 @@
 package Character.Enemy;
 import Character.Tower.PlayerStat;
-import GameController.DrawObj;
 import Map.MapData;
 import java.awt.*;
 
-public abstract  class Enemy implements DrawObj {
+public abstract  class Enemy{
     protected int size = MapData.TILE_SIZE;
     protected double speed ;
 
@@ -29,14 +28,22 @@ public abstract  class Enemy implements DrawObj {
     }
 
     public void update() {
+        EnemyOutOfRange();
+        EnemyWalk();
+    }
+
+    private boolean EnemyOutOfRange() {
         if (targetIndex >= MapData.pathPoints.size()) {
             PlayerStat.takeDMG(hp);
             alive = false;
-            return;
+            return true;
         }
+        return false;
+    }
 
+    private void EnemyWalk() {
         Point target = MapData.pathPoints.get(targetIndex);
-
+        
         double dx = target.x - x;
         double dy = target.y - y;
         double dist = Math.sqrt(dx * dx + dy * dy);
@@ -53,7 +60,6 @@ public abstract  class Enemy implements DrawObj {
         }
     }
 
-    @Override
     public abstract void draw(Graphics g);
 
     public void takeDamage(int damage) {

@@ -1,10 +1,8 @@
 package Character.Tower;
-import GameController.DrawObj;
+import Character.Enemy.Enemy;
 import java.awt.*;
 
-import Character.Enemy.Enemy;
-
-public abstract class Tower implements DrawObj {
+public abstract class Tower{
     protected int x, y;
     protected int size = 30;
 
@@ -38,6 +36,10 @@ public abstract class Tower implements DrawObj {
     }
     
     public void update() {
+        Cooldown();
+    }
+
+    private void Cooldown() {
         if (cooldown > 0) cooldown--;
     }
 
