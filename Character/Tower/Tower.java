@@ -1,6 +1,8 @@
-package Character;
+package Character.Tower;
 import GameController.DrawObj;
 import java.awt.*;
+
+import Character.Enemy.Enemy;
 
 public abstract class Tower implements DrawObj {
     protected int x, y;

@@ -1,4 +1,4 @@
-package Character;
+package Character.Tower;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 

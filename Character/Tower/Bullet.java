@@ -1,8 +1,10 @@
-package Character;
+package Character.Tower;
 
 import GameController.DrawObj;
 import java.awt.Color;
 import java.awt.Graphics;
+
+import Character.Enemy.Enemy;
 
 public class Bullet implements DrawObj {
     double x, y;

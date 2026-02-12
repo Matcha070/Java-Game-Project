@@ -1,4 +1,4 @@
-package Character;
+package Character.Enemy;
 import java.awt.*;
 
 import asset.Asset;

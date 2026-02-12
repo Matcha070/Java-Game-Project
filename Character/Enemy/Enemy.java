@@ -1,7 +1,7 @@
-package Character;
+package Character.Enemy;
+import Character.Tower.PlayerStat;
 import GameController.DrawObj;
 import Map.MapData;
-
 import java.awt.*;
 
 public abstract  class Enemy implements DrawObj {

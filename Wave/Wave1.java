@@ -1,5 +1,5 @@
 package Wave;
-import Character.Slime;
+import Character.Enemy.Slime;
 
 public class Wave1 extends Wave {
 

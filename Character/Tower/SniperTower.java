@@ -1,4 +1,4 @@
-package Character;
+package Character.Tower;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;

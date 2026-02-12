@@ -1,4 +1,4 @@
-package Character;
+package Character.Tower;
 public class PlayerStat {
 
     public static int MaxHP;

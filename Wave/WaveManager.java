@@ -1,6 +1,7 @@
 package Wave;
-import Character.Enemy;
 import java.util.*;
+
+import Character.Enemy.Enemy;
 
 public class WaveManager {
 
