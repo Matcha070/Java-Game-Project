@@ -10,6 +10,10 @@ public class Money {
         return amount;
     }
 
+    public void addAmount(int amount){
+        this.amount += amount;
+    }
+
     public void decreseAmount(int amount) {
         this.amount -= amount;
     }

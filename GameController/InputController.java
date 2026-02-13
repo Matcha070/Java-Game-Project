@@ -19,7 +19,8 @@ public class InputController extends MouseAdapter {
 
         // 1. ถ้าคลิกโดน UI → ให้ UI จัดการ
         if (ui.isOnUI(e.getPoint())) {
-            ui.handleClick(e.getPoint());
+            ui.handleClickSelect(e.getPoint());
+            ui.handleClickDelete(e.getPoint());
             return;
         }
 

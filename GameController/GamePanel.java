@@ -25,6 +25,7 @@ public class GamePanel extends JPanel{
     ArrayList<Bullet> bullets = new ArrayList<>();
 
     int id = -1;
+    boolean delete = false;
 
     Point mousePoint = null;
     Timer timer;
@@ -110,7 +111,6 @@ public class GamePanel extends JPanel{
 
     }
 
-    //Put Tower
     public void handleClick(Point p) {
         int col = p.x / MapData.TILE_SIZE;
         int row = p.y / MapData.TILE_SIZE;
@@ -118,8 +118,14 @@ public class GamePanel extends JPanel{
         if (row < 0 || row >= MapData.MAP.length ||
             col < 0 || col >= MapData.MAP[0].length) return;
 
-        if (towers.stream().anyMatch(t -> t.contains(p))) return;
+        if (towers.stream().anyMatch(t -> t.contains(p)) && delete == false) return;
 
+        PutTower(col, row);
+
+        DeleteTower(p);
+    }
+
+    private void PutTower(int col, int row) {
         if (MapData.MAP[row][col] == 0 && money.CheckMoney()) {
             int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
             int cy = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
@@ -154,6 +160,30 @@ public class GamePanel extends JPanel{
             }
             id = -1;
             System.out.println("Current money: " + money.getAmount());
+        }
+    }
+
+    private void DeleteTower(Point p) {
+        if (delete) {
+            for (int i = towers.size() - 1; i >= 0; i--) {
+                Tower t = towers.get(i);
+
+                if (t.contains(p)) {
+
+                    // คืนเงิน 50% (ถ้าต้องการ)
+                    int refund = t.getPrice() / 2;
+                    money.addAmount(refund);
+
+                    towers.remove(i);
+
+                    System.out.println("Tower deleted. Refund: " + refund);
+                    System.out.println("Current money: " + money.getAmount());
+
+                    delete = false; // ปิดโหมดลบ
+                    return;
+                }
+            }
+            return;
         }
     }
 
@@ -238,6 +268,14 @@ public class GamePanel extends JPanel{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean getCanDelete(){
+        return this.delete;
+    }
+
+    public void setCanDelete(boolean candelete){
+        this.delete = candelete;
     }
 
     public void setMousePoint(Point mPoint){

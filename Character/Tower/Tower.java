@@ -110,4 +110,8 @@ public abstract class Tower{
         money.decreseAmount(price);
     }
 
+    public int getPrice(){
+        return this.price;
+    }
+
 }
