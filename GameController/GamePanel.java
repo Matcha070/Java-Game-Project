@@ -101,6 +101,18 @@ public class GamePanel extends JPanel{
                 }
             }
 
+            // destroy tower
+            for(int i = towers.size() - 1; i >= 0; i--){
+                Tower t = towers.get(i);
+                if(t.getHp() <= 1){
+                    System.out.println("kuy");
+                    towers.remove(i);
+                    towerCap++;
+
+                    setCanDelete(false); // ปิดโหมดลบ
+                }
+            }
+
             repaint();
         });
 

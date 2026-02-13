@@ -16,14 +16,16 @@ public abstract class Tower{
     protected int range;
     protected int fireRate; 
     protected int damage;
+    protected int hp;
 
-    public Tower(int x, int y, int damage, int range, int fireRate, int price) {
+    public Tower(int x, int y, int damage, int range, int fireRate, int price, int hp) {
         this.x = x;
         this.y = y;
         this.damage = damage;
         this.range = range;
         this.fireRate = fireRate;
         this.price = price;
+        this.hp = hp;
     }
 
     public abstract void draw(Graphics g);
@@ -68,6 +70,9 @@ public abstract class Tower{
     }
 
     public Bullet Shoot(Enemy enemy) {
+
+        takeDamage();
+
         cooldown = fireRate;
         
         // calculate lead
@@ -112,6 +117,14 @@ public abstract class Tower{
 
     public int getPrice(){
         return this.price;
+    }
+
+    public int getHp(){
+        return this.hp;
+    }
+
+    private void takeDamage(){
+        hp--;
     }
 
 }

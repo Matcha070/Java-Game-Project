@@ -9,7 +9,7 @@ import java.awt.geom.AffineTransform;
 public class SpeedShootTower extends Tower {
     
     public SpeedShootTower(int x, int y) {
-        super(x, y, 10, 150, 10, 20);
+        super(x, y, 10, 150, 10, 20, 10);
     }
 
     @Override
