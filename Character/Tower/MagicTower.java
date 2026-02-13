@@ -6,8 +6,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+import asset.Asset;
+
 public class MagicTower extends Tower {
-    
+
     public MagicTower(int x, int y) {
         super(x, y, 100, 150, 30, 20, 10);
     }
@@ -25,57 +27,57 @@ public class MagicTower extends Tower {
     }
 
     @Override
-    public void drawGuide(Graphics g){
+    public void drawGuide(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setComposite(
                 AlphaComposite.getInstance(
-                    AlphaComposite.SRC_OVER, 0.7f
-                )
-            );
+                        AlphaComposite.SRC_OVER, 0.7f));
         g2.setColor(Color.BLUE);
         g2.fillRect(
-            x - size / 2,
-            y - size / 2,
-            size,
-            size
-        );
+                x - size / 2,
+                y - size / 2,
+                size,
+                size);
         g2.setComposite(
                 AlphaComposite.getInstance(
-                    AlphaComposite.SRC_OVER, 1f
-                )
-            );
+                        AlphaComposite.SRC_OVER, 1f));
     }
 
     private void ShowRange(Graphics2D g2) {
         if (hovered) {
             g2.setComposite(
-                AlphaComposite.getInstance(
-                    AlphaComposite.SRC_OVER, 0.3f
-                )
-            );
+                    AlphaComposite.getInstance(
+                            AlphaComposite.SRC_OVER, 0.3f));
             g2.setColor(Color.YELLOW);
             g2.fillOval(
-                x - range,
-                y - range,
-                range * 2,
-                range * 2
-            );
+                    x - range,
+                    y - range,
+                    range * 2,
+                    range * 2);
             g2.setComposite(
-                AlphaComposite.getInstance(
-                    AlphaComposite.SRC_OVER, 1f
-                )
-            );
+                    AlphaComposite.getInstance(
+                            AlphaComposite.SRC_OVER, 1f));
         }
     }
 
     private void DrawTower(Graphics2D g2) {
-        g2.rotate(angle, x, y);
-        g2.setColor(Color.BLUE);
-        g2.fillRect(
-            x - size / 2,
-            y - size / 2,
-            size,
-            size
-        );
+
+        if (Asset.TOWER_ICON[3] != null) {
+            int imgW = Asset.TOWER_ICON[3].getWidth();
+            int imgH = Asset.TOWER_ICON[3].getHeight();
+
+            int drawSize = 128; 
+
+            double scale = (double) drawSize / Math.max(imgW, imgH);
+
+            int newW = (int) (imgW * scale);
+            int newH = (int) (imgH * scale);
+            int offsetY = 45;
+
+            int drawX = x - newW / 2;
+            int drawY = y - newH / 2 - offsetY;
+            g2.drawImage(Asset.TOWER_ICON[3], drawX, drawY, newW, newH, null);
+
+        }
     }
 }

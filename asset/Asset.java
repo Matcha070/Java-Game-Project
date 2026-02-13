@@ -24,6 +24,7 @@ public class Asset {
             SLIME = ImageIO.read(Asset.class.getResource("/asset/enemy/Slime.png"));
             // -----------UI------------
             TOWER_ICON[0] = ImageIO.read(Asset.class.getResource("/asset/tower/tower1.png"));
+            TOWER_ICON[3] = ImageIO.read(Asset.class.getResource("/asset/tower/tower1.png"));
 
         } catch (Exception e) {
             e.printStackTrace();
