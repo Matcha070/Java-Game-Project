@@ -31,6 +31,7 @@ public class GamePanel extends JPanel{
     Point mousePoint = null;
     Timer timer;
     Money money;
+    Cursor deleteCursor;
 
     public GamePanel() {
 
@@ -110,6 +111,16 @@ public class GamePanel extends JPanel{
                 MapData.MAP.length * MapData.TILE_SIZE
         ));
 
+        // import delete tower
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image image = toolkit.getImage("asset/Ui/delete_cursor.png");
+
+        deleteCursor = toolkit.createCustomCursor(
+                image,
+                new Point(16, 16),  // จุดกด (hotspot)
+                "DeleteCursor"
+        );
+
     }
 
     public void handleClick(Point p) {
@@ -127,40 +138,30 @@ public class GamePanel extends JPanel{
     }
 
     private void PutTower(int col, int row) {
-        if (MapData.MAP[row][col] == 0 && money.CheckMoney()) {
+        if (MapData.MAP[row][col] == 0) {
             int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
             int cy = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
-            if(id == 0)
-            {
-                Tower t = new BaseTower(cx, cy);
-                t.place(money);
-                towers.add(t);
-            }
-            else if(id == 1)
-            {
-                Tower t = new SpeedShootTower(cx, cy);
-                t.place(money);
-                towers.add(t);
-            }
-            else if(id == 2)
-            {
-                Tower t = new SniperTower(cx, cy);
-                t.place(money);
-                towers.add(t);
-            }
-            else if(id == 3)
-            {
-                Tower t = new MagicTower(cx, cy);
-                t.place(money);
-                towers.add(t);
-                
-            }
-            else
+            ArrayList<Tower> allTowers = new ArrayList<>(java.util.List.of(
+                new BaseTower(cx, cy), new SpeedShootTower(cx, cy), 
+                new SniperTower(cx, cy), new MagicTower(cx, cy)
+            ));
+            if(id == -1)
             {
                 System.out.println("no tower selected");
+                System.out.println(towerCap);
+                return;
             }
+            Tower t = allTowers.get(id);
+            if(money.getAmount() >= t.getPrice()){
+                towerCap--;
+                t.place(money);
+                towers.add(t);
+            }
+            else{
+                System.out.println("Not enough money");
+            }
+            
             id = -1;
-            towerCap--;
             System.out.println("Current money: " + money.getAmount());
         }
     }
@@ -173,6 +174,7 @@ public class GamePanel extends JPanel{
                 if (t.contains(p)) {
 
                     // คืนเงิน 50% (ถ้าต้องการ)
+                    
                     int refund = t.getPrice() / 2;
                     money.addAmount(refund);
 
@@ -180,8 +182,10 @@ public class GamePanel extends JPanel{
 
                     System.out.println("Tower deleted. Refund: " + refund);
                     System.out.println("Current money: " + money.getAmount());
+                    towerCap++;
 
-                    delete = false; // ปิดโหมดลบ
+                    setCanDelete(false); // ปิดโหมดลบ
+                    
                     return;
                 }
             }
@@ -281,7 +285,21 @@ public class GamePanel extends JPanel{
     }
 
     public void setCanDelete(boolean candelete){
+
         this.delete = candelete;
+
+        Cursor cursor;
+
+        if (delete) {
+            cursor = deleteCursor;
+        } else {
+            cursor = Cursor.getDefaultCursor();
+        }
+
+        Window window = SwingUtilities.getWindowAncestor(this);
+        if (window != null) {
+            window.setCursor(cursor);
+        }
     }
 
     public void setMousePoint(Point mPoint){

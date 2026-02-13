@@ -3,7 +3,7 @@ public class Money {
     
     int amount;
     public Money() {
-        this.amount = 200;
+        this.amount = 50;
     }
 
     public int getAmount() {
