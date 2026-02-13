@@ -12,6 +12,9 @@ public class Asset {
     // ---------Enemy----------
     public static BufferedImage SLIME;
 
+    // -----------UI------------
+    public static BufferedImage[] TOWER_ICON = new BufferedImage[4];
+
     public static void load() {
         try {
             // ----------Map-----------
@@ -19,6 +22,9 @@ public class Asset {
             DIRT = ImageIO.read(Asset.class.getResource("/asset/map/Dirt.png"));
             // ---------Enemy----------
             SLIME = ImageIO.read(Asset.class.getResource("/asset/enemy/Slime.png"));
+            // -----------UI------------
+            TOWER_ICON[0] = ImageIO.read(Asset.class.getResource("/asset/tower/tower1.png"));
+
         } catch (Exception e) {
             e.printStackTrace();
         }

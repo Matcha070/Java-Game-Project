@@ -1,6 +1,5 @@
 package UI;
 
-
 import GameController.GamePanel;
 import Map.MapData;
 import java.awt.*;
@@ -39,10 +38,11 @@ public class TowerUI extends JPanel {
     }
 
     public boolean isOnUI(Point p) {
-    for (HitButton b : buttons) {
-        if (b.isClick(p)) return true;
-    }
-    return false;
+        for (HitButton b : buttons) {
+            if (b.isClick(p))
+                return true;
+        }
+        return false;
     }
 
     public int handleClick(Point p) {
@@ -108,29 +108,4 @@ public class TowerUI extends JPanel {
         }
     }
 
-}
-
-class HitButton {
-
-    Rectangle box;
-    int id;
-
-    public HitButton(int id, int x, int y, int w, int h) {
-        this.id = id;
-        this.box = new Rectangle(x, y, w, h);
-    }
-
-    public boolean isClick(Point p) {
-        return box.contains(p);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void draw(Graphics g) {
-
-        g.setColor(new Color(255, 255, 255, 40));
-        g.fillRect(box.x, box.y, box.width, box.height);
-    }
 }
