@@ -25,10 +25,13 @@ public class GamePanel extends JPanel{
     ArrayList<Bullet> bullets = new ArrayList<>();
 
     int id = -1;
+    boolean delete = false;
+    int towerCap = 10;
 
     Point mousePoint = null;
     Timer timer;
     Money money;
+    Cursor deleteCursor;
 
     public GamePanel() {
 
@@ -98,6 +101,18 @@ public class GamePanel extends JPanel{
                 }
             }
 
+            // destroy tower
+            for(int i = towers.size() - 1; i >= 0; i--){
+                Tower t = towers.get(i);
+                if(t.getHp() <= 1){
+                    System.out.println("kuy");
+                    towers.remove(i);
+                    towerCap++;
+
+                    setCanDelete(false); // ปิดโหมดลบ
+                }
+            }
+
             repaint();
         });
 
@@ -108,9 +123,18 @@ public class GamePanel extends JPanel{
                 MapData.MAP.length * MapData.TILE_SIZE
         ));
 
+        // import delete tower
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image image = toolkit.getImage("asset/Ui/delete_cursor.png");
+
+        deleteCursor = toolkit.createCustomCursor(
+                image,
+                new Point(16, 16),  // จุดกด (hotspot)
+                "DeleteCursor"
+        );
+
     }
 
-    //Put Tower
     public void handleClick(Point p) {
         int col = p.x / MapData.TILE_SIZE;
         int row = p.y / MapData.TILE_SIZE;
@@ -118,42 +142,66 @@ public class GamePanel extends JPanel{
         if (row < 0 || row >= MapData.MAP.length ||
             col < 0 || col >= MapData.MAP[0].length) return;
 
-        if (towers.stream().anyMatch(t -> t.contains(p))) return;
+        if (towers.stream().anyMatch(t -> t.contains(p)) && delete == false) return;
 
-        if (MapData.MAP[row][col] == 0 && money.CheckMoney()) {
+        PutTower(col, row);
+
+        DeleteTower(p);
+    }
+
+    private void PutTower(int col, int row) {
+        if (MapData.MAP[row][col] == 0) {
             int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
             int cy = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
-            if(id == 0)
-            {
-                Tower t = new BaseTower(cx, cy);
-                t.place(money);
-                towers.add(t);
-            }
-            else if(id == 1)
-            {
-                Tower t = new SpeedShootTower(cx, cy);
-                t.place(money);
-                towers.add(t);
-            }
-            else if(id == 2)
-            {
-                Tower t = new SniperTower(cx, cy);
-                t.place(money);
-                towers.add(t);
-            }
-            else if(id == 3)
-            {
-                Tower t = new MagicTower(cx, cy);
-                t.place(money);
-                towers.add(t);
-                
-            }
-            else
+            ArrayList<Tower> allTowers = new ArrayList<>(java.util.List.of(
+                new BaseTower(cx, cy), new SpeedShootTower(cx, cy), 
+                new SniperTower(cx, cy), new MagicTower(cx, cy)
+            ));
+            if(id == -1)
             {
                 System.out.println("no tower selected");
+                System.out.println(towerCap);
+                return;
             }
+            Tower t = allTowers.get(id);
+            if(money.getAmount() >= t.getPrice()){
+                towerCap--;
+                t.place(money);
+                towers.add(t);
+            }
+            else{
+                System.out.println("Not enough money");
+            }
+            
             id = -1;
             System.out.println("Current money: " + money.getAmount());
+        }
+    }
+
+    private void DeleteTower(Point p) {
+        if (delete) {
+            for (int i = towers.size() - 1; i >= 0; i--) {
+                Tower t = towers.get(i);
+
+                if (t.contains(p)) {
+
+                    // คืนเงิน 50% (ถ้าต้องการ)
+                    
+                    int refund = t.getPrice() / 2;
+                    money.addAmount(refund);
+
+                    towers.remove(i);
+
+                    System.out.println("Tower deleted. Refund: " + refund);
+                    System.out.println("Current money: " + money.getAmount());
+                    towerCap++;
+
+                    setCanDelete(false); // ปิดโหมดลบ
+                    
+                    return;
+                }
+            }
+            return;
         }
     }
 
@@ -238,6 +286,32 @@ public class GamePanel extends JPanel{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getTowerCap(){
+        return this.towerCap;
+    }
+
+    public boolean getCanDelete(){
+        return this.delete;
+    }
+
+    public void setCanDelete(boolean candelete){
+
+        this.delete = candelete;
+
+        Cursor cursor;
+
+        if (delete) {
+            cursor = deleteCursor;
+        } else {
+            cursor = Cursor.getDefaultCursor();
+        }
+
+        Window window = SwingUtilities.getWindowAncestor(this);
+        if (window != null) {
+            window.setCursor(cursor);
+        }
     }
 
     public void setMousePoint(Point mPoint){

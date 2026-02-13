@@ -9,7 +9,8 @@ import javax.swing.*;
 public class TowerUI extends JPanel {
     GamePanel game;
 
-    ArrayList<HitButton> buttons = new ArrayList<>();
+    ArrayList<HitButton> selectTowers = new ArrayList<>();
+    ArrayList<DeleteTower> deleteTowers = new ArrayList<>();
     int hoverId = -1;
 
     public TowerUI(GamePanel gamePanel) {
@@ -33,30 +34,48 @@ public class TowerUI extends JPanel {
             int x = margin + i * (btnW + gap);
             int y = startY;
 
-            buttons.add(new HitButton(i, x, y, btnW, btnH));
+            selectTowers.add(new HitButton(i, x, y, btnW, btnH));
+
         }
+        int circleSize = 60;
+
+        int x = (getPreferredSize().width / 2) + 20;  
+        int y = getPreferredSize().height - 120;      
+        deleteTowers.add(new DeleteTower(x, y, circleSize));
     }
 
     public boolean isOnUI(Point p) {
-        for (HitButton b : buttons) {
-            if (b.isClick(p))
-                return true;
-        }
-        return false;
+
+    for (HitButton b : selectTowers) {
+        if (b.isClick(p)) return true;
+    }
+    for (DeleteTower b : deleteTowers) {
+        if (b.isClick(p)) return true;
+    }
+    return false;
+
     }
 
-    public int handleClick(Point p) {
-        for (HitButton b : buttons) {
+    public void handleClickSelect(Point p) {
+        for (HitButton b : selectTowers) {
             if (b.isClick(p)) {
                 game.setId(b.getId());
             }
+        } 
+    }
+
+    public void handleClickDelete(Point p) {
+
+        for (DeleteTower d : deleteTowers) {
+            if (d.isClick(p)) {
+                game.setCanDelete(true);
+            }
         }
-        return -1;
     }
 
     public void handleHover(Point p) {
         hoverId = -1;
-        for (HitButton b : buttons) {
+        for (HitButton b : selectTowers) {
             if (b.isClick(p)) {
                 hoverId = b.getId();
                 break;
@@ -75,8 +94,12 @@ public class TowerUI extends JPanel {
         g.setColor(new Color(0, 0, 0, 150));
         g.fillRect(0, getHeight() - height, width, height);
 
-        for (HitButton b : buttons) {
+        for (HitButton b : selectTowers) {
             b.draw(g);
+        }
+
+        for (DeleteTower d : deleteTowers) {
+            d.draw(g);
         }
         if (hoverId != -1) {
 
@@ -109,3 +132,30 @@ public class TowerUI extends JPanel {
     }
 
 }
+
+
+class DeleteTower {
+
+    int x, y, size;
+
+    public DeleteTower(int x, int y, int size) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+    }
+
+    public boolean isClick(Point p) {
+        double dx = p.x - (x + size / 2);
+        double dy = p.y - (y + size / 2);
+        return dx * dx + dy * dy <= (size / 2) * (size / 2);
+    }
+
+    public void draw(Graphics g) {
+        g.setColor(new Color(0, 200, 255, 120));
+        g.fillOval(x, y, size, size);
+
+        g.setColor(Color.WHITE);
+        g.drawOval(x, y, size, size);
+    }
+}
+

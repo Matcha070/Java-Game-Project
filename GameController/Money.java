@@ -3,11 +3,15 @@ public class Money {
     
     int amount;
     public Money() {
-        this.amount = 200;
+        this.amount = 50;
     }
 
     public int getAmount() {
         return amount;
+    }
+
+    public void addAmount(int amount){
+        this.amount += amount;
     }
 
     public void decreseAmount(int amount) {
