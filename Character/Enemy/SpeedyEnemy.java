@@ -2,14 +2,11 @@ package Character.Enemy;
 import asset.Asset;
 import java.awt.*;
 
- 
-public class Slime extends Enemy {
+public class SpeedyEnemy extends Enemy{
 
-    public Slime() {
-        super(30, 2.0);
+    public SpeedyEnemy() {
+        super(15, 5.0);
     }
-
-    @Override
     public void draw(Graphics g) {
         DrawEnemy(g);
         DrawHpBar(g);

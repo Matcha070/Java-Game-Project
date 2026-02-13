@@ -2,14 +2,15 @@ package Character.Enemy;
 import asset.Asset;
 import java.awt.*;
 
- 
-public class Slime extends Enemy {
+public class RegenEnemy extends Enemy{
 
-    public Slime() {
-        super(30, 2.0);
+    private int regenAmount = 5;     // ฟื้นต่อครั้ง
+    private int regenDelay = 15;     // ทุกกี่ frame
+    private int regenTimer = 0;
+
+    public RegenEnemy() {
+        super(100, 1);
     }
-
-    @Override
     public void draw(Graphics g) {
         DrawEnemy(g);
         DrawHpBar(g);
@@ -43,4 +44,16 @@ public class Slime extends Enemy {
             null
         );
     }
+
+    @Override
+    protected void onUpdate() {
+        regenTimer++;
+
+        if (regenTimer >= regenDelay) {
+            hp += regenAmount;
+            if (hp > maxHp) hp = maxHp;
+            regenTimer = 0;
+        }
+    }
 }
+

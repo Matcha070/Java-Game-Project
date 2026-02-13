@@ -30,6 +30,7 @@ public abstract  class Enemy{
     public void update() {
         EnemyOutOfRange();
         EnemyWalk();
+        onUpdate();
     }
 
     private boolean EnemyOutOfRange() {
@@ -91,6 +92,10 @@ public abstract  class Enemy{
 
     public double getVy() {
         return vy;
+    }
+
+    protected void onUpdate() {
+        //
     }
 
 }
