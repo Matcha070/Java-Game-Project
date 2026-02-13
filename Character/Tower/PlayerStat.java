@@ -11,8 +11,6 @@ public class PlayerStat {
     public PlayerStat() {
         MaxHP = 100;
         HP = MaxHP;
-        STARTERCOIN = 100;
-        COIN = STARTERCOIN;
         currentWave = 0;
     }
 
@@ -24,18 +22,4 @@ public class PlayerStat {
             System.out.println("Game Over");
         }
     }
-
-    public void buyTOWER(int Price) {
-        this.COIN -= Price;
-    }
-
-    public void gotMoney(int Price) {
-        this.COIN += Price;
-    }
-
-    public void nextWAVE() {
-        currentWave += 1;
-    }
-    
-    
 }

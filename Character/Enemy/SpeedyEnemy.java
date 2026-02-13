@@ -5,7 +5,7 @@ import java.awt.*;
 public class SpeedyEnemy extends Enemy{
 
     public SpeedyEnemy() {
-        super(15, 5.0);
+        super(15, 5.0, 10);
     }
     public void draw(Graphics g) {
         DrawEnemy(g);

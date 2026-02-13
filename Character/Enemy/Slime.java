@@ -6,7 +6,7 @@ import java.awt.*;
 public class Slime extends Enemy {
 
     public Slime() {
-        super(30, 2.0);
+        super(30, 2.0, 5);
     }
 
     @Override

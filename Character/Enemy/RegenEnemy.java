@@ -9,7 +9,7 @@ public class RegenEnemy extends Enemy{
     private int regenTimer = 0;
 
     public RegenEnemy() {
-        super(100, 1);
+        super(100, 1, 10);
     }
     public void draw(Graphics g) {
         DrawEnemy(g);

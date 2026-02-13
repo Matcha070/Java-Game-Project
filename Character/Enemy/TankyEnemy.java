@@ -5,7 +5,7 @@ import java.awt.*;
 public class TankyEnemy extends Enemy{
 
     public TankyEnemy() {
-        super(100, 1.5);
+        super(100, 1.5, 10);
     }
     public void draw(Graphics g) {
         DrawEnemy(g);

@@ -14,6 +14,10 @@ public class Money {
         this.amount -= amount;
     }
 
+    public void increseAmount(int amount) {
+        this.amount += amount;
+    }
+
     public boolean CheckMoney(){
         if(amount <= 0){
             return false;

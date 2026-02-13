@@ -1,8 +1,8 @@
 package Character.Enemy;
 import Character.Tower.PlayerStat;
+import GameController.Money;
 import Map.MapData;
 import java.awt.*;
-
 public abstract  class Enemy{
     protected int size = MapData.TILE_SIZE;
     protected double speed ;
@@ -15,7 +15,9 @@ public abstract  class Enemy{
     protected int maxHp;
     protected boolean alive = true;
 
-    public Enemy(int hp, double speed) {
+    protected int valueEnemy;
+
+    public Enemy(int hp, double speed, int valueEnemy) {
 
         // Start ที่ จุด start
         Point start = MapData.pathPoints.get(0);
@@ -25,6 +27,7 @@ public abstract  class Enemy{
         this.hp = hp;
         this.maxHp = hp;
         this.speed = speed;
+        this.valueEnemy = valueEnemy;
     }
 
     public void update() {
@@ -96,6 +99,10 @@ public abstract  class Enemy{
 
     protected void onUpdate() {
         //
+    }
+
+    public void moneyDrop(Money money){
+        money.increseAmount(valueEnemy);
     }
 
 }
