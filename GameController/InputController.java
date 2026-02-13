@@ -19,7 +19,12 @@ public class InputController extends MouseAdapter {
 
         // 1. ถ้าคลิกโดน UI → ให้ UI จัดการ
         if (ui.isOnUI(e.getPoint())) {
-            ui.handleClickSelect(e.getPoint());
+            if(game.getTowerCap() > 1){
+                ui.handleClickSelect(e.getPoint());
+            }
+            else{
+                System.out.println("Max cap");
+            }
             ui.handleClickDelete(e.getPoint());
             return;
         }

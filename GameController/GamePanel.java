@@ -26,6 +26,7 @@ public class GamePanel extends JPanel{
 
     int id = -1;
     boolean delete = false;
+    int towerCap = 10;
 
     Point mousePoint = null;
     Timer timer;
@@ -159,6 +160,7 @@ public class GamePanel extends JPanel{
                 System.out.println("no tower selected");
             }
             id = -1;
+            towerCap--;
             System.out.println("Current money: " + money.getAmount());
         }
     }
@@ -268,6 +270,10 @@ public class GamePanel extends JPanel{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getTowerCap(){
+        return this.towerCap;
     }
 
     public boolean getCanDelete(){
