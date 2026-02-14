@@ -15,6 +15,7 @@ public class GameFrame extends JFrame {
         // สร้างแค่ชุดเดียว
         GamePanel game = new GamePanel();
         TowerUI ui = new TowerUI(game);
+        game.setUI(ui); 
 
         // Layer
         JLayeredPane layer = new JLayeredPane();

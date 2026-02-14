@@ -1,4 +1,5 @@
 package GameController;
+
 import Character.Enemy.Enemy;
 import Character.Tower.BaseTower;
 import Character.Tower.Bullet;
@@ -7,6 +8,7 @@ import Character.Tower.SniperTower;
 import Character.Tower.SpeedShootTower;
 import Character.Tower.Tower;
 import Map.MapData;
+import UI.TowerUI;
 import Wave.WaveManager;
 import asset.Asset;
 import java.awt.*;
@@ -15,12 +17,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import javax.swing.*;
 
-
-
-public class GamePanel extends JPanel{
+public class GamePanel extends JPanel {
 
     BufferedImage grass, path;
-    //Enemy enemy;
+    // Enemy enemy;
     ArrayList<Enemy> enemies = new ArrayList<>();
     ArrayList<Tower> towers = new ArrayList<>();
     ArrayList<Bullet> bullets = new ArrayList<>();
@@ -33,26 +33,28 @@ public class GamePanel extends JPanel{
     Timer timer;
     Money money;
     Cursor deleteCursor;
+    TowerUI ui;
 
     public GamePanel() {
 
         Asset.load();
         MapData.buildPath();
 
-        //Test Enemy
-        //enemy = new Enemy();
-        //Test
+        // Test Enemy
+        // enemy = new Enemy();
+        // Test
         // Timer timers = new Timer(2000, e -> {
-        //     enemies.add(new Slime());
+        // enemies.add(new Slime());
         // });
         // timers.start();
         WaveManager waveManager = new WaveManager();
         money = new Money();
 
-        
         timer = new Timer(16, e -> {
 
             waveManager.update(enemies);
+            if (ui != null)
+                ui.update();
 
             for (Bullet bullet : bullets) {
                 bullet.update();
@@ -80,12 +82,12 @@ public class GamePanel extends JPanel{
                     }
                 }
 
-                    if (target != null) {
-                        tower.setAngle(target);
-                        if(tower.canShoot()) {
-                            bullets.add(tower.Shoot(target));
-                        }
+                if (target != null) {
+                    tower.setAngle(target);
+                    if (tower.canShoot()) {
+                        bullets.add(tower.Shoot(target));
                     }
+                }
             }
 
             for (int i = bullets.size() - 1; i >= 0; i--) {
@@ -103,9 +105,9 @@ public class GamePanel extends JPanel{
             }
 
             // destroy tower
-            for(int i = towers.size() - 1; i >= 0; i--){
+            for (int i = towers.size() - 1; i >= 0; i--) {
                 Tower t = towers.get(i);
-                if(t.getHp() <= 1){
+                if (t.getHp() <= 1) {
                     System.out.println("kuy");
                     towers.remove(i);
                     towerCap++;
@@ -121,8 +123,7 @@ public class GamePanel extends JPanel{
 
         setPreferredSize(new Dimension(
                 MapData.MAP[0].length * MapData.TILE_SIZE,
-                MapData.MAP.length * MapData.TILE_SIZE
-        ));
+                MapData.MAP.length * MapData.TILE_SIZE));
 
         // import delete tower
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -130,9 +131,8 @@ public class GamePanel extends JPanel{
 
         deleteCursor = toolkit.createCustomCursor(
                 image,
-                new Point(16, 16),  // จุดกด (hotspot)
-                "DeleteCursor"
-        );
+                new Point(16, 16), // จุดกด (hotspot)
+                "DeleteCursor");
 
     }
 
@@ -141,9 +141,11 @@ public class GamePanel extends JPanel{
         int row = p.y / MapData.TILE_SIZE;
 
         if (row < 0 || row >= MapData.MAP.length ||
-            col < 0 || col >= MapData.MAP[0].length) return;
+                col < 0 || col >= MapData.MAP[0].length)
+            return;
 
-        if (towers.stream().anyMatch(t -> t.contains(p)) && delete == false) return;
+        if (towers.stream().anyMatch(t -> t.contains(p)) && delete == false)
+            return;
 
         PutTower(col, row);
 
@@ -155,25 +157,22 @@ public class GamePanel extends JPanel{
             int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
             int cy = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
             ArrayList<Tower> allTowers = new ArrayList<>(java.util.List.of(
-                new BaseTower(cx, cy), new SpeedShootTower(cx, cy), 
-                new SniperTower(cx, cy), new MagicTower(cx, cy)
-            ));
-            if(id == -1)
-            {
+                    new BaseTower(cx, cy), new SpeedShootTower(cx, cy),
+                    new SniperTower(cx, cy), new MagicTower(cx, cy)));
+            if (id == -1) {
                 System.out.println("no tower selected");
                 System.out.println(towerCap);
                 return;
             }
             Tower t = allTowers.get(id);
-            if(money.getAmount() >= t.getPrice()){
+            if (money.getAmount() >= t.getPrice()) {
                 towerCap--;
                 t.place(money);
                 towers.add(t);
-            }
-            else{
+            } else {
                 System.out.println("Not enough money");
             }
-            
+
             id = -1;
             System.out.println("Current money: " + money.getAmount());
         }
@@ -187,7 +186,7 @@ public class GamePanel extends JPanel{
                 if (t.contains(p)) {
 
                     // คืนเงิน 50% (ถ้าต้องการ)
-                    
+
                     int refund = t.getPrice() / 2;
                     money.addAmount(refund);
 
@@ -198,7 +197,7 @@ public class GamePanel extends JPanel{
                     towerCap++;
 
                     setCanDelete(false); // ปิดโหมดลบ
-                    
+
                     return;
                 }
             }
@@ -211,7 +210,6 @@ public class GamePanel extends JPanel{
             t.setHovered(t.contains(p));
         }
     }
-    
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -220,17 +218,16 @@ public class GamePanel extends JPanel{
         for (int row = 0; row < MapData.MAP.length; row++) {
             for (int col = 0; col < MapData.MAP[0].length; col++) {
 
-                BufferedImage img =
-                    (MapData.MAP[row][col] == 1 || MapData.MAP[row][col] == 2 || MapData.MAP[row][col] == 3) ? Asset.DIRT : Asset.GRASS;
+                BufferedImage img = (MapData.MAP[row][col] == 1 || MapData.MAP[row][col] == 2
+                        || MapData.MAP[row][col] == 3) ? Asset.DIRT : Asset.GRASS;
 
                 g.drawImage(
-                    img,
-                    col * MapData.TILE_SIZE,
-                    row * MapData.TILE_SIZE,
-                    MapData.TILE_SIZE,
-                    MapData.TILE_SIZE,
-                    null
-                );
+                        img,
+                        col * MapData.TILE_SIZE,
+                        row * MapData.TILE_SIZE,
+                        MapData.TILE_SIZE,
+                        MapData.TILE_SIZE,
+                        null);
             }
         }
 
@@ -256,8 +253,8 @@ public class GamePanel extends JPanel{
             int row = mousePoint.y / MapData.TILE_SIZE;
 
             if (row >= 0 && row < MapData.MAP.length &&
-                col >= 0 && col < MapData.MAP[0].length &&
-                MapData.MAP[row][col] == 0) {
+                    col >= 0 && col < MapData.MAP[0].length &&
+                    MapData.MAP[row][col] == 0) {
 
                 int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
                 int cy = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
@@ -268,13 +265,17 @@ public class GamePanel extends JPanel{
 
                 Tower preview = null;
 
-                if (id == 0) preview = new BaseTower(cx, cy);
-                else if (id == 1) preview = new SpeedShootTower(cx, cy);
-                else if (id == 2) preview = new SniperTower(cx, cy);
-                else if (id == 3) preview = new MagicTower(cx, cy);
+                if (id == 0)
+                    preview = new BaseTower(cx, cy);
+                else if (id == 1)
+                    preview = new SpeedShootTower(cx, cy);
+                else if (id == 2)
+                    preview = new SniperTower(cx, cy);
+                else if (id == 3)
+                    preview = new MagicTower(cx, cy);
 
                 if (preview != null) {
-                    //preview.draw(g);
+                    // preview.draw(g);
                     preview.drawGuide(g); // ถ้าอยากให้เห็น range ด้วย
                 }
 
@@ -291,15 +292,19 @@ public class GamePanel extends JPanel{
         this.id = id;
     }
 
-    public int getTowerCap(){
+    public int getTowerCap() {
         return this.towerCap;
     }
 
-    public boolean getCanDelete(){
+    public boolean getCanDelete() {
         return this.delete;
     }
 
-    public void setCanDelete(boolean candelete){
+    public void setUI(TowerUI ui) {
+        this.ui = ui;
+    }
+
+    public void setCanDelete(boolean candelete) {
 
         this.delete = candelete;
 
@@ -317,7 +322,7 @@ public class GamePanel extends JPanel{
         }
     }
 
-    public void setMousePoint(Point mPoint){
+    public void setMousePoint(Point mPoint) {
         this.mousePoint = mPoint;
     }
 }
