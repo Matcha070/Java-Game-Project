@@ -127,4 +127,8 @@ public abstract class Tower{
         hp--;
     }
 
+    public int getY(){
+        return this.y;
+    }
+
 }

@@ -12,6 +12,7 @@ import asset.Asset;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Comparator;
 import javax.swing.*;
 
 
@@ -241,6 +242,8 @@ public class GamePanel extends JPanel{
         for (Bullet bullet : bullets) {
             bullet.draw(g);
         }
+
+        towers.sort(Comparator.comparingInt(t -> t.getY()));
         for (Tower tower : towers) {
             tower.draw(g);
         }
