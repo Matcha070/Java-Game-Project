@@ -14,6 +14,8 @@ public class Asset {
 
     // -----------UI------------
     public static BufferedImage[] TOWER_ICON = new BufferedImage[4];
+    public static BufferedImage FILLHp;
+    public static BufferedImage ENEMYHPBAR;
 
     public static void load() {
         try {
@@ -25,6 +27,9 @@ public class Asset {
             // -----------UI------------
             TOWER_ICON[0] = ImageIO.read(Asset.class.getResource("/asset/tower/tower1.png"));
             TOWER_ICON[3] = ImageIO.read(Asset.class.getResource("/asset/tower/tower1.png"));
+
+            FILLHp = ImageIO.read(Asset.class.getResource("/asset/Ui/fillHp.png"));
+            ENEMYHPBAR = ImageIO.read(Asset.class.getResource("/asset/Ui/hpEnemyBar.png"));
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -13,25 +13,7 @@ public class RegenEnemy extends Enemy{
     }
     public void draw(Graphics g) {
         DrawEnemy(g);
-        DrawHpBar(g);
-    }
-
-    private void DrawHpBar(Graphics g) {
-        g.setColor(Color.gray);
-        g.fillRect(
-            (int)(x - size / 2) + 6,
-            (int)y - size / 2 - 10,
-            size - 12,
-            5
-        );
-
-        g.setColor(Color.RED);
-        g.fillRect(
-            (int)(x - size / 2) + 6,
-            (int)y - size / 2 - 10,
-            (size - 12) * hp / maxHp,
-            5
-        );
+        super.DrawHpBar(g);
     }
 
     private void DrawEnemy(Graphics g) {

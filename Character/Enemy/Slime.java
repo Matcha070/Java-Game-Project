@@ -1,8 +1,8 @@
 package Character.Enemy;
+
 import asset.Asset;
 import java.awt.*;
 
- 
 public class Slime extends Enemy {
 
     public Slime() {
@@ -12,35 +12,17 @@ public class Slime extends Enemy {
     @Override
     public void draw(Graphics g) {
         DrawEnemy(g);
-        DrawHpBar(g);
+        super.DrawHpBar(g);
     }
 
-    private void DrawHpBar(Graphics g) {
-        g.setColor(Color.gray);
-        g.fillRect(
-            (int)(x - size / 2) + 6,
-            (int)y - size / 2 - 10,
-            size - 12,
-            5
-        );
-
-        g.setColor(Color.RED);
-        g.fillRect(
-            (int)(x - size / 2) + 6,
-            (int)y - size / 2 - 10,
-            (size - 12) * hp / maxHp,
-            5
-        );
-    }
 
     private void DrawEnemy(Graphics g) {
         g.drawImage(
-            Asset.SLIME,
-            (int) x - size / 2,
-            (int) y - size / 2,
-            size,
-            size,
-            null
-        );
+                Asset.SLIME,
+                (int) x - size / 2,
+                (int) y - size / 2,
+                size,
+                size,
+                null);
     }
 }

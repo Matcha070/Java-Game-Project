@@ -1,11 +1,13 @@
 package Character.Enemy;
+
 import Character.Tower.PlayerStat;
 import GameController.Money;
 import Map.MapData;
 import java.awt.*;
-public abstract  class Enemy{
+
+public abstract class Enemy {
     protected int size = MapData.TILE_SIZE;
-    protected double speed ;
+    protected double speed;
 
     protected double x, y;
     protected double vx, vy;
@@ -14,6 +16,8 @@ public abstract  class Enemy{
     protected int hp;
     protected int maxHp;
     protected boolean alive = true;
+
+    protected boolean showHpBar = false;
 
     protected int valueEnemy;
 
@@ -47,16 +51,16 @@ public abstract  class Enemy{
 
     private void EnemyWalk() {
         Point target = MapData.pathPoints.get(targetIndex);
-        
+
         double dx = target.x - x;
         double dy = target.y - y;
         double dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < speed) { //กัน Case
+        if (dist < speed) { // กัน Case
             x = target.x;
             y = target.y;
             targetIndex++;
-        } else { //Walk
+        } else { // Walk
             vx = (dx / dist) * speed;
             vy = (dy / dist) * speed;
             x += vx;
@@ -70,6 +74,25 @@ public abstract  class Enemy{
         hp -= damage;
         if (hp <= 0) {
             alive = false;
+        }
+        showHpBar = true;
+    }
+
+    protected void DrawHpBar(Graphics g) {
+        if (showHpBar) {
+            g.setColor(Color.gray);
+            g.fillRect(
+                    (int) (x - size / 2) + 6,
+                    (int) y - size / 2 - 10,
+                    size - 12,
+                    5);
+
+            g.setColor(Color.RED);
+            g.fillRect(
+                    (int) (x - size / 2) + 6,
+                    (int) y - size / 2 - 10,
+                    (size - 12) * hp / maxHp,
+                    5);
         }
     }
 
@@ -101,7 +124,7 @@ public abstract  class Enemy{
         //
     }
 
-    public void moneyDrop(Money money){
+    public void moneyDrop(Money money) {
         money.increseAmount(valueEnemy);
     }
 
