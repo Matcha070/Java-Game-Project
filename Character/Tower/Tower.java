@@ -1,9 +1,15 @@
 package Character.Tower;
+
 import Character.Enemy.Enemy;
 import GameController.Money;
-import java.awt.*;
+import asset.Asset;
 
-public abstract class Tower{
+import java.awt.*;
+import java.security.AllPermission;
+import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
+
+public abstract class Tower {
     protected int x, y;
     protected int size = 30;
 
@@ -14,9 +20,11 @@ public abstract class Tower{
 
     protected double bulletSpeed = 30.0;
     protected int range;
-    protected int fireRate; 
+    protected int fireRate;
     protected int damage;
     protected int hp;
+    protected int maxHp;
+    protected int currentHp;
 
     public Tower(int x, int y, int damage, int range, int fireRate, int price, int hp) {
         this.x = x;
@@ -26,6 +34,8 @@ public abstract class Tower{
         this.fireRate = fireRate;
         this.price = price;
         this.hp = hp;
+        this.maxHp = hp;
+        this.currentHp = hp;
     }
 
     public abstract void draw(Graphics g);
@@ -34,20 +44,20 @@ public abstract class Tower{
 
     public boolean contains(Point p) {
         Rectangle rect = new Rectangle(
-            x - size / 2,
-            y - size / 2,
-            size,
-            size
-        );
+                x - size / 2,
+                y - size / 2,
+                size,
+                size);
         return rect.contains(p);
     }
-    
+
     public void update() {
         Cooldown();
     }
 
     private void Cooldown() {
-        if (cooldown > 0) cooldown--;
+        if (cooldown > 0)
+            cooldown--;
     }
 
     public boolean canShoot() {
@@ -74,7 +84,7 @@ public abstract class Tower{
         takeDamage();
 
         cooldown = fireRate;
-        
+
         // calculate lead
         Point enemyPos = enemy.getPosition();
         double ex = enemyPos.x;
@@ -86,8 +96,7 @@ public abstract class Tower{
         double dx = ex - x;
         double dy = ey - y;
 
-        
-        double distance = Math.sqrt(dx*dx + dy*dy);
+        double distance = Math.sqrt(dx * dx + dy * dy);
         double time = distance / bulletSpeed;
 
         double futureX = ex + evx * time;
@@ -96,15 +105,54 @@ public abstract class Tower{
         double dirX = futureX - x;
         double dirY = futureY - y;
 
-        double len = Math.sqrt(dirX*dirX + dirY*dirY);
+        double len = Math.sqrt(dirX * dirX + dirY * dirY);
         dirX /= len;
         dirY /= len;
 
-        Bullet bullet = new Bullet(x, y, (int)bulletSpeed, damage);
+        Bullet bullet = new Bullet(x, y, (int) bulletSpeed, damage);
         bullet.vx = dirX * bullet.speed;
         bullet.vy = dirY * bullet.speed;
 
         return bullet;
+    }
+
+    protected void DrawTower(Graphics2D g2) {
+
+        if (Asset.TOWER_ICON[3] != null) {
+
+            BufferedImage img = Asset.TOWER_ICON[3];
+
+            int imgW = img.getWidth();
+            int imgH = img.getHeight();
+
+            int drawSize = 128;
+            double scale = (double) drawSize / Math.max(imgW, imgH);
+
+            int newW = (int) (imgW * scale);
+            int newH = (int) (imgH * scale);
+
+            int offsetY = 45;
+            int drawX = x - newW / 2;
+            int drawY = y - newH / 2 - offsetY;
+
+            float hpPercent = (float) currentHp / maxHp;
+
+            if (hpPercent < 0.5f) {
+
+                float darkFactor = hpPercent / 0.5f; // 1 → 0
+
+                float[] scales = { darkFactor, darkFactor, darkFactor, 1f };
+                float[] offsets = { 0f, 0f, 0f, 0f };
+
+                RescaleOp op = new RescaleOp(scales, offsets, null);
+                BufferedImage darkImg = op.filter(img, null);
+
+                g2.drawImage(darkImg, drawX, drawY, newW, newH, null);
+
+            } else {
+                g2.drawImage(img, drawX, drawY, newW, newH, null);
+            }
+        }
     }
 
     public void setHovered(boolean hovered) {
@@ -115,19 +163,25 @@ public abstract class Tower{
         money.decreseAmount(price);
     }
 
-    public int getPrice(){
+    public int getPrice() {
         return this.price;
     }
 
-    public int getHp(){
+    public int getHp() {
         return this.hp;
     }
 
-    private void takeDamage(){
-        hp--;
+    public float getCurrentHp() {
+        return this.currentHp;
     }
 
-    public int getY(){
+    private void takeDamage() {
+        if (currentHp > 0) {
+            currentHp--;
+        }
+    }
+
+    public int getY() {
         return this.y;
     }
 

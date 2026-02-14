@@ -16,7 +16,7 @@ public class BaseTower extends Tower {
         Graphics2D g2 = (Graphics2D) g;
         AffineTransform old = g2.getTransform();
 
-        DrawTower(g2);
+        super.DrawTower(g2);
 
         g2.setTransform(old);
 
@@ -57,24 +57,4 @@ public class BaseTower extends Tower {
         }
     }
 
-    private void DrawTower(Graphics2D g2) {
-
-        if (Asset.TOWER_ICON[3] != null) {
-            int imgW = Asset.TOWER_ICON[3].getWidth();
-            int imgH = Asset.TOWER_ICON[3].getHeight();
-
-            int drawSize = 128;
-
-            double scale = (double) drawSize / Math.max(imgW, imgH);
-
-            int newW = (int) (imgW * scale);
-            int newH = (int) (imgH * scale);
-            int offsetY = 45;
-
-            int drawX = x - newW / 2;
-            int drawY = y - newH / 2 - offsetY;
-            g2.drawImage(Asset.TOWER_ICON[3], drawX, drawY, newW, newH, null);
-
-        }
-    }
 }
