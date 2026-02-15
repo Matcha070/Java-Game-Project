@@ -18,7 +18,7 @@ public class InputController extends MouseAdapter {
     public void mousePressed(MouseEvent e) {
 
         // 1. ถ้าคลิกโดน UI → ให้ UI จัดการ
-        if (ui.isOnUI(e.getPoint())) {
+        if (ui.isOnUI(e.getPoint()) && ui.getIsOpen()) {
 
             ui.handleClickToggle(e.getPoint());
             
@@ -38,7 +38,9 @@ public class InputController extends MouseAdapter {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        ui.handleHover(e.getPoint());
+        if(ui.getIsOpen()){
+            ui.handleHover(e.getPoint());
+        }
         game.handleHover(e.getPoint());
 
         game.setMousePoint(e.getPoint());
