@@ -17,28 +17,32 @@ public class InputController extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
 
-        // 1. ถ้าคลิกโดน UI → ให้ UI จัดการ
-        if (ui.isOnUI(e.getPoint()) && ui.getIsOpen()) {
+        
+        ui.handleClickToggle(e.getPoint());
 
-            ui.handleClickToggle(e.getPoint());
-            
+        
+        if (ui.isToggleClicked(e.getPoint())) {
+            return;
+        }
+
+       
+        if (ui.isOnUI(e.getPoint())) {
 
             if (game.getTowerCap() > 1) {
                 ui.handleClickSelect(e.getPoint());
-            } else {
-                System.out.println("Max cap");
             }
+
             ui.handleClickDelete(e.getPoint());
             return;
         }
 
-        // 2. ถ้าไม่โดน UI → ส่งให้ Game
+        
         game.handleClick(e.getPoint());
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if(ui.getIsOpen()){
+        if (ui.getIsOpen()) {
             ui.handleHover(e.getPoint());
         }
         game.handleHover(e.getPoint());

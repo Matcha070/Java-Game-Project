@@ -3,15 +3,15 @@ package UI;
 import GameController.GamePanel;
 import Map.MapData;
 import asset.Asset;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
-import javax.swing.*;
 
 public class TowerUI extends JPanel {
 
     GamePanel game;
-
     ArrayList<HitButton> selectTowers = new ArrayList<>();
     ArrayList<DeleteTower> deleteTowers = new ArrayList<>();
 
@@ -23,14 +23,13 @@ public class TowerUI extends JPanel {
     private int slideSpeed = 5;
 
     private Rectangle toggleBtn;
+
     private double currentAngle = 0;
     private double targetAngle = 0;
     private double rotateSpeed = 5;
 
     public TowerUI(GamePanel gamePanel) {
-
         this.game = gamePanel;
-
         setOpaque(false);
         setPreferredSize(game.getPreferredSize());
 
@@ -42,6 +41,7 @@ public class TowerUI extends JPanel {
         int btnH = 3 * MapData.TILE_SIZE - margin * 2;
 
         panelHeight = 3 * MapData.TILE_SIZE;
+
         int startY = game.getPreferredSize().height - panelHeight + margin;
 
         int circleSize = 60;
@@ -59,18 +59,18 @@ public class TowerUI extends JPanel {
 
     public void update() {
 
-        // -------- Toggle rotate ---------
         if (currentAngle < targetAngle) {
             currentAngle += rotateSpeed;
-            if (currentAngle > targetAngle)
+            if (currentAngle > targetAngle) {
                 currentAngle = targetAngle;
+            }
         } else if (currentAngle > targetAngle) {
             currentAngle -= rotateSpeed;
-            if (currentAngle < targetAngle)
+            if (currentAngle < targetAngle) {
                 currentAngle = targetAngle;
+            }
         }
 
-        // -------- Slide Panel ---------
         if (!isOpen) {
             if (panelOffsetY < panelHeight) {
                 panelOffsetY += slideSpeed;
@@ -91,43 +91,57 @@ public class TowerUI extends JPanel {
     public void handleClickToggle(Point p) {
         if (toggleBtn != null && toggleBtn.contains(p)) {
             isOpen = !isOpen;
-            targetAngle = isOpen ? 0 : 180;
+            if (isOpen) {
+                targetAngle = 0;
+            } else {
+                targetAngle = 180;
+            }
         }
     }
 
-    // ✅ แก้ตรงนี้ให้ hitbox เลื่อนตาม panelOffsetY
+    public boolean isToggleClicked(Point p) {
+        return toggleBtn != null && toggleBtn.contains(p);
+    }
+
     public boolean isOnUI(Point p) {
 
         if (toggleBtn != null && toggleBtn.contains(p))
             return true;
 
+        if (!isOpen)
+            return false;
+
         for (HitButton b : selectTowers)
-            if (b.isClick(p, panelOffsetY))
+            if (b.isClick(p))
                 return true;
 
         for (DeleteTower d : deleteTowers)
-            if (d.isClick(p, panelOffsetY))
+            if (d.isClick(p))
                 return true;
 
         return false;
     }
 
+    public boolean getIsOpen() {
+        return isOpen;
+    }
+
     public void handleClickSelect(Point p) {
         for (HitButton b : selectTowers)
-            if (b.isClick(p, panelOffsetY))
+            if (b.isClick(p))
                 game.setId(b.getId());
     }
 
     public void handleClickDelete(Point p) {
         for (DeleteTower d : deleteTowers)
-            if (d.isClick(p, panelOffsetY))
+            if (d.isClick(p))
                 game.setCanDelete(true);
     }
 
     public void handleHover(Point p) {
         hoverId = -1;
         for (HitButton b : selectTowers) {
-            if (b.isClick(p, panelOffsetY)) {
+            if (b.isClick(p)) {
                 hoverId = b.getId();
                 break;
             }
@@ -136,17 +150,16 @@ public class TowerUI extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-
         super.paintComponent(g);
 
         int width = (getWidth() / 2) - 10;
         int drawY = getHeight() - panelHeight + panelOffsetY;
+
         int btnX = 10;
         int btnY = drawY - 35;
         int btnW = 40;
         int btnH = 25;
 
-        // bar panel
         g.setColor(new Color(0, 0, 0, 150));
         g.fillRect(0, drawY, width, panelHeight);
 
@@ -155,11 +168,14 @@ public class TowerUI extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         AffineTransform old = g2.getTransform();
 
-        g2.rotate(Math.toRadians(currentAngle), btnX + btnW / 2, btnY + btnH / 2);
+        g2.rotate(Math.toRadians(currentAngle),
+                btnX + btnW / 2,
+                btnY + btnH / 2);
+
         g2.drawImage(Asset.ARROWTOGGLE, btnX, btnY, btnW, btnH, null);
+
         g2.setTransform(old);
 
-        // เลื่อนปุ่มตาม panel
         g2.translate(0, panelOffsetY);
 
         for (HitButton b : selectTowers)
@@ -172,11 +188,14 @@ public class TowerUI extends JPanel {
 
         if (hoverId != -1) {
             String text = getHoverText(hoverId);
+
             g.setFont(new Font("Tahoma", Font.BOLD, 20));
             g.setColor(Color.WHITE);
+
             FontMetrics fm = g.getFontMetrics();
             int tx = (getWidth() - fm.stringWidth(text)) / 2;
             int ty = getHeight() - 200;
+
             g.drawString(text, tx, ty);
         }
     }
@@ -195,10 +214,6 @@ public class TowerUI extends JPanel {
                 return "";
         }
     }
-
-    public boolean getIsOpen(){
-        return isOpen;
-    }
 }
 
 class DeleteTower {
@@ -211,15 +226,16 @@ class DeleteTower {
         this.size = size;
     }
 
-    public boolean isClick(Point p, int offsetY) {
+    public boolean isClick(Point p) {
         double dx = p.x - (x + size / 2);
-        double dy = p.y - (y + offsetY + size / 2);
+        double dy = p.y - (y + size / 2);
         return dx * dx + dy * dy <= (size / 2) * (size / 2);
     }
 
     public void draw(Graphics g) {
         g.setColor(new Color(0, 200, 255, 120));
         g.fillOval(x, y, size, size);
+
         g.setColor(Color.WHITE);
         g.drawOval(x, y, size, size);
     }
