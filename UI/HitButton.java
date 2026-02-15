@@ -16,8 +16,8 @@ public class HitButton {
         this.box = new Rectangle(x, y, w, h);
     }
 
-    public boolean isClick(Point p) {
-        return box.contains(p);
+    public boolean isClick(Point p, int offsetY) {
+        return new Rectangle(box.x, box.y + offsetY, box.width, box.height).contains(p);
     }
 
     public int getId() {

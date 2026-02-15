@@ -34,6 +34,8 @@ public class GamePanel extends JPanel {
     Money money;
     Cursor deleteCursor;
     TowerUI ui;
+    private String errorMessage = "";
+    private int errorTimer = 0;
 
     public GamePanel() {
 
@@ -115,6 +117,9 @@ public class GamePanel extends JPanel {
                     setCanDelete(false); // ปิดโหมดลบ
                 }
             }
+            if (errorTimer > 0) {
+                errorTimer--;
+            }
 
             repaint();
         });
@@ -170,6 +175,8 @@ public class GamePanel extends JPanel {
                 t.place(money);
                 towers.add(t);
             } else {
+                errorMessage = "Not enough money!";
+                errorTimer = 60;
                 System.out.println("Not enough money");
             }
 
@@ -244,6 +251,14 @@ public class GamePanel extends JPanel {
         for (Tower tower : towers) {
             tower.draw(g);
         }
+        if (errorTimer > 0) {
+            g.setFont(new Font("Tahoma", Font.BOLD, 24));
+            g.setColor(Color.RED);
+            FontMetrics fm = g.getFontMetrics();
+            int tx = (getWidth() - fm.stringWidth(errorMessage)) / 2;
+            int ty = getHeight() - 180;
+            g.drawString(errorMessage, tx, ty);
+        }
     }
 
     private void GhostPreview(Graphics g) {
@@ -303,7 +318,8 @@ public class GamePanel extends JPanel {
     public void setUI(TowerUI ui) {
         this.ui = ui;
     }
-    public Money getMoney(){
+
+    public Money getMoney() {
         return money;
     }
 

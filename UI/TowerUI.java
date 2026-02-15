@@ -60,19 +60,18 @@ public class TowerUI extends JPanel {
 
     public void update() {
 
-        // --------Toggle rotate ---------
+        // -------- Toggle rotate ---------
         if (currentAngle < targetAngle) {
             currentAngle += rotateSpeed;
-            if (currentAngle > targetAngle) {
+            if (currentAngle > targetAngle)
                 currentAngle = targetAngle;
-            }
         } else if (currentAngle > targetAngle) {
             currentAngle -= rotateSpeed;
-            if (currentAngle < targetAngle) {
+            if (currentAngle < targetAngle)
                 currentAngle = targetAngle;
-            }
         }
-        // ------- Slider Panel ---------
+
+        // -------- Slide Panel ---------
         if (!isOpen) {
             if (panelOffsetY < panelHeight) {
                 panelOffsetY += slideSpeed;
@@ -86,49 +85,50 @@ public class TowerUI extends JPanel {
                     panelOffsetY = 0;
             }
         }
+
         repaint();
     }
 
     public void handleClickToggle(Point p) {
         if (toggleBtn != null && toggleBtn.contains(p)) {
             isOpen = !isOpen;
-
-            if (isOpen) {
-                targetAngle = 0;
-            } else {
-                targetAngle = 180;
-            }
+            targetAngle = isOpen ? 0 : 180;
         }
     }
 
+    // ✅ แก้ตรงนี้ให้ hitbox เลื่อนตาม panelOffsetY
     public boolean isOnUI(Point p) {
+
         if (toggleBtn != null && toggleBtn.contains(p))
             return true;
+
         for (HitButton b : selectTowers)
-            if (b.isClick(p))
+            if (b.isClick(p, panelOffsetY))
                 return true;
+
         for (DeleteTower d : deleteTowers)
-            if (d.isClick(p))
+            if (d.isClick(p, panelOffsetY))
                 return true;
+
         return false;
     }
 
     public void handleClickSelect(Point p) {
         for (HitButton b : selectTowers)
-            if (b.isClick(p))
+            if (b.isClick(p, panelOffsetY))
                 game.setId(b.getId());
     }
 
     public void handleClickDelete(Point p) {
         for (DeleteTower d : deleteTowers)
-            if (d.isClick(p))
+            if (d.isClick(p, panelOffsetY))
                 game.setCanDelete(true);
     }
 
     public void handleHover(Point p) {
         hoverId = -1;
         for (HitButton b : selectTowers) {
-            if (b.isClick(p)) {
+            if (b.isClick(p, panelOffsetY)) {
                 hoverId = b.getId();
                 break;
             }
@@ -157,12 +157,10 @@ public class TowerUI extends JPanel {
         AffineTransform old = g2.getTransform();
 
         g2.rotate(Math.toRadians(currentAngle), btnX + btnW / 2, btnY + btnH / 2);
-
-        // Toogle
         g2.drawImage(Asset.ARROWTOGGLE, btnX, btnY, btnW, btnH, null);
-
         g2.setTransform(old);
 
+        // เลื่อนปุ่มตาม panel
         g2.translate(0, panelOffsetY);
 
         for (HitButton b : selectTowers)
@@ -210,9 +208,9 @@ class DeleteTower {
         this.size = size;
     }
 
-    public boolean isClick(Point p) {
+    public boolean isClick(Point p, int offsetY) {
         double dx = p.x - (x + size / 2);
-        double dy = p.y - (y + size / 2);
+        double dy = p.y - (y + offsetY + size / 2);
         return dx * dx + dy * dy <= (size / 2) * (size / 2);
     }
 
