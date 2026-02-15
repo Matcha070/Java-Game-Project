@@ -6,8 +6,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
-import asset.Asset;
-
 public class MagicTower extends Tower {
 
     public MagicTower(int x, int y) {

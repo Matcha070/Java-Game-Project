@@ -3,6 +3,7 @@ package GameController;
 import java.awt.event.*;
 import javax.swing.*;
 
+import UI.StatusUI;
 import UI.TowerUI;
 
 public class GameFrame extends JFrame {
@@ -15,6 +16,7 @@ public class GameFrame extends JFrame {
         // สร้างแค่ชุดเดียว
         GamePanel game = new GamePanel();
         TowerUI ui = new TowerUI(game);
+        StatusUI statusUI = new StatusUI(game);
         game.setUI(ui); 
 
         // Layer
@@ -28,9 +30,11 @@ public class GameFrame extends JFrame {
         ui.setBounds(0, 0,
                 game.getPreferredSize().width,
                 game.getPreferredSize().height);
+        statusUI.setBounds(0,0,game.getPreferredSize().width, game.getPreferredSize().height);
 
         layer.add(game, Integer.valueOf(0));
         layer.add(ui, Integer.valueOf(1));
+        layer.add(statusUI, Integer.valueOf(2));
 
         // Mouse controller ตัวเดียว
         InputController input = new InputController(game, ui);

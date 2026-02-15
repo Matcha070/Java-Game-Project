@@ -3,7 +3,6 @@ package Character.Tower;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import asset.Asset;
 
 public class BaseTower extends Tower {
 

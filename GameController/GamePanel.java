@@ -303,6 +303,9 @@ public class GamePanel extends JPanel {
     public void setUI(TowerUI ui) {
         this.ui = ui;
     }
+    public Money getMoney(){
+        return money;
+    }
 
     public void setCanDelete(boolean candelete) {
 

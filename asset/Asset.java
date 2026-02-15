@@ -1,6 +1,7 @@
 package asset;
 
 import java.io.File;
+import java.awt.font.ImageGraphicAttribute;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
@@ -17,6 +18,7 @@ public class Asset {
     public static BufferedImage FILLHp;
     public static BufferedImage ENEMYHPBAR;
     public static BufferedImage ARROWTOGGLE;
+    public static BufferedImage COIN_ICON;
 
     public static void load() {
         try {
@@ -32,6 +34,7 @@ public class Asset {
             FILLHp = ImageIO.read(Asset.class.getResource("/asset/Ui/fillHp.png"));
             ENEMYHPBAR = ImageIO.read(Asset.class.getResource("/asset/Ui/hpEnemyBar.png"));
             ARROWTOGGLE = ImageIO.read(Asset.class.getResource("/asset/Ui/arrow.png"));
+            COIN_ICON = ImageIO.read(Asset.class.getResource("/asset/Ui/coinIcon.png"));
 
         } catch (Exception e) {
             e.printStackTrace();

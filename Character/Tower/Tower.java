@@ -5,7 +5,7 @@ import GameController.Money;
 import asset.Asset;
 
 import java.awt.*;
-import java.security.AllPermission;
+
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 
