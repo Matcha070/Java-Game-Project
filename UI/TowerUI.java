@@ -3,11 +3,10 @@ package UI;
 import GameController.GamePanel;
 import Map.MapData;
 import asset.Asset;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import javax.swing.*;
 
 public class TowerUI extends JPanel {
 
@@ -197,6 +196,10 @@ public class TowerUI extends JPanel {
             default:
                 return "";
         }
+    }
+
+    public boolean getIsOpen(){
+        return isOpen;
     }
 }
 
