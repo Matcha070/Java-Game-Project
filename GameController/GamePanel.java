@@ -12,6 +12,8 @@ import UI.TowerUI;
 import Wave.WaveManager;
 import asset.Asset;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,6 +29,7 @@ public class GamePanel extends JPanel {
 
     int id = -1;
     boolean delete = false;
+    boolean pause = true;
     int towerCap = 10;
 
     Point mousePoint = null;
@@ -138,6 +141,19 @@ public class GamePanel extends JPanel {
                 image,
                 new Point(16, 16), // จุดกด (hotspot)
                 "DeleteCursor");
+
+        setFocusable(true);
+        requestFocusInWindow();
+
+        // pause game
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    togglePause();
+                }
+            }
+        });
 
     }
 
@@ -297,6 +313,18 @@ public class GamePanel extends JPanel {
                 g2.dispose();
             }
         }
+    }
+
+    public void togglePause() {
+        pause = !pause;
+
+        if (pause) {
+            timer.stop();
+        } else {
+            timer.start();
+        }
+
+        repaint();
     }
 
     public int getId() {
