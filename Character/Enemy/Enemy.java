@@ -41,8 +41,8 @@ public abstract class Enemy {
     }
 
     public void update() {
-        EnemyOutOfRange();
         EnemyWalk();
+        EnemyOutOfRange();
         onUpdate();
     }
 
