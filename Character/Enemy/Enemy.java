@@ -9,6 +9,12 @@ public abstract class Enemy {
     protected int size = MapData.TILE_SIZE;
     protected double speed;
 
+    protected int regenAmount = 5; // ฟื้นต่อครั้ง
+    protected int regenDelay = 15; // ทุกกี่ frame
+    protected int regenTimer = 0;
+    protected int dirX = 0; // -1 ซ้าย, 1 ขวา
+    protected int dirY = 0; // -1 ขึ้น, 1 ลง
+
     protected double x, y;
     protected double vx, vy;
     protected int targetIndex = 0;
@@ -42,6 +48,7 @@ public abstract class Enemy {
 
     private boolean EnemyOutOfRange() {
         if (targetIndex >= MapData.pathPoints.size()) {
+            System.out.println("Take dmg");
             PlayerStat.takeDMG(hp);
             alive = false;
             return true;
@@ -60,9 +67,18 @@ public abstract class Enemy {
             x = target.x;
             y = target.y;
             targetIndex++;
-        } else { // Walk
+        } else { // walk
             vx = (dx / dist) * speed;
             vy = (dy / dist) * speed;
+
+            if (Math.abs(dx) > Math.abs(dy)) {
+                dirX = dx > 0 ? 1 : -1;
+                dirY = 0;
+            } else {
+                dirY = dy > 0 ? 1 : -1;
+                dirX = 0;
+            }
+
             x += vx;
             y += vy;
         }

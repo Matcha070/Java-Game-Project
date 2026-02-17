@@ -1,7 +1,5 @@
 package asset;
 
-import java.io.File;
-
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
@@ -12,6 +10,9 @@ public class Asset {
 
     // ---------Enemy----------
     public static BufferedImage SLIME;
+    public static BufferedImage Tree1;
+    public static BufferedImage Tree2;
+    public static BufferedImage Tree3;
 
     // -----------UI------------
     public static BufferedImage[] TOWER_ICON = new BufferedImage[4];
@@ -27,6 +28,10 @@ public class Asset {
             DIRT = ImageIO.read(Asset.class.getResource("/asset/map/Dirt.png"));
             // ---------Enemy----------
             SLIME = ImageIO.read(Asset.class.getResource("/asset/enemy/Slime.png"));
+            Tree1 = ImageIO.read(Asset.class.getResource("/asset/enemy/Plant1.png"));
+            Tree2 = ImageIO.read(Asset.class.getResource("/asset/enemy/Plant2.png"));
+            Tree3 = ImageIO.read(Asset.class.getResource("/asset/enemy/Plant3.png"));
+
             // -----------UI------------
             TOWER_ICON[0] = ImageIO.read(Asset.class.getResource("/asset/tower/tower1.png"));
             TOWER_ICON[3] = ImageIO.read(Asset.class.getResource("/asset/tower/tower1.png"));
@@ -40,41 +45,4 @@ public class Asset {
             e.printStackTrace();
         }
     }
-}
-
-class SpriteSheet {
-    private BufferedImage[][] sprites;
-    private int rows, cols;
-
-    public SpriteSheet(String path, int spritesW, int spritesH) {
-        try {
-            BufferedImage sheet = ImageIO.read(new File(path));
-
-            cols = sheet.getWidth() / spritesW;
-            rows = sheet.getHeight() / spritesH;
-
-            sprites = new BufferedImage[cols][rows];
-
-            for (int y = 0; y < rows; y++) {
-                for (int x = 0; x < cols; x++) {
-                    sprites[y][x] = sheet.getSubimage(
-                            x * spritesW,
-                            y * spritesH,
-                            spritesW,
-                            spritesH);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public BufferedImage getFrame(int row, int frame) {
-        return sprites[row][frame];
-    }
-
-    public int getFrameCount() {
-        return cols;
-    }
-
 }

@@ -15,7 +15,6 @@ public class Slime extends Enemy {
         super.DrawHpBar(g);
     }
 
-
     private void DrawEnemy(Graphics g) {
         g.drawImage(
                 Asset.SLIME,
