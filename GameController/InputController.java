@@ -1,5 +1,6 @@
 package GameController;
 
+import UI.PauseUI;
 import UI.TowerUI;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -7,32 +8,39 @@ import java.awt.event.MouseEvent;
 public class InputController extends MouseAdapter {
 
     GamePanel game;
-    TowerUI ui;
+    TowerUI towerUi;
+    PauseUI pauseUI;
 
-    public InputController(GamePanel game, TowerUI ui) {
+    public InputController(GamePanel game, TowerUI ui, PauseUI pauseUI) {
         this.game = game;
-        this.ui = ui;
+        this.towerUi = ui;
+        this.pauseUI = pauseUI;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
 
         
-        ui.handleClickToggle(e.getPoint());
+        towerUi.handleClickToggle(e.getPoint());
 
         
-        if (ui.isToggleClicked(e.getPoint())) {
+        if (towerUi.isToggleClicked(e.getPoint())) {
             return;
         }
 
        
-        if (ui.isOnUI(e.getPoint())) {
+        if (towerUi.isOnUI(e.getPoint())) {
 
             if (game.getTowerCap() > 1) {
-                ui.handleClickSelect(e.getPoint());
+                towerUi.handleClickSelect(e.getPoint());
             }
 
-            ui.handleClickDelete(e.getPoint());
+            towerUi.handleClickDelete(e.getPoint());
+            return;
+        }
+
+        if(pauseUI.isOnUI(e.getPoint())){
+            pauseUI.handleClick(e.getPoint());
             return;
         }
 
@@ -42,9 +50,12 @@ public class InputController extends MouseAdapter {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (ui.getIsOpen()) {
-            ui.handleHover(e.getPoint());
+        if (towerUi.getIsOpen()) {
+            towerUi.handleHover(e.getPoint());
         }
+
+        pauseUI.handleHover(e.getPoint());
+
         game.handleHover(e.getPoint());
 
         game.setMousePoint(e.getPoint());

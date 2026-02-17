@@ -28,12 +28,9 @@ public class BaseTower extends Tower {
         g2.setComposite(
                 AlphaComposite.getInstance(
                         AlphaComposite.SRC_OVER, 0.7f));
-        g2.setColor(Color.RED);
-        g2.fillRect(
-                x - size / 2,
-                y - size / 2,
-                size,
-                size);
+
+        super.DrawTower(g2);
+        
         g2.setComposite(
                 AlphaComposite.getInstance(
                         AlphaComposite.SRC_OVER, 1f));

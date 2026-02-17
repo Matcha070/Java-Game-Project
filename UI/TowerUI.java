@@ -3,11 +3,10 @@ package UI;
 import GameController.GamePanel;
 import Map.MapData;
 import asset.Asset;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import javax.swing.*;
 
 public class TowerUI extends JPanel {
 
@@ -45,8 +44,8 @@ public class TowerUI extends JPanel {
         int startY = game.getPreferredSize().height - panelHeight + margin;
 
         int circleSize = 60;
-        int dx = (getPreferredSize().width / 2) + 20;
-        int dy = getPreferredSize().height - 120;
+        int dx = (getPreferredSize().width / 2);
+        int dy = getPreferredSize().height - 100;
 
         for (int i = 0; i < 4; i++) {
             int x = margin + i * (btnW + gap);
@@ -152,7 +151,7 @@ public class TowerUI extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        int width = (getWidth() / 2) - 10;
+        int width = (getWidth() / 2) + 80;
         int drawY = getHeight() - panelHeight + panelOffsetY;
 
         int btnX = 10;

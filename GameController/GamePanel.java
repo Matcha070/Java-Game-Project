@@ -12,8 +12,6 @@ import UI.TowerUI;
 import Wave.WaveManager;
 import asset.Asset;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -29,7 +27,7 @@ public class GamePanel extends JPanel {
 
     int id = -1;
     boolean delete = false;
-    boolean pause = true;
+    boolean pause = false;
     int towerCap = 10;
 
     Point mousePoint = null;
@@ -57,73 +55,74 @@ public class GamePanel extends JPanel {
 
         timer = new Timer(16, e -> {
 
-            waveManager.update(enemies);
-            if (ui != null)
-                ui.update();
-
-            for (Bullet bullet : bullets) {
-                bullet.update();
-            }
-
-            for (int i = enemies.size() - 1; i >= 0; i--) {
-                Enemy enemy = enemies.get(i);
-                enemy.update();
-
-                if (!enemy.isAlive()) {
-                    enemy.moneyDrop(money);
-                    enemies.remove(i);
+            if(!pause){
+                waveManager.update(enemies);
+                if (ui != null)
+                    ui.update();
+    
+                for (Bullet bullet : bullets) {
+                    bullet.update();
                 }
-            }
-
-            for (Tower tower : towers) {
-
-                Enemy target = null;
-                tower.update();
-                // หาเป้าหมาย
-                for (Enemy enemy : enemies) {
-                    if (tower.isEnemyInRange(enemy)) {
-                        target = enemy;
-                        break; // เจอตัวแรกพอ
+    
+                for (int i = enemies.size() - 1; i >= 0; i--) {
+                    Enemy enemy = enemies.get(i);
+                    enemy.update();
+    
+                    if (!enemy.isAlive()) {
+                        enemy.moneyDrop(money);
+                        enemies.remove(i);
                     }
                 }
-
-                if (target != null) {
-                    tower.setAngle(target);
-                    if (tower.canShoot()) {
-                        bullets.add(tower.Shoot(target));
+    
+                for (Tower tower : towers) {
+    
+                    Enemy target = null;
+                    tower.update();
+                    // หาเป้าหมาย
+                    for (Enemy enemy : enemies) {
+                        if (tower.isEnemyInRange(enemy)) {
+                            target = enemy;
+                            break; // เจอตัวแรกพอ
+                        }
+                    }
+    
+                    if (target != null) {
+                        tower.setAngle(target);
+                        if (tower.canShoot()) {
+                            bullets.add(tower.Shoot(target));
+                        }
                     }
                 }
-            }
-
-            for (int i = bullets.size() - 1; i >= 0; i--) {
-                Bullet bullet = bullets.get(i);
-
-                for (int j = enemies.size() - 1; j >= 0; j--) {
-                    Enemy enemy = enemies.get(j);
-
-                    if (bullet.hitEnemy(enemy)) {
-                        enemy.takeDamage(bullet.getDamage());
-                        bullets.remove(i);
-                        break;
+    
+                for (int i = bullets.size() - 1; i >= 0; i--) {
+                    Bullet bullet = bullets.get(i);
+    
+                    for (int j = enemies.size() - 1; j >= 0; j--) {
+                        Enemy enemy = enemies.get(j);
+    
+                        if (bullet.hitEnemy(enemy)) {
+                            enemy.takeDamage(bullet.getDamage());
+                            bullets.remove(i);
+                            break;
+                        }
                     }
                 }
-            }
-
-            // destroy tower
-            for (int i = towers.size() - 1; i >= 0; i--) {
-                Tower t = towers.get(i);
-                if (t.getCurrentHp() <= 1) {
-                    System.out.println("kuy");
-                    towers.remove(i);
-                    towerCap++;
-
-                    setCanDelete(false); // ปิดโหมดลบ
+    
+                // destroy tower
+                for (int i = towers.size() - 1; i >= 0; i--) {
+                    Tower t = towers.get(i);
+                    if (t.getCurrentHp() <= 1) {
+                        towers.remove(i);
+                        towerCap++;
+    
+                        setCanDelete(false); // ปิดโหมดลบ
+                    }
                 }
+                if (errorTimer > 0) {
+                    errorTimer--;
+                }
+    
             }
-            if (errorTimer > 0) {
-                errorTimer--;
-            }
-
             repaint();
         });
 
@@ -143,17 +142,7 @@ public class GamePanel extends JPanel {
                 "DeleteCursor");
 
         setFocusable(true);
-        requestFocusInWindow();
-
-        // pause game
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    togglePause();
-                }
-            }
-        });
+        requestFocusInWindow();    
 
     }
 
@@ -275,6 +264,27 @@ public class GamePanel extends JPanel {
             int ty = getHeight() - 180;
             g.drawString(errorMessage, tx, ty);
         }
+
+        if (pause) {
+
+            Graphics2D g2 = (Graphics2D) g;
+
+            // สีเทาจางทั้งจอ
+            g2.setColor(new Color(0, 0, 0, 120));
+            g2.fillRect(0, 0, getWidth(), getHeight());
+
+            // ข้อความ PAUSED กลางจอ
+            g2.setFont(new Font("Tahoma", Font.BOLD, 60));
+            g2.setColor(Color.WHITE);
+
+            String text = "PAUSED";
+            FontMetrics fm = g2.getFontMetrics();
+
+            int tx = (getWidth() - fm.stringWidth(text)) / 2;
+            int ty = getHeight() / 2;
+
+            g2.drawString(text, tx, ty);
+        }
     }
 
     private void GhostPreview(Graphics g) {
@@ -349,6 +359,18 @@ public class GamePanel extends JPanel {
 
     public Money getMoney() {
         return money;
+    }
+
+    public Timer getTimer(){
+        return this.timer;
+    }
+
+    public boolean isPause(){
+        return pause;
+    }
+
+    public void setPause(boolean pause){
+        this.pause = pause;
     }
 
     public void setCanDelete(boolean candelete) {

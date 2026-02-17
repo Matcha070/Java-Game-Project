@@ -1,10 +1,10 @@
 package GameController;
 
-import java.awt.event.*;
-import javax.swing.*;
-
+import UI.PauseUI;
 import UI.StatusUI;
 import UI.TowerUI;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class GameFrame extends JFrame {
 
@@ -13,41 +13,38 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
-        // สร้างแค่ชุดเดียว
         GamePanel game = new GamePanel();
         TowerUI ui = new TowerUI(game);
         StatusUI statusUI = new StatusUI(game);
-        game.setUI(ui); 
+        PauseUI pauseUI = new PauseUI(game);
 
-        // Layer
+        game.setUI(ui);
+
         JLayeredPane layer = new JLayeredPane();
         layer.setPreferredSize(game.getPreferredSize());
 
-        game.setBounds(0, 0,
-                game.getPreferredSize().width,
-                game.getPreferredSize().height);
+        int width = game.getPreferredSize().width;
+        int height = game.getPreferredSize().height;
 
-        ui.setBounds(0, 0,
-                game.getPreferredSize().width,
-                game.getPreferredSize().height);
-        statusUI.setBounds(0,0,game.getPreferredSize().width, game.getPreferredSize().height);
+        game.setBounds(0, 0, width, height);
+        ui.setBounds(0, 0, width, height);
+        statusUI.setBounds(0, 0, width, height);
+        pauseUI.setBounds(0, 0, width, height);   
 
         layer.add(game, Integer.valueOf(0));
         layer.add(ui, Integer.valueOf(1));
         layer.add(statusUI, Integer.valueOf(2));
+        layer.add(pauseUI, Integer.valueOf(3));   
 
-        // Mouse controller ตัวเดียว
-        InputController input = new InputController(game, ui);
+        InputController input = new InputController(game, ui, pauseUI);
         layer.addMouseListener(input);
         layer.addMouseMotionListener(input);
 
-        // ใส่ layer เข้า frame
         add(layer);
         pack();
 
         setLocationRelativeTo(null);
         setVisible(true);
-
     }
 
     public void paintUI(GamePanel game, JPanel ui) {
@@ -56,10 +53,13 @@ public class GameFrame extends JFrame {
             public void componentResized(ComponentEvent e) {
                 int w = game.getWidth();
 
-                ui.setBounds(w - ui.getPreferredSize().width, 0, ui.getPreferredSize().width,
-                        ui.getPreferredSize().height);
+                ui.setBounds(
+                        w - ui.getPreferredSize().width,
+                        0,
+                        ui.getPreferredSize().width,
+                        ui.getPreferredSize().height
+                );
             }
         });
     }
-
 }
