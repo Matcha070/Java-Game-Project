@@ -40,6 +40,7 @@ public class Asset {
 
     // ------------Wave------------
     public static Clip SFX_STARTING_WAVE;
+    public static BufferedImage DELETE_ICON;
 
     public static void load() {
         try {
@@ -62,6 +63,7 @@ public class Asset {
             ENEMYHPBAR = ImageIO.read(Asset.class.getResource("/asset/Ui/hpEnemyBar.png"));
             ARROWTOGGLE = ImageIO.read(Asset.class.getResource("/asset/Ui/arrow.png"));
             COIN_ICON = ImageIO.read(Asset.class.getResource("/asset/Ui/coinIcon.png"));
+            DELETE_ICON = ImageIO.read(Asset.class.getResource("/asset/Ui/deletebin.png"));
 
 
 
