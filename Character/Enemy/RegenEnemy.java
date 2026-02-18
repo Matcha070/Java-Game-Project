@@ -24,10 +24,10 @@ public class RegenEnemy extends Enemy {
 
         enemySheet = new EnemySheet(Asset.Tree1, 64, 64);
 
-        enemyDown = enemySheet.createAnim(0, 12, true);
-        enemyUp = enemySheet.createAnim(1, 12, true);
-        enemyWalk_left = enemySheet.createAnim(2, 12, true);
-        enemyWalk_right = enemySheet.createAnim(3, 12, true);
+        enemyDown = enemySheet.createAnim(0, 8, true);
+        enemyUp = enemySheet.createAnim(1, 8, true);
+        enemyWalk_left = enemySheet.createAnim(2, 8, true);
+        enemyWalk_right = enemySheet.createAnim(3, 8, true);
 
         currentAnim = enemyWalk_right;
 

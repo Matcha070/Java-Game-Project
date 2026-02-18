@@ -12,7 +12,7 @@ public class Asset {
     public static BufferedImage SLIME;
     public static BufferedImage Tree1;
     public static BufferedImage Tree2;
-    public static BufferedImage Tree3;
+    public static BufferedImage VAMPIRE;
 
     // -----------UI------------
     public static BufferedImage[] TOWER_ICON = new BufferedImage[4];
@@ -27,10 +27,10 @@ public class Asset {
             GRASS = ImageIO.read(Asset.class.getResource("/asset/map/Grass.png"));
             DIRT = ImageIO.read(Asset.class.getResource("/asset/map/Dirt.png"));
             // ---------Enemy----------
-            SLIME = ImageIO.read(Asset.class.getResource("/asset/enemy/Slime.png"));
+            SLIME = ImageIO.read(Asset.class.getResource("/asset/enemy/Slime1.png"));
             Tree1 = ImageIO.read(Asset.class.getResource("/asset/enemy/Plant1.png"));
             Tree2 = ImageIO.read(Asset.class.getResource("/asset/enemy/Plant2.png"));
-            Tree3 = ImageIO.read(Asset.class.getResource("/asset/enemy/Plant3.png"));
+            VAMPIRE = ImageIO.read(Asset.class.getResource("/asset/enemy/Vampires1.png"));
 
             // -----------UI------------
             TOWER_ICON[0] = ImageIO.read(Asset.class.getResource("/asset/tower/tower1.png"));
