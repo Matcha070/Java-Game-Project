@@ -9,7 +9,7 @@ import Character.Tower.SniperTower;
 import Character.Tower.SpeedShootTower;
 import Character.Tower.Tower;
 import Map.MapData;
-import UI.PauseUI;
+import UI.PauseMenu.PauseUI;
 import UI.TowerUI;
 import Wave.WaveManager;
 import asset.Asset;

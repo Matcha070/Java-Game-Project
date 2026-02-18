@@ -1,6 +1,6 @@
 package GameController;
 
-import UI.PauseUI;
+import UI.PauseMenu.PauseUI;
 import UI.TowerUI;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
