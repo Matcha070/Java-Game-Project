@@ -31,35 +31,23 @@ public class Asset {
 //\\\\\\\\\\\\\\\\\\\\\\\\\\\SFX\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//
 
 
-    // // ----------Tower-----------
-    // public static Clip SFX_BROKENTOWER;
-    // public static Clip SFX_FIRE;
+    public static final String SFX_FIRE = "/assetSFX/Tower/Fire/spell.wav";
 
-    // // ------------UI------------
-    // public static Clip SFX_MENU_HOVER;
-    // public static Clip SFX_MENU_CLICK;
-    // public static Clip SFX_CLICK;
+    public static final String SFX_BROKENTOWER = "/assetSFX/Tower/BrokenTower/TowerBreak.wav";
 
-    // // ------------Wave------------
-    // public static Clip SFX_STARTING_WAVE;
+    public static final String SFX_MENU_CLICK = "/assetSFX/UI/MenuClick.wav";
 
-    // ----------SFX-----------
-public static final String SFX_FIRE =
-        "/assetSFX/Tower/Fire/spell.wav";
+    public static final String SFX_STARTING_WAVE = "/assetSFX/Wave/StartingWave.wav";
 
-public static final String SFX_BROKENTOWER =
-        "/assetSFX/Tower/BrokenTower/TowerBreak.wav";
+    public static final String BGM_MAIN = "/assetSFX/BGM/main.wav";
 
-public static final String SFX_MENU_CLICK =
-        "/assetSFX/UI/MenuClick.wav";
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\BGM\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//
 
-public static final String SFX_STARTING_WAVE =
-        "/assetSFX/Wave/StartingWave.wav";
-
-public static final String BGM_MAIN =
-        "/assetSFX/BGM/main.wav";
+    public static final String BGM_WAVE = "/assetSFX/BGM/BGMWave.wav";
 
     public static void load() {
+        AudioManager.setSfxVolume(0.06f);
+        AudioManager.setBgmVolume(0.5f);
         try {
             // ----------PNG-----------
             // ----------Map-----------
@@ -81,21 +69,6 @@ public static final String BGM_MAIN =
             ARROWTOGGLE = ImageIO.read(Asset.class.getResource("/asset/Ui/arrow.png"));
             COIN_ICON = ImageIO.read(Asset.class.getResource("/asset/Ui/coinIcon.png"));
             DELETE_ICON = ImageIO.read(Asset.class.getResource("/asset/Ui/deletebin.png"));
-
-
-
-
-            // // ----------SFX------------
-            // // ----------Tower-----------
-            // SFX_BROKENTOWER = loadClip("/assetSFX/Tower/BrokenTower/TowerBreak.wav");
-            // SFX_FIRE = loadClip("/assetSFX/Tower/Fire/spell.wav");
-
-            // // ------------UI------------
-            // SFX_MENU_HOVER = loadClip("/assetSFX/UI/MenuHover.wav");
-            // SFX_MENU_CLICK = loadClip("/assetSFX/UI/MenuClick.wav");
-            
-            // // ------------Wave------------
-            // SFX_STARTING_WAVE = loadClip("/assetSFX/Wave/StartingWave.wav");
 
             
         } catch (Exception e) {

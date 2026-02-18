@@ -5,26 +5,79 @@ import javax.sound.sampled.*;
 
 public class AudioManager {
 
-    private static float masterVolume = 0.8f; // 0.0 - 1.0
+    private static Clip bgmClip;
+    private static long bgmPausePosition = 0;
+    private static boolean bgmPaused = false;
 
+    private static float bgmVolume = 0.6f;
+    private static float sfxVolume = 0.8f;
 
-    // เล่นเสียง (SFX)
+    // ---------------- BGM ----------------
 
-    public static void play(String path) {
+    public static void playBGM(String path) {
         try {
-            URL url = AudioManager.class.getResource(path);
 
+            if (bgmClip != null) {
+                bgmClip.stop();
+                bgmClip.close();
+            }
+
+            URL url = AudioManager.class.getResource(path);
             if (url == null) {
-                System.out.println("Sound not found: " + path);
+                System.out.println("BGM not found: " + path);
                 return;
             }
+
+            AudioInputStream ais = AudioSystem.getAudioInputStream(url);
+            bgmClip = AudioSystem.getClip();
+            bgmClip.open(ais);
+
+            setVolume(bgmClip, bgmVolume);
+
+            bgmClip.loop(Clip.LOOP_CONTINUOUSLY);
+            bgmPaused = false;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void pauseBGM() {
+        if (bgmClip != null && bgmClip.isRunning()) {
+            bgmPausePosition = bgmClip.getMicrosecondPosition();
+            bgmClip.stop();
+            bgmPaused = true;
+        }
+    }
+
+    public static void resumeBGM() {
+        if (bgmClip != null && bgmPaused) {
+            bgmClip.setMicrosecondPosition(bgmPausePosition);
+            bgmClip.start();
+            bgmPaused = false;
+        }
+    }
+
+    public static void stopBGM() {
+        if (bgmClip != null) {
+            bgmClip.stop();
+            bgmClip.setMicrosecondPosition(0);
+            bgmPaused = false;
+        }
+    }
+
+    // ---------------- SFX ----------------
+
+    public static void playSFX(String path) {
+        try {
+            URL url = AudioManager.class.getResource(path);
+            if (url == null) return;
 
             AudioInputStream ais = AudioSystem.getAudioInputStream(url);
             Clip clip = AudioSystem.getClip();
             clip.open(ais);
 
-            setVolume(clip, masterVolume);
-
+            setVolume(clip, sfxVolume);
             clip.start();
 
         } catch (Exception e) {
@@ -32,44 +85,19 @@ public class AudioManager {
         }
     }
 
+    // ---------------- Volume ----------------
 
-    // เล่น BGM แบบ loop
-
-    private static Clip bgmClip;
-
-    public static void playBGM(String path) {
-        try {
-            stopBGM();
-
-            URL url = AudioManager.class.getResource(path);
-            if (url == null) return;
-
-            AudioInputStream ais = AudioSystem.getAudioInputStream(url);
-            bgmClip = AudioSystem.getClip();
-            bgmClip.open(ais);
-
-            setVolume(bgmClip, masterVolume);
-
-            bgmClip.loop(Clip.LOOP_CONTINUOUSLY);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void setBgmVolume(float v) {
+        bgmVolume = clamp(v);
+        if (bgmClip != null) setVolume(bgmClip, bgmVolume);
     }
 
-    public static void stopBGM() {
-        if (bgmClip != null) {
-            bgmClip.stop();
-            bgmClip.close();
-            bgmClip = null;
-        }
+    public static void setSfxVolume(float v) {
+        sfxVolume = clamp(v);
     }
 
-
-    // Volume Control
-
-    public static void setMasterVolume(float volume) {
-        masterVolume = Math.max(0f, Math.min(1f, volume));
+    private static float clamp(float v) {
+        return Math.max(0f, Math.min(1f, v));
     }
 
     private static void setVolume(Clip clip, float volume) {

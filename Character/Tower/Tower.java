@@ -80,8 +80,7 @@ public abstract class Tower {
 
     public Bullet Shoot(Enemy enemy) {
 
-        AudioManager.setMasterVolume(0.05f);
-        AudioManager.play(Asset.SFX_FIRE);
+        AudioManager.playSFX(Asset.SFX_FIRE);
 
 
         cooldown = fireRate;
