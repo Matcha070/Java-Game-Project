@@ -117,7 +117,7 @@ public class GamePanel extends JPanel {
                     Tower t = towers.get(i);
                     if (t.getCurrentHp() <= 1) {
                         towers.remove(i);
-                        
+                        //Asset.play(Asset.SFX_BROKENTOWER);
                         towerCap++;
     
                         setCanDelete(false); // ปิดโหมดลบ
