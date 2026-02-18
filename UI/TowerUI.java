@@ -126,12 +126,18 @@ public class TowerUI extends JPanel {
     }
 
     public void handleClickSelect(Point p) {
+
+        if(game.isPause()) return;
+
         for (HitButton b : selectTowers)
             if (b.isClick(p))
                 game.setId(b.getId());
     }
 
     public void handleClickDelete(Point p) {
+        
+        if(game.isPause()) return;
+
         for (DeleteTower d : deleteTowers)
             if (d.isClick(p))
                 game.setCanDelete(true);

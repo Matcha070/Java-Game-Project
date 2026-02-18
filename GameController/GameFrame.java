@@ -14,11 +14,12 @@ public class GameFrame extends JFrame {
         setResizable(false);
 
         GamePanel game = new GamePanel();
-        TowerUI ui = new TowerUI(game);
+        TowerUI towerUi = new TowerUI(game);
         StatusUI statusUI = new StatusUI(game);
         PauseUI pauseUI = new PauseUI(game);
 
-        game.setUI(ui);
+        game.setTowerUI(towerUi);
+        game.setPauseUI(pauseUI);
 
         JLayeredPane layer = new JLayeredPane();
         layer.setPreferredSize(game.getPreferredSize());
@@ -27,16 +28,16 @@ public class GameFrame extends JFrame {
         int height = game.getPreferredSize().height;
 
         game.setBounds(0, 0, width, height);
-        ui.setBounds(0, 0, width, height);
+        towerUi.setBounds(0, 0, width, height);
         statusUI.setBounds(0, 0, width, height);
         pauseUI.setBounds(0, 0, width, height);   
 
         layer.add(game, Integer.valueOf(0));
-        layer.add(ui, Integer.valueOf(1));
+        layer.add(towerUi, Integer.valueOf(1));
         layer.add(statusUI, Integer.valueOf(2));
         layer.add(pauseUI, Integer.valueOf(3));   
 
-        InputController input = new InputController(game, ui, pauseUI);
+        InputController input = new InputController(game, towerUi, pauseUI);
         layer.addMouseListener(input);
         layer.addMouseMotionListener(input);
 

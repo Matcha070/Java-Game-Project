@@ -1,7 +1,6 @@
 package Wave;
-import java.util.*;
-
 import Character.Enemy.Enemy;
+import java.util.*;
 
 public class WaveManager {
 
@@ -35,5 +34,13 @@ public class WaveManager {
 
     public boolean isGameClear() {
         return currentWaveIndex >= waves.size();
+    }
+
+    public void Clear() {
+
+        currentWaveIndex = 0;
+
+        waves.clear();      // ลบ wave เก่าทั้งหมด
+        createWaves();      // สร้างใหม่
     }
 }
