@@ -24,6 +24,11 @@ public class StatusUI extends JPanel {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                             RenderingHints.VALUE_ANTIALIAS_ON);
 
+        MoneyUi(g2);
+
+    }
+
+    private void MoneyUi(Graphics2D g2) {
         int currentMoney = game.getMoney().getAmount();
         String text = String.valueOf(currentMoney);
 
@@ -64,6 +69,5 @@ public class StatusUI extends JPanel {
         // วาดข้อความ
         g2.setColor(Color.WHITE);
         g2.drawString(text, textX, textY);
-
     }
 }
