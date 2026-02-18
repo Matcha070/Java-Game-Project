@@ -1,9 +1,11 @@
 package GameController;
 public class Money {
     
-    int amount;
+    private int startAmount = 50;
+    private int amount;
+
     public Money() {
-        this.amount = 50;
+        this.amount = startAmount;
     }
 
     public int getAmount() {
@@ -27,5 +29,9 @@ public class Money {
             return false;
         }
         return true;
+    }
+
+    public void RestartMoney(){
+        this.amount = startAmount;
     }
 }

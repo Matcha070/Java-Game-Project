@@ -1,5 +1,10 @@
 package UI;
 
+import Character.Tower.BaseTower;
+import Character.Tower.MagicTower;
+import Character.Tower.SniperTower;
+import Character.Tower.SpeedShootTower;
+import Character.Tower.Tower;
 import GameController.GamePanel;
 import Map.MapData;
 import asset.Asset;
@@ -11,6 +16,12 @@ import javax.swing.*;
 public class TowerUI extends JPanel {
 
     GamePanel game;
+    ArrayList<Tower> allTowers = new ArrayList<>(java.util.List.of(
+        new BaseTower(0, 0),
+        new SpeedShootTower(0, 0),
+        new SniperTower(0, 0),
+        new MagicTower(0, 0)
+    ));
     ArrayList<HitButton> selectTowers = new ArrayList<>();
     ArrayList<DeleteTower> deleteTowers = new ArrayList<>();
 
@@ -126,12 +137,18 @@ public class TowerUI extends JPanel {
     }
 
     public void handleClickSelect(Point p) {
+
+        if(game.isPause()) return;
+
         for (HitButton b : selectTowers)
             if (b.isClick(p))
                 game.setId(b.getId());
     }
 
     public void handleClickDelete(Point p) {
+        
+        if(game.isPause()) return;
+
         for (DeleteTower d : deleteTowers)
             if (d.isClick(p))
                 game.setCanDelete(true);
@@ -144,6 +161,11 @@ public class TowerUI extends JPanel {
                 hoverId = b.getId();
                 break;
             }
+        }
+
+        for(DeleteTower b : deleteTowers){
+            b.handleHover(p);
+            game.repaint();
         }
     }
 
@@ -186,12 +208,13 @@ public class TowerUI extends JPanel {
         g2.translate(0, -panelOffsetY);
 
         if (hoverId != -1) {
-            String text = getHoverText(hoverId);
+            String text = getHoverText(hoverId); // รอแก้ UI
 
             g.setFont(new Font("Tahoma", Font.BOLD, 20));
             g.setColor(Color.WHITE);
 
             FontMetrics fm = g.getFontMetrics();
+
             int tx = (getWidth() - fm.stringWidth(text)) / 2;
             int ty = getHeight() - 200;
 
@@ -218,6 +241,7 @@ public class TowerUI extends JPanel {
 class DeleteTower {
 
     int x, y, size;
+    boolean hover = false;
 
     public DeleteTower(int x, int y, int size) {
         this.x = x;
@@ -231,11 +255,45 @@ class DeleteTower {
         return dx * dx + dy * dy <= (size / 2) * (size / 2);
     }
 
-    public void draw(Graphics g) {
-        g.setColor(new Color(0, 200, 255, 120));
-        g.fillOval(x, y, size, size);
+    public void handleHover(Point p) {
+        hover = isClick(p);
+    }
 
-        g.setColor(Color.WHITE);
-        g.drawOval(x, y, size, size);
+    public void draw(Graphics g) {
+
+        Graphics2D g2 = (Graphics2D) g;
+
+        // พื้นหลังปุ่ม
+        if (hover) {
+            g2.setColor(new Color(255, 80, 80, 180));
+        } else {
+            g2.setColor(new Color(0, 0, 0, 0));
+        }
+
+        g2.fillOval(x, y, size, size);
+
+        g2.setColor(Color.WHITE);
+        g2.setStroke(new BasicStroke(2));
+        g2.drawOval(x, y, size, size);
+
+        // =========================
+        // วาดไอคอนตรงกลาง
+        // =========================
+
+        if (Asset.DELETE_ICON != null) {
+
+            int iconSize = size / 2;  // ขนาดไอคอนเล็กกว่าวงกลม
+            int iconX = x + (size - iconSize) / 2;
+            int iconY = y + (size - iconSize) / 2;
+
+            g2.drawImage(
+                    Asset.DELETE_ICON,
+                    iconX,
+                    iconY,
+                    iconSize,
+                    iconSize,
+                    null
+            );
+        }
     }
 }

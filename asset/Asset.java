@@ -2,8 +2,12 @@ package asset;
 
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 
 public class Asset {
+
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\PNG\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//
+
     // ----------Map-----------
     public static BufferedImage GRASS;
     public static BufferedImage DIRT;
@@ -20,12 +24,31 @@ public class Asset {
     public static BufferedImage ENEMYHPBAR;
     public static BufferedImage ARROWTOGGLE;
     public static BufferedImage COIN_ICON;
+    
+
+
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\SFX\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//
+
+    // ----------Tower-----------
+    public static Clip SFX_BROKENTOWER;
+    public static Clip SFX_FIRE;
+
+    // ------------UI------------
+    public static Clip SFX_MENU_HOVER;
+    public static Clip SFX_MENU_CLICK;
+    public static Clip SFX_CLICK;
+
+    // ------------Wave------------
+    public static Clip SFX_STARTING_WAVE;
+    public static BufferedImage DELETE_ICON;
 
     public static void load() {
         try {
+            // ----------PNG-----------
             // ----------Map-----------
             GRASS = ImageIO.read(Asset.class.getResource("/asset/map/Grass.png"));
             DIRT = ImageIO.read(Asset.class.getResource("/asset/map/Dirt.png"));
+
             // ---------Enemy----------
             SLIME = ImageIO.read(Asset.class.getResource("/asset/enemy/Slime1.png"));
             Tree1 = ImageIO.read(Asset.class.getResource("/asset/enemy/Plant1.png"));
@@ -40,9 +63,47 @@ public class Asset {
             ENEMYHPBAR = ImageIO.read(Asset.class.getResource("/asset/Ui/hpEnemyBar.png"));
             ARROWTOGGLE = ImageIO.read(Asset.class.getResource("/asset/Ui/arrow.png"));
             COIN_ICON = ImageIO.read(Asset.class.getResource("/asset/Ui/coinIcon.png"));
+            DELETE_ICON = ImageIO.read(Asset.class.getResource("/asset/Ui/deletebin.png"));
 
+
+
+
+            // ----------SFX------------
+            // ----------Tower-----------
+            SFX_BROKENTOWER = loadClip("/assetSFX/Tower/BrokenTower/TowerBreak.wav");
+            SFX_FIRE = loadClip("/assetSFX/Tower/Fire/spell.wav");
+
+            // ------------UI------------
+            SFX_MENU_HOVER = loadClip("/assetSFX/UI/MenuHover.wav");
+            SFX_MENU_CLICK = loadClip("/assetSFX/UI/MenuClick.wav");
+            
+            // ------------Wave------------
+            SFX_STARTING_WAVE = loadClip("/assetSFX/Wave/StartingWave.wav");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private static Clip loadClip(String path) throws Exception {
+        var url = Asset.class.getResource(path);
+
+        if (url == null) {
+            throw new RuntimeException("Sound not found: " + path);
+        }
+
+        AudioInputStream ais = AudioSystem.getAudioInputStream(url);
+        Clip clip = AudioSystem.getClip();
+        clip.open(ais);
+        return clip;
+    }
+
+
+    public static void play(Clip clip) {//เล่นเสียง
+        if (clip == null) return;
+        clip.stop();
+        clip.setFramePosition(0);
+        clip.start();
+    }
+
+
 }

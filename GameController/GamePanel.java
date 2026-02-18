@@ -4,10 +4,12 @@ import Character.Enemy.Enemy;
 import Character.Tower.BaseTower;
 import Character.Tower.Bullet;
 import Character.Tower.MagicTower;
+import Character.Tower.PlayerStat;
 import Character.Tower.SniperTower;
 import Character.Tower.SpeedShootTower;
 import Character.Tower.Tower;
 import Map.MapData;
+import UI.PauseMenu.PauseUI;
 import UI.TowerUI;
 import Wave.WaveManager;
 import asset.Asset;
@@ -34,7 +36,9 @@ public class GamePanel extends JPanel {
     Timer timer;
     Money money;
     Cursor deleteCursor;
-    TowerUI ui;
+    TowerUI towerUi;
+    PauseUI pauseUI;
+    WaveManager waveManager;
     private String errorMessage = "";
     private int errorTimer = 0;
 
@@ -50,15 +54,15 @@ public class GamePanel extends JPanel {
         // enemies.add(new Slime());
         // });
         // timers.start();
-        WaveManager waveManager = new WaveManager();
+        waveManager = new WaveManager();
         money = new Money();
 
         timer = new Timer(16, e -> {
 
             if(!pause){
                 waveManager.update(enemies);
-                if (ui != null)
-                    ui.update();
+                if (towerUi != null)
+                    towerUi.update();
     
                 for (Bullet bullet : bullets) {
                     bullet.update();
@@ -113,6 +117,7 @@ public class GamePanel extends JPanel {
                     Tower t = towers.get(i);
                     if (t.getCurrentHp() <= 1) {
                         towers.remove(i);
+                        
                         towerCap++;
     
                         setCanDelete(false); // ปิดโหมดลบ
@@ -147,6 +152,12 @@ public class GamePanel extends JPanel {
     }
 
     public void handleClick(Point p) {
+
+        // ถ้า pause อยู่ ให้ UI จัดการก่อน
+        if (pause) {
+            pauseUI.handleClick(p);
+            return;
+        }
         int col = p.x / MapData.TILE_SIZE;
         int row = p.y / MapData.TILE_SIZE;
 
@@ -272,18 +283,6 @@ public class GamePanel extends JPanel {
             // สีเทาจางทั้งจอ
             g2.setColor(new Color(0, 0, 0, 120));
             g2.fillRect(0, 0, getWidth(), getHeight());
-
-            // ข้อความ PAUSED กลางจอ
-            g2.setFont(new Font("Tahoma", Font.BOLD, 60));
-            g2.setColor(Color.WHITE);
-
-            String text = "PAUSED";
-            FontMetrics fm = g2.getFontMetrics();
-
-            int tx = (getWidth() - fm.stringWidth(text)) / 2;
-            int ty = getHeight() / 2;
-
-            g2.drawString(text, tx, ty);
         }
     }
 
@@ -325,15 +324,19 @@ public class GamePanel extends JPanel {
         }
     }
 
+    public void RestartGame(){
+
+        enemies.clear();
+        towers.clear();
+        bullets.clear();
+        money = new Money();
+        waveManager.Clear();
+        PlayerStat.HP = PlayerStat.MaxHP;
+        pause = false;
+    }
+
     public void togglePause() {
         pause = !pause;
-
-        if (pause) {
-            timer.stop();
-        } else {
-            timer.start();
-        }
-
         repaint();
     }
 
@@ -353,8 +356,12 @@ public class GamePanel extends JPanel {
         return this.delete;
     }
 
-    public void setUI(TowerUI ui) {
-        this.ui = ui;
+    public void setTowerUI(TowerUI towerUi) {
+        this.towerUi = towerUi;
+    }
+
+    public void setPauseUI(PauseUI pauseUI) {
+        this.pauseUI = pauseUI;
     }
 
     public Money getMoney() {
