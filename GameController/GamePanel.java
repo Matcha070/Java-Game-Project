@@ -223,15 +223,7 @@ public class GamePanel extends JPanel {
 
                 if (t.contains(p)) {
 
-                    // คืนเงิน 50% (ถ้าต้องการ)
-
-                    int refund = t.getPrice() / 2;
-                    money.addAmount(refund);
-
                     towers.remove(i);
-
-                    System.out.println("Tower deleted. Refund: " + refund);
-                    System.out.println("Current money: " + money.getAmount());
                     towerCap++;
 
                     setCanDelete(false); // ปิดโหมดลบ
@@ -341,14 +333,12 @@ public class GamePanel extends JPanel {
 
     public void RestartGame() {
 
-        enemies.clear();
-        towers.clear();
-        bullets.clear();
-        money = new Money();
-        waveManager.Clear();
-        PlayerStat.HP = PlayerStat.MaxHP;
-        PlayerStat.GAMEOVER = false;
-        pause = false;
+        new GameFrame();
+        Window window = SwingUtilities.getWindowAncestor(this);
+
+        if (window instanceof JFrame) {
+            ((JFrame) window).dispose();
+        }
         
     }
 
