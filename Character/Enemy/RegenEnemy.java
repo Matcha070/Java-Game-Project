@@ -1,9 +1,8 @@
 package Character.Enemy;
 
+import GameController.Animation;
 import asset.Asset;
 import asset.EnemySheet;
-import GameController.Animation;
-
 import java.awt.*;
 
 public class RegenEnemy extends Enemy {
@@ -20,7 +19,7 @@ public class RegenEnemy extends Enemy {
     private int drawSize = 96;
 
     public RegenEnemy() {
-        super(100, 1, 10);
+        super(50, 1, 10);
 
         enemySheet = new EnemySheet(Asset.Tree1, 64, 64);
 

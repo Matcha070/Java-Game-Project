@@ -18,7 +18,7 @@ public class SpeedyEnemy extends Enemy {
     private int drawSize = 96;
 
     public SpeedyEnemy() {
-        super(100, 5.0, 10);
+        super(15, 5.0, 10);
 
         enemySheet = new EnemySheet(Asset.Tree2, 64, 64);
 

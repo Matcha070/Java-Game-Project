@@ -277,10 +277,34 @@ public class GamePanel extends JPanel {
         }
         if (errorTimer > 0) {
             g.setFont(new Font("Tahoma", Font.BOLD, 24));
-            g.setColor(Color.RED);
+
             FontMetrics fm = g.getFontMetrics();
-            int tx = (getWidth() - fm.stringWidth(errorMessage)) / 2;
+            int textWidth = fm.stringWidth(errorMessage);
+            int textHeight = fm.getHeight();
+
+            int paddingX = 20;
+            int paddingY = 10;
+
+            int boxWidth = textWidth + paddingX * 2;
+            int boxHeight = textHeight + paddingY * 2;
+
+            int tx = (getWidth() - textWidth) / 2;
             int ty = getHeight() - 180;
+
+            int boxX = (getWidth() - boxWidth) / 2;
+            int boxY = ty - fm.getAscent() - paddingY;
+
+            // ===== วาดพื้นหลัง =====
+            g.setColor(new Color(0, 0, 0, 180)); // ดำโปร่ง
+            g.fillRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
+
+            // ===== วาดกรอบ =====
+            g.setColor(Color.RED);
+            ((Graphics2D) g).setStroke(new BasicStroke(3));
+            g.drawRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
+
+            // ===== วาดข้อความ =====
+            g.setColor(Color.RED);
             g.drawString(errorMessage, tx, ty);
         }
 

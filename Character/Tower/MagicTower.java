@@ -9,7 +9,7 @@ import java.awt.geom.AffineTransform;
 public class MagicTower extends Tower {
 
     public MagicTower(int x, int y) {
-        super("Magic Tower",x, y, 100, 150, 30, 20, 10);
+        super("Magic Tower",x, y, 100, 200, 20, 60, 10);
     }
 
     @Override
