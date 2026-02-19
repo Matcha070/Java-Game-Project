@@ -9,6 +9,8 @@ import Character.Tower.PlayerStat;
 
 public class StatusUI extends JPanel {
     GamePanel game;
+    private final Color BOX_COLOR = new Color(0, 0, 0, 150);
+    private final Font FONT_22 = new Font("Tahoma", Font.BOLD, 22);
 
     public StatusUI(GamePanel gamePanel) {
         this.game = gamePanel;
@@ -38,8 +40,8 @@ public class StatusUI extends JPanel {
         int currentMoney = game.getMoney().getAmount();
         String text = String.valueOf(currentMoney);
 
-        Font font = new Font("Tahoma", Font.BOLD, 22);
-        g2.setFont(font);
+        
+        g2.setFont(FONT_22);
 
         FontMetrics fm = g2.getFontMetrics();
 
@@ -64,7 +66,7 @@ public class StatusUI extends JPanel {
         int textY = iconY + iconSize - 15;
 
         // ===== วาดพื้นหลัง =====
-        g2.setColor(new Color(0, 0, 0, 150));
+        g2.setColor(BOX_COLOR);
         g2.fillRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
 
         // ===== วาดขอบ =====
@@ -81,54 +83,49 @@ public class StatusUI extends JPanel {
     }
 
     private void HeartUi(Graphics2D g2) {
+
         String text = String.valueOf(PlayerStat.HP);
 
-        Font font = new Font("Tahoma", Font.BOLD, 22);
-        g2.setFont(font);
-
+        
+        g2.setFont(FONT_22);
         FontMetrics fm = g2.getFontMetrics();
 
-        int padding = 15;
+        int padding = 20;
         int iconSize = 48;
 
-        // ตำแหน่ง icon
-        int iconX = getWidth() - 170;
-        int iconY = getHeight() / 5;
+        // ===== คำนวณขนาดกล่อง =====
+        int contentWidth = iconSize + 10 + fm.stringWidth(text);
+        int boxWidth = contentWidth + padding * 2;
+        int boxHeight = iconSize + padding * 2;
 
-        // ตำแหน่ง text
+        // ===== ตำแหน่งกล่อง (ขวาบน ต่ำลงมาหน่อย) =====
+        int boxX = getWidth() - boxWidth - padding;
+        int boxY = padding + boxHeight + 20; // ต่ำกว่า money
+
+        int iconX = boxX + padding;
+        int iconY = boxY + padding;
+
         int textX = iconX + iconSize + 10;
         int textY = iconY + iconSize - 15;
 
-        // คำนวณขนาดกรอบ
-        int boxX = iconX - padding;
-        int boxY = iconY - padding;
-        int boxWidth = iconSize + 10 + fm.stringWidth(text) + padding * 2;
-        int boxHeight = iconSize + padding * 2;
-
-        // วาดพื้นหลัง
-        g2.setColor(new Color(0, 0, 0, 150)); // ดำโปร่ง
+        g2.setColor(BOX_COLOR);
         g2.fillRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
 
-        // วาดขอบ
         g2.setColor(Color.WHITE);
         g2.setStroke(new BasicStroke(2f));
         g2.drawRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
 
-        // วาดไอคอน
         g2.drawImage(Asset.PLAYERHp, iconX, iconY, iconSize, iconSize, null);
 
-        // วาดข้อความ
         g2.setColor(Color.WHITE);
         g2.drawString(text, textX, textY);
     }
 
     private void drawGameOver(Graphics2D g2) {
 
-        // 🔥 มืดทับทั้งจอ
         g2.setColor(new Color(0, 0, 0, 180));
         g2.fillRect(0, 0, getWidth(), getHeight());
 
-        // 🔥 ข้อความ Game Over
         String text = "GAME OVER!";
 
         g2.setFont(new Font("Tahoma", Font.BOLD, 80));

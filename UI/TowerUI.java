@@ -15,6 +15,9 @@ import javax.swing.*;
 
 public class TowerUI extends JPanel {
 
+    private final Color BOX_COLOR = new Color(0, 0, 0, 150);
+    private final Font FONT = new Font("Tahoma", Font.BOLD, 18);
+
     GamePanel game;
     ArrayList<Tower> allTowers = new ArrayList<>(java.util.List.of(
             new BaseTower(0, 0),
@@ -185,7 +188,7 @@ public class TowerUI extends JPanel {
         int btnW = 40;
         int btnH = 25;
 
-        g.setColor(new Color(0, 0, 0, 150));
+        g.setColor(BOX_COLOR);
         g.fillRect(0, drawY, width, panelHeight);
 
         toggleBtn = new Rectangle(btnX, btnY, btnW, btnH);
@@ -218,54 +221,49 @@ public class TowerUI extends JPanel {
 
             Tower tower = allTowers.get(hoverId);
 
+            String name = getHoverText(hoverId);
+
             int dmg = tower.getDamage();
             int range = tower.getRange();
             int firerate = tower.getFirerate();
 
-            g2.setFont(new Font("Tahoma", Font.BOLD, 18));
-            g2.setColor(Color.WHITE);
-
+            g2.setFont(FONT);
             FontMetrics fm = g2.getFontMetrics();
 
-            // ===== ข้อความ =====
             String dmgText = "Damage: " + dmg;
             String rangeText = "Range: " + range;
             String fireText = "Fire Rate: " + firerate;
 
-            // ===== หา width ที่ยาวที่สุด =====
             int maxTextWidth = Math.max(
-                    fm.stringWidth(dmgText),
+                    fm.stringWidth(name),
                     Math.max(
-                            fm.stringWidth(rangeText),
-                            fm.stringWidth(fireText)
-                    )
-            );
+                            fm.stringWidth(dmgText),
+                            Math.max(fm.stringWidth(rangeText), fm.stringWidth(fireText))));
 
-            // ===== คำนวณขนาดกล่อง =====
             int boxWidth = maxTextWidth + padding * 2;
-            int boxHeight = lineHeight * 3 + padding * 2;
+            int boxHeight = lineHeight * 4 + padding * 2;
 
-            // ===== ตำแหน่งกล่อง =====
             int boxX = getWidth() - boxWidth - padding;
-            int boxY = padding + 110;
+            int boxY = padding + 240;
 
-            // ===== วาดกล่อง =====
-            g2.setColor(new Color(0, 0, 0, 150));
+            g2.setColor(BOX_COLOR);
             g2.fillRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
 
             g2.setColor(Color.WHITE);
             g2.setStroke(new BasicStroke(2f));
             g2.drawRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
 
-            // ===== ตำแหน่งข้อความ (อิงจากกล่อง) =====
             int textX = boxX + padding;
             int textY = boxY + padding + fm.getAscent();
 
-            // ===== วาดข้อความ =====
-            g2.drawString(dmgText, textX, textY);
-            g2.drawString(rangeText, textX, textY + lineHeight);
-            g2.drawString(fireText, textX, textY + lineHeight * 2);
+            g2.setColor(new Color(255, 215, 0));
+            g2.drawString(name, textX, textY);
 
+            // ===== Stat =====
+            g2.setColor(Color.WHITE);
+            g2.drawString(dmgText, textX, textY + lineHeight);
+            g2.drawString(rangeText, textX, textY + lineHeight * 2);
+            g2.drawString(fireText, textX, textY + lineHeight * 3);
         }
     }
 
