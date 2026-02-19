@@ -1,7 +1,7 @@
-import GameController.GameFrame;
+import UI.MainMenu.MainMenu;
 
 public class Main {
     public static void main(String[] args) {
-        new GameFrame();
+        new MainMenu();
     }
 }

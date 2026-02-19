@@ -48,13 +48,9 @@ public class GamePanel extends JPanel {
 
         Asset.load();
         MapData.buildPath();
+
         AudioManager.playBGM(Asset.BGM_WAVE);
 
-        if (pause) {
-            AudioManager.pauseBGM();
-        } else {
-            AudioManager.resumeBGM();
-        }
         PlayerStat.HP = PlayerStat.MaxHP;
         isOver = false;
 
@@ -351,11 +347,20 @@ public class GamePanel extends JPanel {
         money = new Money();
         waveManager.Clear();
         PlayerStat.HP = PlayerStat.MaxHP;
+        PlayerStat.GAMEOVER = false;
         pause = false;
+        
     }
 
     public void togglePause() {
         pause = !pause;
+
+        if (pause) {
+            AudioManager.pauseBGM();
+        } else {
+            AudioManager.resumeBGM();
+        }
+
         repaint();
     }
 
