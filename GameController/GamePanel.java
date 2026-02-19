@@ -231,6 +231,7 @@ public class GamePanel extends JPanel {
                     return;
                 }
             }
+            setCanDelete(false);
             return;
         }
     }
@@ -392,6 +393,7 @@ public class GamePanel extends JPanel {
 
     public void setPause(boolean pause) {
         this.pause = pause;
+        setCanDelete(!pause);
     }
 
     public void setCanDelete(boolean candelete) {
@@ -422,6 +424,7 @@ public class GamePanel extends JPanel {
 
     public void setGameOver(boolean state) {
         isOver = state;
+        setCanDelete(!state);
     }
 
     public boolean isOver() {

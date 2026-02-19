@@ -31,6 +31,7 @@ public class StatusUI extends JPanel {
 
         if (PlayerStat.HP <= 0) {
             drawGameOver(g2);
+            game.setGameOver(true);
         }
 
     }

@@ -4,7 +4,6 @@ import GameController.GamePanel;
 import UI.QuitButton;
 import UI.ResumeButton;
 import asset.AudioManager;
-
 import java.awt.*;
 import javax.swing.*;
 
@@ -58,6 +57,7 @@ public class PauseUI extends JPanel {
             }
 
             game.togglePause();
+            game.setPause(true);
             repaint();
             return;
         }
