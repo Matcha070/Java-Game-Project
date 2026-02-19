@@ -140,7 +140,7 @@ public class TowerUI extends JPanel {
 
     public void handleClickSelect(Point p) {
 
-        if (game.isPause() || game.isOver())
+        if (game.isPause() || game.isOver() || game.getCanDelete())
             return;
 
         for (HitButton b : selectTowers)

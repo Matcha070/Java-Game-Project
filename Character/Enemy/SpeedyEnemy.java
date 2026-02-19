@@ -1,9 +1,8 @@
 package Character.Enemy;
 
+import GameController.Animation;
 import asset.Asset;
 import asset.EnemySheet;
-import GameController.Animation;
-
 import java.awt.*;
 
 public class SpeedyEnemy extends Enemy {
@@ -19,7 +18,7 @@ public class SpeedyEnemy extends Enemy {
     private int drawSize = 96;
 
     public SpeedyEnemy() {
-        super(15, 5.0, 10);
+        super(100, 5.0, 10);
 
         enemySheet = new EnemySheet(Asset.Tree2, 64, 64);
 
