@@ -173,6 +173,18 @@ public abstract class Tower {
         return this.hp;
     }
 
+    public int getDamage(){
+        return damage;
+    }
+
+    public int getRange(){
+        return range;
+    }
+
+    public int getFirerate(){
+        return fireRate;
+    }
+
     public float getCurrentHp() {
         return this.currentHp;
     }

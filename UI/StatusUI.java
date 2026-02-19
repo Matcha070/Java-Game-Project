@@ -37,36 +37,39 @@ public class StatusUI extends JPanel {
 
         FontMetrics fm = g2.getFontMetrics();
 
-        int padding = 15;
+        int padding = 20;
         int iconSize = 48;
 
-        // ตำแหน่ง icon
-        int iconX = getWidth() - 170;
-        int iconY = getHeight() / 10 - 20;
+        // ===== คำนวณขนาดกล่องก่อน =====
+        int contentWidth = iconSize + 10 + fm.stringWidth(text);
+        int boxWidth = contentWidth + padding * 2;
+        int boxHeight = iconSize + padding * 2;
 
-        // ตำแหน่ง text
+        // ===== ตำแหน่งกล่อง (ขวาบน) =====
+        int boxX = getWidth() - boxWidth - padding;
+        int boxY = padding;
+
+        // ===== ตำแหน่ง icon =====
+        int iconX = boxX + padding;
+        int iconY = boxY + padding;
+
+        // ===== ตำแหน่ง text =====
         int textX = iconX + iconSize + 10;
         int textY = iconY + iconSize - 15;
 
-        // คำนวณขนาดกรอบ
-        int boxX = iconX - padding;
-        int boxY = iconY - padding;
-        int boxWidth = iconSize + 10 + fm.stringWidth(text) + padding * 2;
-        int boxHeight = iconSize + padding * 2;
-
-        // วาดพื้นหลัง
-        g2.setColor(new Color(0, 0, 0, 150)); // ดำโปร่ง
+        // ===== วาดพื้นหลัง =====
+        g2.setColor(new Color(0, 0, 0, 150));
         g2.fillRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
 
-        // วาดขอบ
+        // ===== วาดขอบ =====
         g2.setColor(Color.WHITE);
         g2.setStroke(new BasicStroke(2f));
         g2.drawRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
 
-        // วาดไอคอน
+        // ===== วาดไอคอน =====
         g2.drawImage(Asset.COIN_ICON, iconX, iconY, iconSize, iconSize, null);
 
-        // วาดข้อความ
+        // ===== วาดข้อความ =====
         g2.setColor(Color.WHITE);
         g2.drawString(text, textX, textY);
     }

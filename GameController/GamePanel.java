@@ -84,6 +84,9 @@ public class GamePanel extends JPanel {
                         enemy.moneyDrop(money);
                         enemies.remove(i);
                     }
+                    else if(enemy.isOutOfRange()){
+                        enemies.remove(i);
+                    }
                 }
     
                 for (Tower tower : towers) {

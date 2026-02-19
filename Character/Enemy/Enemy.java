@@ -22,6 +22,7 @@ public abstract class Enemy {
     protected int hp;
     protected int maxHp;
     protected boolean alive = true;
+    protected boolean outOfRange = false;
 
     protected boolean showHpBar = false;
 
@@ -50,7 +51,7 @@ public abstract class Enemy {
         if (targetIndex >= MapData.pathPoints.size()) {
             System.out.println("Take dmg");
             PlayerStat.takeDMG(hp);
-            alive = false;
+            outOfRange = true;
             return true;
         }
         return false;
@@ -138,6 +139,10 @@ public abstract class Enemy {
 
     protected void onUpdate() {
         //
+    }
+
+    public boolean isOutOfRange(){
+        return outOfRange;
     }
 
     public void moneyDrop(Money money) {
