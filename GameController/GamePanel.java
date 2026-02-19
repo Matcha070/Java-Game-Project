@@ -31,6 +31,7 @@ public class GamePanel extends JPanel {
     int id = -1;
     boolean delete = false;
     boolean pause = false;
+    boolean isOver = false;
     int towerCap = 10;
 
     Point mousePoint = null;
@@ -48,12 +49,14 @@ public class GamePanel extends JPanel {
         Asset.load();
         MapData.buildPath();
         AudioManager.playBGM(Asset.BGM_WAVE);
-        
+
         if (pause) {
             AudioManager.pauseBGM();
         } else {
             AudioManager.resumeBGM();
         }
+        PlayerStat.HP = PlayerStat.MaxHP;
+        isOver = false;
 
         // Test Enemy
         // enemy = new Enemy();
@@ -67,19 +70,19 @@ public class GamePanel extends JPanel {
 
         timer = new Timer(16, e -> {
 
-            if(!pause){
+            if (!pause && !isOver) {
                 waveManager.update(enemies);
                 if (towerUi != null)
                     towerUi.update();
-    
+
                 for (Bullet bullet : bullets) {
                     bullet.update();
                 }
-    
+
                 for (int i = enemies.size() - 1; i >= 0; i--) {
                     Enemy enemy = enemies.get(i);
                     enemy.update();
-    
+
                     if (!enemy.isAlive()) {
                         enemy.moneyDrop(money);
                         enemies.remove(i);
@@ -88,9 +91,9 @@ public class GamePanel extends JPanel {
                         enemies.remove(i);
                     }
                 }
-    
+
                 for (Tower tower : towers) {
-    
+
                     Enemy target = null;
                     tower.update();
                     // หาเป้าหมาย
@@ -100,7 +103,7 @@ public class GamePanel extends JPanel {
                             break; // เจอตัวแรกพอ
                         }
                     }
-    
+
                     if (target != null) {
                         tower.setAngle(target);
                         if (tower.canShoot()) {
@@ -108,13 +111,13 @@ public class GamePanel extends JPanel {
                         }
                     }
                 }
-    
+
                 for (int i = bullets.size() - 1; i >= 0; i--) {
                     Bullet bullet = bullets.get(i);
-    
+
                     for (int j = enemies.size() - 1; j >= 0; j--) {
                         Enemy enemy = enemies.get(j);
-    
+
                         if (bullet.hitEnemy(enemy)) {
                             enemy.takeDamage(bullet.getDamage());
                             bullets.remove(i);
@@ -122,23 +125,27 @@ public class GamePanel extends JPanel {
                         }
                     }
                 }
-    
+
                 // destroy tower
                 for (int i = towers.size() - 1; i >= 0; i--) {
                     Tower t = towers.get(i);
                     if (t.getCurrentHp() <= 1) {
                         AudioManager.playSFX(Asset.SFX_BROKENTOWER);
                         towers.remove(i);
-                        //Asset.play(Asset.SFX_BROKENTOWER);
+                        // Asset.play(Asset.SFX_BROKENTOWER);
                         towerCap++;
-    
+
                         setCanDelete(false); // ปิดโหมดลบ
                     }
                 }
                 if (errorTimer > 0) {
                     errorTimer--;
                 }
-    
+
+            }
+
+            if (PlayerStat.HP <= 0) {
+                isOver = true;
             }
             repaint();
         });
@@ -159,7 +166,7 @@ public class GamePanel extends JPanel {
                 "DeleteCursor");
 
         setFocusable(true);
-        requestFocusInWindow();    
+        requestFocusInWindow();
 
     }
 
@@ -296,6 +303,24 @@ public class GamePanel extends JPanel {
             g2.setColor(new Color(0, 0, 0, 120));
             g2.fillRect(0, 0, getWidth(), getHeight());
         }
+
+        if (isOver) {
+
+            Graphics2D g2 = (Graphics2D) g;
+
+            g2.setColor(new Color(0, 0, 0, 180));
+            g2.fillRect(0, 0, getWidth(), getHeight());
+
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("Arial", Font.BOLD, 60));
+
+            String text = "Game Over!";
+            FontMetrics fm = g2.getFontMetrics();
+            int x = (getWidth() - fm.stringWidth(text)) / 2;
+            int y = getHeight() / 2;
+            g2.drawString(text, x, y);
+
+        }
     }
 
     private void GhostPreview(Graphics g) {
@@ -336,7 +361,7 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void RestartGame(){
+    public void RestartGame() {
 
         enemies.clear();
         towers.clear();
@@ -380,15 +405,15 @@ public class GamePanel extends JPanel {
         return money;
     }
 
-    public Timer getTimer(){
+    public Timer getTimer() {
         return this.timer;
     }
 
-    public boolean isPause(){
+    public boolean isPause() {
         return pause;
     }
 
-    public void setPause(boolean pause){
+    public void setPause(boolean pause) {
         this.pause = pause;
     }
 
@@ -412,5 +437,13 @@ public class GamePanel extends JPanel {
 
     public void setMousePoint(Point mPoint) {
         this.mousePoint = mPoint;
+    }
+
+    public boolean getGameOver() {
+        return this.isOver;
+    }
+
+    public void setGameOver(boolean state) {
+        isOver = state;
     }
 }
