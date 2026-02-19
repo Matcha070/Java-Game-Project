@@ -43,6 +43,8 @@ public abstract class Tower {
 
     public abstract void drawGuide(Graphics g);
 
+    public abstract void ShowRange(Graphics2D g2);
+
     public boolean contains(Point p) {
         Rectangle rect = new Rectangle(
                 x - size / 2,

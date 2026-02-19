@@ -21,7 +21,9 @@ public class MagicTower extends Tower {
 
         g2.setTransform(old);
 
-        ShowRange(g2);
+        if(hovered){
+            ShowRange(g2);
+        }
     }
 
     @Override
@@ -38,8 +40,7 @@ public class MagicTower extends Tower {
                         AlphaComposite.SRC_OVER, 1f));
     }
 
-    private void ShowRange(Graphics2D g2) {
-        if (hovered) {
+    public void ShowRange(Graphics2D g2) {
             g2.setComposite(
                     AlphaComposite.getInstance(
                             AlphaComposite.SRC_OVER, 0.3f));
@@ -52,7 +53,6 @@ public class MagicTower extends Tower {
             g2.setComposite(
                     AlphaComposite.getInstance(
                             AlphaComposite.SRC_OVER, 1f));
-        }
     }
 
 }

@@ -333,7 +333,7 @@ public class GamePanel extends JPanel {
 
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setComposite(AlphaComposite.getInstance(
-                        AlphaComposite.SRC_OVER, 1f)); // โปร่งใส
+                        AlphaComposite.SRC_OVER, 0.5f)); // โปร่งใส
 
                 Tower preview = null;
 
@@ -348,7 +348,8 @@ public class GamePanel extends JPanel {
 
                 if (preview != null) {
                     // preview.draw(g);
-                    preview.drawGuide(g); // ถ้าอยากให้เห็น range ด้วย
+                    preview.ShowRange(g2);
+                    preview.drawGuide(g);
                 }
 
                 g2.dispose();
