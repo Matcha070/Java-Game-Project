@@ -17,12 +17,10 @@ public class PlayerStat {
     public static void takeDMG(int DMGtaken) {
         HP -= DMGtaken;
         if (HP <= 0) {
+            PlayerStat.HP = 0;
             GAMEOVER = true;
             System.out.println("Game Over");
         }
     }
 
-    public int getHp() {
-        return this.HP;
-    }
 }

@@ -303,24 +303,6 @@ public class GamePanel extends JPanel {
             g2.setColor(new Color(0, 0, 0, 120));
             g2.fillRect(0, 0, getWidth(), getHeight());
         }
-
-        if (isOver) {
-
-            Graphics2D g2 = (Graphics2D) g;
-
-            g2.setColor(new Color(0, 0, 0, 180));
-            g2.fillRect(0, 0, getWidth(), getHeight());
-
-            g2.setColor(Color.WHITE);
-            g2.setFont(new Font("Arial", Font.BOLD, 60));
-
-            String text = "Game Over!";
-            FontMetrics fm = g2.getFontMetrics();
-            int x = (getWidth() - fm.stringWidth(text)) / 2;
-            int y = getHeight() / 2;
-            g2.drawString(text, x, y);
-
-        }
     }
 
     private void GhostPreview(Graphics g) {
@@ -445,5 +427,9 @@ public class GamePanel extends JPanel {
 
     public void setGameOver(boolean state) {
         isOver = state;
+    }
+
+    public boolean isOver() {
+        return isOver;
     }
 }

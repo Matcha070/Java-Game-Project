@@ -26,6 +26,7 @@ public class Asset {
     // -----------UI------------
     public static BufferedImage[] TOWER_ICON = new BufferedImage[4];
     public static BufferedImage FILLHp;
+    public static BufferedImage PLAYERHp;
     public static BufferedImage ENEMYHPBAR;
     public static BufferedImage ARROWTOGGLE;
     public static BufferedImage COIN_ICON;
@@ -74,6 +75,7 @@ public class Asset {
             ARROWTOGGLE = ImageIO.read(Asset.class.getResource("/asset/Ui/arrow.png"));
             COIN_ICON = ImageIO.read(Asset.class.getResource("/asset/Ui/coinIcon.png"));
             DELETE_ICON = ImageIO.read(Asset.class.getResource("/asset/Ui/deletebin.png"));
+            PLAYERHp = ImageIO.read(Asset.class.getResource("/asset/Ui/heart.png"));
 
             
         } catch (Exception e) {

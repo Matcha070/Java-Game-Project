@@ -17,11 +17,10 @@ public class TowerUI extends JPanel {
 
     GamePanel game;
     ArrayList<Tower> allTowers = new ArrayList<>(java.util.List.of(
-        new BaseTower(0, 0),
-        new SpeedShootTower(0, 0),
-        new SniperTower(0, 0),
-        new MagicTower(0, 0)
-    ));
+            new BaseTower(0, 0),
+            new SpeedShootTower(0, 0),
+            new SniperTower(0, 0),
+            new MagicTower(0, 0)));
     ArrayList<HitButton> selectTowers = new ArrayList<>();
     ArrayList<DeleteTower> deleteTowers = new ArrayList<>();
 
@@ -138,7 +137,8 @@ public class TowerUI extends JPanel {
 
     public void handleClickSelect(Point p) {
 
-        if(game.isPause()) return;
+        if (game.isPause() || game.isOver())
+            return;
 
         for (HitButton b : selectTowers)
             if (b.isClick(p))
@@ -146,8 +146,9 @@ public class TowerUI extends JPanel {
     }
 
     public void handleClickDelete(Point p) {
-        
-        if(game.isPause()) return;
+
+        if (game.isPause() || game.isOver())
+            return;
 
         for (DeleteTower d : deleteTowers)
             if (d.isClick(p))
@@ -155,6 +156,9 @@ public class TowerUI extends JPanel {
     }
 
     public void handleHover(Point p) {
+
+        if (game.isPause() || game.isOver())
+            return;
         hoverId = -1;
         for (HitButton b : selectTowers) {
             if (b.isClick(p)) {
@@ -163,7 +167,7 @@ public class TowerUI extends JPanel {
             }
         }
 
-        for(DeleteTower b : deleteTowers){
+        for (DeleteTower b : deleteTowers) {
             b.handleHover(p);
             game.repaint();
         }
@@ -325,7 +329,7 @@ class DeleteTower {
 
         if (Asset.DELETE_ICON != null) {
 
-            int iconSize = size / 2;  // ขนาดไอคอนเล็กกว่าวงกลม
+            int iconSize = size / 2; // ขนาดไอคอนเล็กกว่าวงกลม
             int iconX = x + (size - iconSize) / 2;
             int iconY = y + (size - iconSize) / 2;
 
@@ -335,8 +339,7 @@ class DeleteTower {
                     iconY,
                     iconSize,
                     iconSize,
-                    null
-            );
+                    null);
         }
     }
 }

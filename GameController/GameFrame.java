@@ -31,12 +31,12 @@ public class GameFrame extends JFrame {
         game.setBounds(0, 0, width, height);
         towerUi.setBounds(0, 0, width, height);
         statusUI.setBounds(0, 0, width, height);
-        pauseUI.setBounds(0, 0, width, height);   
+        pauseUI.setBounds(0, 0, width, height);
 
         layer.add(game, Integer.valueOf(0));
         layer.add(towerUi, Integer.valueOf(1));
         layer.add(statusUI, Integer.valueOf(2));
-        layer.add(pauseUI, Integer.valueOf(3));   
+        layer.add(pauseUI, Integer.valueOf(3));
 
         InputController input = new InputController(game, towerUi, pauseUI);
         layer.addMouseListener(input);
@@ -59,9 +59,10 @@ public class GameFrame extends JFrame {
                         w - ui.getPreferredSize().width,
                         0,
                         ui.getPreferredSize().width,
-                        ui.getPreferredSize().height
-                );
+                        ui.getPreferredSize().height);
             }
         });
     }
+
+    
 }
