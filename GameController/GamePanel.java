@@ -414,6 +414,7 @@ public class GamePanel extends JPanel {
         return this.timer;
     }
 
+
     public boolean isPause() {
         return pause;
     }
@@ -466,3 +467,4 @@ public class GamePanel extends JPanel {
         isSelectTower = B;
     }
 }
+
