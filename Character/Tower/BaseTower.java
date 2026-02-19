@@ -7,7 +7,7 @@ import java.awt.geom.AffineTransform;
 public class BaseTower extends Tower {
 
     public BaseTower(int x, int y) {
-        super(x, y, 20, 150, 30, 20, 10);
+        super("Base Tower",x, y, 20, 150, 30, 20, 10);
     }
 
     @Override

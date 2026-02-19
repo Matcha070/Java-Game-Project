@@ -10,7 +10,7 @@ import java.awt.geom.AffineTransform;
 public class SniperTower extends Tower {
 
     public SniperTower(int x, int y) {
-        super(x, y, 50, 250, 60, 20, 10);
+        super("Sniper Tower",x, y, 50, 250, 60, 20, 10);
     }
 
     @Override

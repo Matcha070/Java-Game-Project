@@ -216,6 +216,7 @@ public class TowerUI extends JPanel {
 
         if (hoverId != -1) {
 
+            // show stat
             int padding = 20;
             int lineHeight = 25;
 
@@ -223,6 +224,7 @@ public class TowerUI extends JPanel {
 
             String name = getHoverText(hoverId);
 
+            int price = tower.getPrice();
             int dmg = tower.getDamage();
             int range = tower.getRange();
             int firerate = tower.getFirerate();
@@ -230,6 +232,7 @@ public class TowerUI extends JPanel {
             g2.setFont(FONT);
             FontMetrics fm = g2.getFontMetrics();
 
+            String priceText = "Price: " + price;
             String dmgText = "Damage: " + dmg;
             String rangeText = "Range: " + range;
             String fireText = "Fire Rate: " + firerate;
@@ -241,11 +244,14 @@ public class TowerUI extends JPanel {
                             Math.max(fm.stringWidth(rangeText), fm.stringWidth(fireText))));
 
             int boxWidth = maxTextWidth + padding * 2;
-            int boxHeight = lineHeight * 4 + padding * 2;
+            int boxHeight = lineHeight * 5 + padding * 2;
 
             int boxX = getWidth() - boxWidth - padding;
             int boxY = padding + 240;
 
+            int textX = boxX + padding;
+            int textY = boxY + padding + fm.getAscent();
+            
             g2.setColor(BOX_COLOR);
             g2.fillRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
 
@@ -253,30 +259,28 @@ public class TowerUI extends JPanel {
             g2.setStroke(new BasicStroke(2f));
             g2.drawRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
 
-            int textX = boxX + padding;
-            int textY = boxY + padding + fm.getAscent();
-
             g2.setColor(new Color(255, 215, 0));
             g2.drawString(name, textX, textY);
 
             // ===== Stat =====
             g2.setColor(Color.WHITE);
-            g2.drawString(dmgText, textX, textY + lineHeight);
-            g2.drawString(rangeText, textX, textY + lineHeight * 2);
-            g2.drawString(fireText, textX, textY + lineHeight * 3);
+            g2.drawString(priceText, textX, textY + lineHeight);
+            g2.drawString(dmgText, textX, textY + lineHeight * 2);
+            g2.drawString(rangeText, textX, textY + lineHeight * 3);
+            g2.drawString(fireText, textX, textY + lineHeight * 4);
         }
     }
 
     private String getHoverText(int id) {
         switch (id) {
             case 0:
-                return "base tower";
+                return "Base Tower";
             case 1:
-                return "speed shoot tower";
+                return "Speed Shoot Tower";
             case 2:
-                return "sniper tower";
+                return "Sniper Tower";
             case 3:
-                return "magic tower";
+                return "Magic Tower";
             default:
                 return "";
         }
