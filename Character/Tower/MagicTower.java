@@ -9,7 +9,7 @@ import java.awt.geom.AffineTransform;
 public class MagicTower extends Tower {
 
     public MagicTower(int x, int y) {
-        super("Magic Tower",x, y, 100, 150, 30, 20, 10);
+        super("Magic Tower",x, y, 100, 200, 20, 60, 10);
     }
 
     @Override
@@ -21,7 +21,9 @@ public class MagicTower extends Tower {
 
         g2.setTransform(old);
 
-        ShowRange(g2);
+        if(hovered){
+            ShowRange(g2);
+        }
     }
 
     @Override
@@ -38,8 +40,7 @@ public class MagicTower extends Tower {
                         AlphaComposite.SRC_OVER, 1f));
     }
 
-    private void ShowRange(Graphics2D g2) {
-        if (hovered) {
+    public void ShowRange(Graphics2D g2) {
             g2.setComposite(
                     AlphaComposite.getInstance(
                             AlphaComposite.SRC_OVER, 0.3f));
@@ -52,7 +53,6 @@ public class MagicTower extends Tower {
             g2.setComposite(
                     AlphaComposite.getInstance(
                             AlphaComposite.SRC_OVER, 1f));
-        }
     }
 
 }

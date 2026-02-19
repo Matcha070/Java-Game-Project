@@ -1,7 +1,7 @@
 package GameController;
 public class Money {
     
-    private int startAmount = 50;
+    private int startAmount = 30;
     private int amount;
 
     public Money() {
