@@ -16,7 +16,12 @@ public class Asset {
     public static BufferedImage SLIME;
     public static BufferedImage Tree1;
     public static BufferedImage Tree2;
+
     public static BufferedImage VAMPIRE;
+
+
+    public static BufferedImage Tree3;
+    
 
     // -----------UI------------
     public static BufferedImage[] TOWER_ICON = new BufferedImage[4];
@@ -24,25 +29,30 @@ public class Asset {
     public static BufferedImage ENEMYHPBAR;
     public static BufferedImage ARROWTOGGLE;
     public static BufferedImage COIN_ICON;
+    public static BufferedImage DELETE_ICON;
     
 
 
 //\\\\\\\\\\\\\\\\\\\\\\\\\\\SFX\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//
 
-    // ----------Tower-----------
-    public static Clip SFX_BROKENTOWER;
-    public static Clip SFX_FIRE;
 
-    // ------------UI------------
-    public static Clip SFX_MENU_HOVER;
-    public static Clip SFX_MENU_CLICK;
-    public static Clip SFX_CLICK;
+    public static final String SFX_FIRE = "/assetSFX/Tower/Fire/spell.wav";
 
-    // ------------Wave------------
-    public static Clip SFX_STARTING_WAVE;
-    public static BufferedImage DELETE_ICON;
+    public static final String SFX_BROKENTOWER = "/assetSFX/Tower/BrokenTower/TowerBreak.wav";
+
+    public static final String SFX_MENU_CLICK = "/assetSFX/UI/MenuClick.wav";
+
+    public static final String SFX_STARTING_WAVE = "/assetSFX/Wave/StartingWave.wav";
+
+    public static final String BGM_MAIN = "/assetSFX/BGM/main.wav";
+
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\BGM\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//
+
+    public static final String BGM_WAVE = "/assetSFX/BGM/BGMWave.wav";
 
     public static void load() {
+        AudioManager.setSfxVolume(0.06f);
+        AudioManager.setBgmVolume(0.5f);
         try {
             // ----------PNG-----------
             // ----------Map-----------
@@ -65,20 +75,7 @@ public class Asset {
             COIN_ICON = ImageIO.read(Asset.class.getResource("/asset/Ui/coinIcon.png"));
             DELETE_ICON = ImageIO.read(Asset.class.getResource("/asset/Ui/deletebin.png"));
 
-
-
-
-            // ----------SFX------------
-            // ----------Tower-----------
-            SFX_BROKENTOWER = loadClip("/assetSFX/Tower/BrokenTower/TowerBreak.wav");
-            SFX_FIRE = loadClip("/assetSFX/Tower/Fire/spell.wav");
-
-            // ------------UI------------
-            SFX_MENU_HOVER = loadClip("/assetSFX/UI/MenuHover.wav");
-            SFX_MENU_CLICK = loadClip("/assetSFX/UI/MenuClick.wav");
             
-            // ------------Wave------------
-            SFX_STARTING_WAVE = loadClip("/assetSFX/Wave/StartingWave.wav");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,12 +95,29 @@ public class Asset {
     }
 
 
-    public static void play(Clip clip) {//เล่นเสียง
-        if (clip == null) return;
-        clip.stop();
-        clip.setFramePosition(0);
-        clip.start();
+    public static void play(String path) {
+        try {
+            var url = Asset.class.getResource(path);
+
+            if (url == null) {
+                System.out.println("Sound not found: " + path);
+                return;
+            }
+
+            AudioInputStream ais =
+                AudioSystem.getAudioInputStream(url);
+
+            Clip clip = AudioSystem.getClip();
+            clip.open(ais);
+            clip.start();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
+
+
 }
+

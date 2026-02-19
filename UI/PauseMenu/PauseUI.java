@@ -1,6 +1,7 @@
 package UI.PauseMenu;
 
 import GameController.GamePanel;
+import asset.AudioManager;
 import java.awt.*;
 import javax.swing.*;
 
@@ -44,6 +45,8 @@ public class PauseUI extends JPanel {
 
         // กดปุ่ม pause มุมซ้าย
         if (pauseButton.isClick(p)) {
+            if (game.isPause()) AudioManager.resumeBGM();
+            else AudioManager.pauseBGM();//เสียงหยุด//เสียงต่อ
             game.togglePause();
             repaint();
             return;
@@ -53,6 +56,7 @@ public class PauseUI extends JPanel {
             resumeButton.handleClick(p);
             restartButton.handleClick(p);
             quitButton.handleClick(p);
+            AudioManager.resumeBGM();//เสียงต่อ
         }
 
         repaint();

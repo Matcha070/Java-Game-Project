@@ -13,6 +13,7 @@ import UI.PauseMenu.PauseUI;
 import UI.TowerUI;
 import Wave.WaveManager;
 import asset.Asset;
+import asset.AudioManager;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -46,6 +47,13 @@ public class GamePanel extends JPanel {
 
         Asset.load();
         MapData.buildPath();
+        AudioManager.playBGM(Asset.BGM_WAVE);
+        
+        if (pause) {
+            AudioManager.pauseBGM();
+        } else {
+            AudioManager.resumeBGM();
+        }
 
         // Test Enemy
         // enemy = new Enemy();
@@ -116,8 +124,9 @@ public class GamePanel extends JPanel {
                 for (int i = towers.size() - 1; i >= 0; i--) {
                     Tower t = towers.get(i);
                     if (t.getCurrentHp() <= 1) {
+                        AudioManager.playSFX(Asset.SFX_BROKENTOWER);
                         towers.remove(i);
-                        
+                        //Asset.play(Asset.SFX_BROKENTOWER);
                         towerCap++;
     
                         setCanDelete(false); // ปิดโหมดลบ

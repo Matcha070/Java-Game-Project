@@ -3,6 +3,7 @@ package Character.Tower;
 import Character.Enemy.Enemy;
 import GameController.Money;
 import asset.Asset;
+import asset.AudioManager;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
@@ -79,8 +80,7 @@ public abstract class Tower {
 
     public Bullet Shoot(Enemy enemy) {
 
-        takeDamage();
-        Asset.play(Asset.SFX_FIRE);
+        AudioManager.playSFX(Asset.SFX_FIRE);
 
 
         cooldown = fireRate;
@@ -112,6 +112,8 @@ public abstract class Tower {
         Bullet bullet = new Bullet(x, y, (int) bulletSpeed, damage);
         bullet.vx = dirX * bullet.speed;
         bullet.vy = dirY * bullet.speed;
+
+        takeDamage();
 
         return bullet;
     }

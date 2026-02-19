@@ -2,7 +2,6 @@ package UI.PauseMenu;
 
 import GameController.GamePanel;
 import java.awt.*;
-import javax.swing.*;
 
 public class ResumeButton {
 
@@ -55,6 +54,6 @@ public class ResumeButton {
 
     private boolean contains(Point p) {
         return p.x >= x && p.x <= x + width &&
-               p.y >= y && p.y <= y + height;
+                p.y >= y && p.y <= y + height;
     }
 }
