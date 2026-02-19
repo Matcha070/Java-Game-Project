@@ -29,7 +29,8 @@ public class GamePanel extends JPanel {
     ArrayList<Bullet> bullets = new ArrayList<>();
 
     int id = -1;
-    boolean delete = false;
+    public static boolean isSelectTower = false;
+    public static boolean delete = false;
     boolean pause = false;
     boolean isOver = false;
     int towerCap = 10;
@@ -217,6 +218,7 @@ public class GamePanel extends JPanel {
     }
 
     private void DeleteTower(Point p) {
+
         if (delete) {
             for (int i = towers.size() - 1; i >= 0; i--) {
                 Tower t = towers.get(i);
@@ -429,5 +431,13 @@ public class GamePanel extends JPanel {
 
     public boolean isOver() {
         return isOver;
+    }
+
+    public boolean getIsSelectTower(){
+        return isSelectTower;
+    }
+
+    public void setIsSelectTower(boolean B){
+        isSelectTower = B;
     }
 }
