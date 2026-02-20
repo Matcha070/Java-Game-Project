@@ -44,6 +44,9 @@ public class GamePanel extends JPanel {
     private String errorMessage = "";
     private int errorTimer = 0;
 
+    private final Font FONT_24 = new Font("Tahoma", Font.BOLD, 24);
+    private final Color BACK_COLOR = new Color(0, 0, 0, 120);
+
     public GamePanel() {
 
         Asset.load();
@@ -86,8 +89,7 @@ public class GamePanel extends JPanel {
                     if (!enemy.isAlive()) {
                         enemy.moneyDrop(money);
                         enemies.remove(i);
-                    }
-                    else if(enemy.isOutOfRange()){
+                    } else if (enemy.isOutOfRange()) {
                         enemies.remove(i);
                     }
                 }
@@ -263,12 +265,7 @@ public class GamePanel extends JPanel {
                 BufferedImage img = (MapData.MAP[row][col] == 1 || MapData.MAP[row][col] == 2
                         || MapData.MAP[row][col] == 3) ? Asset.DIRT : Asset.GRASS;
 
-                g.drawImage(
-                        img,
-                        col * MapData.TILE_SIZE,
-                        row * MapData.TILE_SIZE,
-                        MapData.TILE_SIZE,
-                        MapData.TILE_SIZE,
+                g.drawImage(img, col * MapData.TILE_SIZE, row * MapData.TILE_SIZE, MapData.TILE_SIZE, MapData.TILE_SIZE,
                         null);
             }
         }
@@ -287,7 +284,7 @@ public class GamePanel extends JPanel {
             tower.draw(g);
         }
         if (errorTimer > 0) {
-            g.setFont(new Font("Tahoma", Font.BOLD, 24));
+            g.setFont(FONT_24);
             g.setColor(Color.RED);
             FontMetrics fm = g.getFontMetrics();
             int tx = (getWidth() - fm.stringWidth(errorMessage)) / 2;
@@ -300,7 +297,7 @@ public class GamePanel extends JPanel {
             Graphics2D g2 = (Graphics2D) g;
 
             // สีเทาจางทั้งจอ
-            g2.setColor(new Color(0, 0, 0, 120));
+            g2.setColor(BACK_COLOR);
             g2.fillRect(0, 0, getWidth(), getHeight());
         }
     }

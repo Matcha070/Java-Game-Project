@@ -16,7 +16,9 @@ import javax.swing.*;
 public class TowerUI extends JPanel {
 
     private final Color BOX_COLOR = new Color(0, 0, 0, 150);
+    private final Color TEXT_GOLD = new Color(255, 215, 0);
     private final Font FONT = new Font("Tahoma", Font.BOLD, 18);
+    private final Stroke STROKE = new BasicStroke(2f);
 
     GamePanel game;
     ArrayList<Tower> allTowers = new ArrayList<>(java.util.List.of(
@@ -250,13 +252,13 @@ public class TowerUI extends JPanel {
             g2.fillRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
 
             g2.setColor(Color.WHITE);
-            g2.setStroke(new BasicStroke(2f));
+            g2.setStroke(STROKE);
             g2.drawRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
 
             int textX = boxX + padding;
             int textY = boxY + padding + fm.getAscent();
 
-            g2.setColor(new Color(255, 215, 0));
+            g2.setColor(TEXT_GOLD);
             g2.drawString(name, textX, textY);
 
             // ===== Stat =====
