@@ -1,4 +1,4 @@
-package UI.PauseMenu;
+package UI;
 
 import GameController.GamePanel;
 import java.awt.*;

@@ -1,9 +1,8 @@
 package GameController;
 
+import UI.PauseMenu.PauseUI;
 import UI.StatusUI;
 import UI.TowerUI;
-import UI.PauseMenu.PauseUI;
-
 import java.awt.event.*;
 import javax.swing.*;
 

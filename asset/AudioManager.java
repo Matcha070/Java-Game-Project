@@ -35,6 +35,7 @@ public class AudioManager {
             setVolume(bgmClip, bgmVolume);
 
             bgmClip.loop(Clip.LOOP_CONTINUOUSLY);
+            bgmClip.start();
             bgmPaused = false;
 
         } catch (Exception e) {
@@ -92,8 +93,16 @@ public class AudioManager {
         if (bgmClip != null) setVolume(bgmClip, bgmVolume);
     }
 
+    public static float getBgmVolume() {
+        return bgmVolume;
+    }
+
     public static void setSfxVolume(float v) {
         sfxVolume = clamp(v);
+    }
+
+    public static float getSfxVolume() {
+        return sfxVolume;
     }
 
     private static float clamp(float v) {
@@ -102,11 +111,19 @@ public class AudioManager {
 
     private static void setVolume(Clip clip, float volume) {
         try {
-            FloatControl gain =
-                (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 
-            float dB = (float) (Math.log(volume) / Math.log(10) * 20);
-            gain.setValue(dB);
-        } catch (Exception ignored) {}
+            FloatControl gain =
+                    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+
+            if (volume == 0f) {
+                gain.setValue(gain.getMinimum()); // mute จริง 100%
+            } else {
+                float dB = (float) (20.0 * Math.log10(volume));
+                gain.setValue(dB);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace(); // อย่า ignore
+        }
     }
 }

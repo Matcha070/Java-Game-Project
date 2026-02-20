@@ -10,7 +10,7 @@ import java.awt.geom.AffineTransform;
 public class SpeedShootTower extends Tower {
 
     public SpeedShootTower(int x, int y) {
-        super(x, y, 10, 150, 15, 20, 10);
+        super("Speed Shoot Tower", x, y, 20, 130, 15, 30, 25);
     }
 
     @Override
@@ -22,7 +22,9 @@ public class SpeedShootTower extends Tower {
 
         g2.setTransform(old);
 
-        ShowRange(g2);
+        if(hovered){
+            ShowRange(g2);
+        }
     }
 
     @Override
@@ -39,21 +41,19 @@ public class SpeedShootTower extends Tower {
                         AlphaComposite.SRC_OVER, 1f));
     }
 
-    private void ShowRange(Graphics2D g2) {
-        if (hovered) {
-            g2.setComposite(
-                    AlphaComposite.getInstance(
-                            AlphaComposite.SRC_OVER, 0.3f));
-            g2.setColor(Color.YELLOW);
-            g2.fillOval(
-                    x - range,
-                    y - range,
-                    range * 2,
-                    range * 2);
-            g2.setComposite(
-                    AlphaComposite.getInstance(
-                            AlphaComposite.SRC_OVER, 1f));
-        }
+    public void ShowRange(Graphics2D g2) {
+        g2.setComposite(
+                AlphaComposite.getInstance(
+                        AlphaComposite.SRC_OVER, 0.3f));
+        g2.setColor(Color.YELLOW);
+        g2.fillOval(
+                x - range,
+                y - range,
+                range * 2,
+                range * 2);
+        g2.setComposite(
+                AlphaComposite.getInstance(
+                        AlphaComposite.SRC_OVER, 1f));
     }
 
 }

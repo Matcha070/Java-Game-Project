@@ -17,6 +17,7 @@ public abstract class Tower {
     protected boolean hovered = false;
     protected int price;
 
+    protected String name;
     protected double bulletSpeed = 30.0;
     protected int range;
     protected int fireRate;
@@ -25,7 +26,8 @@ public abstract class Tower {
     protected int maxHp;
     protected int currentHp;
 
-    public Tower(int x, int y, int damage, int range, int fireRate, int price, int hp) {
+    public Tower(String name, int x, int y, int damage, int range, int fireRate, int price, int hp) {
+        this.name = name;
         this.x = x;
         this.y = y;
         this.damage = damage;
@@ -40,6 +42,8 @@ public abstract class Tower {
     public abstract void draw(Graphics g);
 
     public abstract void drawGuide(Graphics g);
+
+    public abstract void ShowRange(Graphics2D g2);
 
     public boolean contains(Point p) {
         Rectangle rect = new Rectangle(
@@ -169,8 +173,12 @@ public abstract class Tower {
         return this.price;
     }
 
+    public String getName(){
+        return name;
+    }
+
     public int getHp() {
-        return this.hp;
+        return hp;
     }
 
     public int getDamage(){

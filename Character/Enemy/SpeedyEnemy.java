@@ -1,9 +1,8 @@
 package Character.Enemy;
 
+import GameController.Animation;
 import asset.Asset;
 import asset.EnemySheet;
-import GameController.Animation;
-
 import java.awt.*;
 
 public class SpeedyEnemy extends Enemy {

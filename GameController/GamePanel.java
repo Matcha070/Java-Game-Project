@@ -29,7 +29,8 @@ public class GamePanel extends JPanel {
     ArrayList<Bullet> bullets = new ArrayList<>();
 
     int id = -1;
-    boolean delete = false;
+    public static boolean isSelectTower = false;
+    public static boolean delete = false;
     boolean pause = false;
     boolean isOver = false;
     int towerCap = 10;
@@ -51,13 +52,9 @@ public class GamePanel extends JPanel {
 
         Asset.load();
         MapData.buildPath();
+
         AudioManager.playBGM(Asset.BGM_WAVE);
 
-        if (pause) {
-            AudioManager.pauseBGM();
-        } else {
-            AudioManager.resumeBGM();
-        }
         PlayerStat.HP = PlayerStat.MaxHP;
         isOver = false;
 
@@ -223,21 +220,14 @@ public class GamePanel extends JPanel {
     }
 
     private void DeleteTower(Point p) {
+
         if (delete) {
             for (int i = towers.size() - 1; i >= 0; i--) {
                 Tower t = towers.get(i);
 
                 if (t.contains(p)) {
 
-                    // คืนเงิน 50% (ถ้าต้องการ)
-
-                    int refund = t.getPrice() / 2;
-                    money.addAmount(refund);
-
                     towers.remove(i);
-
-                    System.out.println("Tower deleted. Refund: " + refund);
-                    System.out.println("Current money: " + money.getAmount());
                     towerCap++;
 
                     setCanDelete(false); // ปิดโหมดลบ
@@ -245,6 +235,7 @@ public class GamePanel extends JPanel {
                     return;
                 }
             }
+            setCanDelete(false);
             return;
         }
     }
@@ -284,11 +275,40 @@ public class GamePanel extends JPanel {
             tower.draw(g);
         }
         if (errorTimer > 0) {
+<<<<<<< HEAD
             g.setFont(FONT_24);
             g.setColor(Color.RED);
+=======
+            g.setFont(new Font("Tahoma", Font.BOLD, 24));
+
+>>>>>>> 83ebb55b17b56e50554d8876d80ebc64bf7fb192
             FontMetrics fm = g.getFontMetrics();
-            int tx = (getWidth() - fm.stringWidth(errorMessage)) / 2;
+            int textWidth = fm.stringWidth(errorMessage);
+            int textHeight = fm.getHeight();
+
+            int paddingX = 20;
+            int paddingY = 10;
+
+            int boxWidth = textWidth + paddingX * 2;
+            int boxHeight = textHeight + paddingY * 2;
+
+            int tx = (getWidth() - textWidth) / 2;
             int ty = getHeight() - 180;
+
+            int boxX = (getWidth() - boxWidth) / 2;
+            int boxY = ty - fm.getAscent() - paddingY;
+
+            // ===== วาดพื้นหลัง =====
+            g.setColor(new Color(0, 0, 0, 180)); // ดำโปร่ง
+            g.fillRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
+
+            // ===== วาดกรอบ =====
+            g.setColor(Color.RED);
+            ((Graphics2D) g).setStroke(new BasicStroke(3));
+            g.drawRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
+
+            // ===== วาดข้อความ =====
+            g.setColor(Color.RED);
             g.drawString(errorMessage, tx, ty);
         }
 
@@ -317,7 +337,7 @@ public class GamePanel extends JPanel {
 
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setComposite(AlphaComposite.getInstance(
-                        AlphaComposite.SRC_OVER, 1f)); // โปร่งใส
+                        AlphaComposite.SRC_OVER, 0.5f)); // โปร่งใส
 
                 Tower preview = null;
 
@@ -332,7 +352,8 @@ public class GamePanel extends JPanel {
 
                 if (preview != null) {
                     // preview.draw(g);
-                    preview.drawGuide(g); // ถ้าอยากให้เห็น range ด้วย
+                    preview.ShowRange(g2);
+                    preview.drawGuide(g);
                 }
 
                 g2.dispose();
@@ -342,17 +363,24 @@ public class GamePanel extends JPanel {
 
     public void RestartGame() {
 
-        enemies.clear();
-        towers.clear();
-        bullets.clear();
-        money = new Money();
-        waveManager.Clear();
-        PlayerStat.HP = PlayerStat.MaxHP;
-        pause = false;
+        new GameFrame();
+        Window window = SwingUtilities.getWindowAncestor(this);
+
+        if (window instanceof JFrame) {
+            ((JFrame) window).dispose();
+        }
+        
     }
 
     public void togglePause() {
         pause = !pause;
+
+        if (pause) {
+            AudioManager.pauseBGM();
+        } else {
+            AudioManager.resumeBGM();
+        }
+
         repaint();
     }
 
@@ -388,12 +416,14 @@ public class GamePanel extends JPanel {
         return this.timer;
     }
 
+
     public boolean isPause() {
         return pause;
     }
 
     public void setPause(boolean pause) {
         this.pause = pause;
+        setCanDelete(!pause);
     }
 
     public void setCanDelete(boolean candelete) {
@@ -424,9 +454,19 @@ public class GamePanel extends JPanel {
 
     public void setGameOver(boolean state) {
         isOver = state;
+        setCanDelete(!state);
     }
 
     public boolean isOver() {
         return isOver;
     }
+
+    public boolean getIsSelectTower(){
+        return isSelectTower;
+    }
+
+    public void setIsSelectTower(boolean B){
+        isSelectTower = B;
+    }
 }
+

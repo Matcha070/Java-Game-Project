@@ -20,31 +20,30 @@ public class InputController extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
 
-        
         towerUi.handleClickToggle(e.getPoint());
 
-        
         if (towerUi.isToggleClicked(e.getPoint())) {
             return;
         }
 
-       
         if (towerUi.isOnUI(e.getPoint())) {
 
+            // แยก delete ออกมาเช็คก่อน ไม่ง้อ towerCap
+            towerUi.handleClickDelete(e.getPoint());
+
+            // select tower เช็ค cap แยกต่างหาก
             if (game.getTowerCap() > 1) {
                 towerUi.handleClickSelect(e.getPoint());
             }
 
-            towerUi.handleClickDelete(e.getPoint());
             return;
         }
 
-        if(pauseUI.isOnUI(e.getPoint())){
+        if (pauseUI.isOnUI(e.getPoint())) {
             pauseUI.handleClick(e.getPoint());
             return;
         }
 
-        
         game.handleClick(e.getPoint());
     }
 

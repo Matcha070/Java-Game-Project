@@ -1,11 +1,10 @@
 package UI;
 
+import Character.Tower.PlayerStat;
 import GameController.GamePanel;
 import asset.Asset;
 import java.awt.*;
 import javax.swing.*;
-
-import Character.Tower.PlayerStat;
 
 public class StatusUI extends JPanel {
     GamePanel game;
@@ -35,6 +34,7 @@ public class StatusUI extends JPanel {
 
         if (PlayerStat.HP <= 0) {
             drawGameOver(g2);
+            game.setGameOver(true);
         }
 
     }

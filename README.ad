@@ -1,0 +1,4 @@
+ปุ่มปิด Cursor deleate ไม่มี
+if Cursor deleate on must not select tower
+when select tower must not Cursor deleate on
+CLose deleate Cursor when pause game
