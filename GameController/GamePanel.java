@@ -34,7 +34,7 @@ public class GamePanel extends JPanel {
     public static boolean delete = false;
     boolean pause = false;
     boolean isOver = false;
-    int towerCap = 10;
+
 
     Point mousePoint = null;
     Timer timer;
@@ -137,7 +137,7 @@ public class GamePanel extends JPanel {
                         AudioManager.playSFX(Asset.SFX_BROKENTOWER);
                         towers.remove(i);
                         // Asset.play(Asset.SFX_BROKENTOWER);
-                        towerCap++;
+                        PlayerStat.towers++;
 
                         setCanDelete(false); // ปิดโหมดลบ
                     }
@@ -230,14 +230,14 @@ public class GamePanel extends JPanel {
             ArrayList<Tower> allTowers = new ArrayList<>(java.util.List.of(
                     new BaseTower(cx, cy), new SpeedShootTower(cx, cy),
                     new SniperTower(cx, cy), new MagicTower(cx, cy)));
-            if (id == -1) {
+            if (id == -1 || PlayerStat.towers++ > PlayerStat.towerCap) {
                 System.out.println("no tower selected");
-                System.out.println(towerCap);
+                System.out.println(PlayerStat.towers + " / " + PlayerStat.towerCap);
                 return;
             }
             Tower t = allTowers.get(id);
             if (money.getAmount() >= t.getPrice()) {
-                towerCap--;
+                PlayerStat.towers--;
                 t.place(money);
                 towers.add(t);
             } else {
@@ -260,7 +260,7 @@ public class GamePanel extends JPanel {
                 if (t.contains(p)) {
 
                     towers.remove(i);
-                    towerCap++;
+                    PlayerStat.towers++;
 
                     setCanDelete(false); // ปิดโหมดลบ
 
@@ -430,7 +430,7 @@ public class GamePanel extends JPanel {
     }
 
     public int getTowerCap() {
-        return this.towerCap;
+        return PlayerStat.towerCap;
     }
 
     public boolean getCanDelete() {

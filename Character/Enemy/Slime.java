@@ -74,8 +74,11 @@ public class Slime extends Enemy {
         Slime child1 = new Slime(true);
         Slime child2 = new Slime(true);
 
-        child1.laneOffset = -12 - Math.random() * 5;
-        child2.laneOffset = 12 + Math.random() * 5;
+        child1.nodeOffsetY = -12;
+        child2.nodeOffsetY = 12;
+
+        child1.nodeOffsetX = -12;
+        child2.nodeOffsetX = 12;
 
         child1.x = this.x ;
         child1.y = this.y ;

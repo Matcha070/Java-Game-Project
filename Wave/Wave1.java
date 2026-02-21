@@ -1,20 +1,14 @@
 package Wave;
 import Character.Enemy.*;
-
+import Character.Tower.PlayerStat;
 
 public class Wave1 extends Wave {
 
     public Wave1() {
         spawnDelay = 60;
+        PlayerStat.towerCap = 6;
 
-        for (int i = 0; i < 5; i++)  spawnQueue.add(new RegenEnemy());
-
-        for (int i = 0; i < 5; i++)  spawnQueue.add(new TankyEnemy());
-
-        for (int i = 0; i < 5; i++)  spawnQueue.add(new Slime());
-
-        for (int i = 0; i < 5; i++)  spawnQueue.add(new SpeedyEnemy());
-
-
+        for (int i = 0; i < 15; i++)
+            spawnQueue.add(new SpeedyEnemy());
     }
 }
