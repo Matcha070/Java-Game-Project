@@ -1,10 +1,11 @@
 package Wave;
+import Character.Enemy.Enemy;
 import java.util.*;
 
-import Character.Enemy.Enemy;
 
 public abstract class Wave {
 
+        
     protected Queue<Enemy> spawnQueue = new LinkedList<>();
     protected int spawnDelay = 60;
     protected int timer = 0;

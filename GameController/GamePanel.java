@@ -82,6 +82,9 @@ public class GamePanel extends JPanel {
 
                     if (!enemy.isAlive()) {
                         enemy.moneyDrop(money);
+
+                        enemies.addAll(enemy.getChildrenToSpawn());
+
                         enemies.remove(i);
                     }
                     else if(enemy.isOutOfRange()){

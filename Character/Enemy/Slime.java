@@ -13,14 +13,20 @@ public class Slime extends Enemy {
     private Animation enemyDown;
     private Animation enemyWalk_left;
     private Animation enemyWalk_right;
+    private boolean isChild = false;
 
     private Animation currentAnim;
 
     private int drawSize = 96;
 
     public Slime() {
-        super(30, 2.0, 5);
+        this(false);
+    }
 
+    public Slime(boolean isChild) {
+        super(isChild ? 15 : 30, 2.5, isChild ? 2 : 5);
+
+        this.isChild = isChild;
         enemySheet = new EnemySheet(Asset.SLIME, 64, 64);
 
         enemyDown = enemySheet.createAnim(0, 4, true);
@@ -61,5 +67,33 @@ public class Slime extends Enemy {
             currentAnim = enemyUp;
         }
         currentAnim.update();
+    }
+
+    private void spawnChildren() {
+
+        Slime child1 = new Slime(true);
+        Slime child2 = new Slime(true);
+
+        child1.laneOffset = -10;
+        child2.laneOffset = 10;
+
+        child1.x = this.x ;
+        child1.y = this.y ;
+
+        child2.x = this.x ;
+        child2.y = this.y ;
+
+        child1.targetIndex = this.targetIndex;
+        child2.targetIndex = this.targetIndex;
+
+        childrenToSpawn.add(child1);
+        childrenToSpawn.add(child2);
+    }
+
+    @Override
+    protected void onDeath() {
+        if (!isChild) {
+            spawnChildren();
+        }
     }
 }

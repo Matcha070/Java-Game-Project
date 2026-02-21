@@ -4,6 +4,8 @@ import Character.Tower.PlayerStat;
 import GameController.Money;
 import Map.MapData;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Enemy {
     protected int size = MapData.TILE_SIZE;
@@ -15,6 +17,7 @@ public abstract class Enemy {
     protected int dirX = 0; // -1 ซ้าย, 1 ขวา
     protected int dirY = 0; // -1 ขึ้น, 1 ลง
 
+    protected double laneOffset = 0;
     protected double x, y;
     protected double vx, vy;
     protected int targetIndex = 0;
@@ -27,6 +30,8 @@ public abstract class Enemy {
     protected boolean showHpBar = false;
 
     protected int valueEnemy;
+
+    protected List<Enemy> childrenToSpawn = new ArrayList<>();
 
     public Enemy(int hp, double speed, int valueEnemy) {
 
@@ -60,8 +65,8 @@ public abstract class Enemy {
     private void EnemyWalk() {
         Point target = MapData.pathPoints.get(targetIndex);
 
-        double dx = target.x - x;
-        double dy = target.y - y;
+        double dx = (target.x + laneOffset) - x;
+        double dy = (target.y + laneOffset) - y;
         double dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < speed) { // กัน Case
@@ -91,6 +96,7 @@ public abstract class Enemy {
         hp -= damage;
         if (hp <= 0) {
             alive = false;
+            onDeath();
         }
         showHpBar = true;
     }
@@ -125,6 +131,7 @@ public abstract class Enemy {
         return alive;
     }
 
+
     public Point getPosition() {
         return new Point((int) x, (int) y);
     }
@@ -141,12 +148,22 @@ public abstract class Enemy {
         //
     }
 
+    protected void onDeath() {
+        //
+    }
+
     public boolean isOutOfRange(){
         return outOfRange;
     }
 
     public void moneyDrop(Money money) {
         money.increseAmount(valueEnemy);
+    }
+
+    public List<Enemy> getChildrenToSpawn() {
+        List<Enemy> temp = new ArrayList<>(childrenToSpawn);
+        childrenToSpawn.clear();
+        return temp;
     }
 
 }
