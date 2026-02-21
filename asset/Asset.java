@@ -11,6 +11,13 @@ public class Asset {
     // ----------Map-----------
     public static BufferedImage GRASS;
     public static BufferedImage DIRT;
+    // ----------Prop-----------
+    public static BufferedImage ROCK1;
+    public static BufferedImage ROCK2;
+    public static BufferedImage TREE1;
+    public static BufferedImage TREE2;
+    public static BufferedImage Ruin1;
+    
 
     // ---------Enemy----------
     public static BufferedImage SLIME;
@@ -59,6 +66,15 @@ public class Asset {
             // ----------Map-----------
             GRASS = ImageIO.read(Asset.class.getResource("/asset/map/Grass.png"));
             DIRT = ImageIO.read(Asset.class.getResource("/asset/map/Dirt.png"));
+
+            // ----------Prop-----------
+            ROCK1 = ImageIO.read(Asset.class.getResource("/asset/Props/Rock/Rock1_1.png"));
+            ROCK2= ImageIO.read(Asset.class.getResource("/asset/Props/Rock/Rock1_2.png"));
+            TREE1 = ImageIO.read(Asset.class.getResource("/asset/Props/Tree/Tree1.png"));
+            TREE2 = ImageIO.read(Asset.class.getResource("/asset/Props/Tree/Broken_tree5.png"));
+            Ruin1 = ImageIO.read(Asset.class.getResource("/asset/Props/ruins/Brown_ruins1.png"));
+            
+            
 
             // ---------Enemy----------
             SLIME = ImageIO.read(Asset.class.getResource("/asset/enemy/Slime1.png"));
