@@ -46,14 +46,6 @@ public class SpeedyEnemy extends Enemy {
 
     @Override
     protected void onUpdate() {
-        regenTimer++;
-
-        if (regenTimer >= regenDelay) {
-            hp += regenAmount;
-            if (hp > maxHp)
-                hp = maxHp;
-            regenTimer = 0;
-        }
 
         if (dirX == 1) {
             currentAnim = enemyWalk_right;

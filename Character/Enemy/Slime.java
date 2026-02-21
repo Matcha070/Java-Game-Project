@@ -1,11 +1,9 @@
 package Character.Enemy;
 
+import GameController.Animation;
 import asset.Asset;
 import asset.EnemySheet;
-
 import java.awt.*;
-
-import GameController.Animation;
 
 public class Slime extends Enemy {
 
@@ -52,14 +50,6 @@ public class Slime extends Enemy {
 
     @Override
     protected void onUpdate() {
-        regenTimer++;
-
-        if (regenTimer >= regenDelay) {
-            hp += regenAmount;
-            if (hp > maxHp)
-                hp = maxHp;
-            regenTimer = 0;
-        }
 
         if (dirX == 1) {
             currentAnim = enemyWalk_right;
