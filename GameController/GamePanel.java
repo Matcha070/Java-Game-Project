@@ -9,6 +9,7 @@ import Character.Tower.SniperTower;
 import Character.Tower.SpeedShootTower;
 import Character.Tower.Tower;
 import Map.MapData;
+import Map.Prop;
 import UI.PauseMenu.PauseUI;
 import UI.TowerUI;
 import Wave.WaveManager;
@@ -44,6 +45,9 @@ public class GamePanel extends JPanel {
     WaveManager waveManager;
     private String errorMessage = "";
     private int errorTimer = 0;
+
+    // field ของ GamePanel
+    ArrayList<Prop> props = new ArrayList<>();
 
     public GamePanel() {
 
@@ -156,6 +160,32 @@ public class GamePanel extends JPanel {
                 MapData.MAP[0].length * MapData.TILE_SIZE,
                 MapData.MAP.length * MapData.TILE_SIZE));
 
+        // add props
+        props.add(Prop.centered(
+            2 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
+            3 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
+            MapData.TILE_SIZE, MapData.TILE_SIZE, Asset.ROCK1));
+
+        props.add(Prop.centered(
+            5 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
+            1 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
+            MapData.TILE_SIZE, MapData.TILE_SIZE, Asset.ROCK2));
+
+        props.add(Prop.centered(
+            8 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
+            4 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
+            192,192, Asset.TREE1));
+
+        props.add(Prop.centered(
+            15 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
+            5* MapData.TILE_SIZE + MapData.TILE_SIZE/2,
+            100,100, Asset.Ruin1));
+        
+        props.add(Prop.centered(
+            2 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
+            13 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
+            48,48, Asset.TREE2));
+
         // import delete tower
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Image image = toolkit.getImage("asset/Ui/delete_cursor.png");
@@ -179,6 +209,7 @@ public class GamePanel extends JPanel {
         }
         int col = p.x / MapData.TILE_SIZE;
         int row = p.y / MapData.TILE_SIZE;
+        System.out.println("Clicked at: (" + col + ", " + row + ")");
 
         if (row < 0 || row >= MapData.MAP.length ||
                 col < 0 || col >= MapData.MAP[0].length)
@@ -265,6 +296,11 @@ public class GamePanel extends JPanel {
                         MapData.TILE_SIZE,
                         null);
             }
+        }
+
+        // ===== วาด props =====
+        for (Prop p : props) {
+            p.draw(g);
         }
 
         GhostPreview(g);
@@ -469,5 +505,6 @@ public class GamePanel extends JPanel {
     public void setIsSelectTower(boolean B){
         isSelectTower = B;
     }
+
 }
 
