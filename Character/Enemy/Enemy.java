@@ -65,9 +65,39 @@ public abstract class Enemy {
     private void EnemyWalk() {
         Point target = MapData.pathPoints.get(targetIndex);
 
-        double dx = (target.x + laneOffset) - x;
-        double dy = (target.y + laneOffset) - y;
+        double dx = target.x - x;
+        double dy = target.y - y;
+
+        // คำนวณระยะปกติ
         double dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < speed) {
+            x = target.x;
+            y = target.y;
+            targetIndex++;
+        } else {
+
+            // เวกเตอร์เดินปกติ
+            double nx = dx / dist;
+            double ny = dy / dist;
+
+            // เวกเตอร์ตั้งฉาก 
+            double px = -ny;
+            double py = nx;
+
+            // เพิ่ม offset แบบตั้งฉาก
+            x += (nx * speed) + (px * laneOffset * 0.05);
+            y += (ny * speed) + (py * laneOffset * 0.05);
+
+            // อัปเดตทิศ
+            if (Math.abs(dx) > Math.abs(dy)) {
+                dirX = dx > 0 ? 1 : -1;
+                dirY = 0;
+            } else {
+                dirY = dy > 0 ? 1 : -1;
+                dirX = 0;
+            }
+        }
 
         if (dist < speed) { // กัน Case
             x = target.x;
