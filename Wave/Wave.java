@@ -12,7 +12,6 @@ public abstract class Wave {
 
     public void update(List<Enemy> enemies) {
         timer++;
-
         if (timer >= spawnDelay && !spawnQueue.isEmpty()) {
             enemies.add(spawnQueue.poll());
             timer = 0;
