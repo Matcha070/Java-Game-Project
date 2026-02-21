@@ -6,10 +6,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+import Map.MapData;
+
 public class MagicTower extends Tower {
 
     public MagicTower(int x, int y) {
-        super("Magic Tower",x, y, 100, 200, 20, 60, 10);
+        super("Magic Tower",x, y, 12, MapData.TILE_SIZE * 3, 48, 150, 40);
+        antiHeal = 150;
     }
 
     @Override
@@ -54,5 +57,6 @@ public class MagicTower extends Tower {
                     AlphaComposite.getInstance(
                             AlphaComposite.SRC_OVER, 1f));
     }
+    
 
 }

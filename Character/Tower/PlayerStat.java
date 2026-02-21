@@ -14,7 +14,6 @@ public class PlayerStat {
         MaxHP = 100;
         HP = MaxHP;
         currentWave = 0;
-        towerCap = 3;
         towers = 0;
     }
 

@@ -3,11 +3,13 @@ package Character.Tower;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
+import Map.MapData;
+
 
 public class BaseTower extends Tower {
 
     public BaseTower(int x, int y) {
-        super("Base Tower",x, y, 20, 150, 30, 20, 20);
+        super("Base Tower",x, y, 20, MapData.TILE_SIZE * 4, 75, 100, 30);
     }
 
     @Override

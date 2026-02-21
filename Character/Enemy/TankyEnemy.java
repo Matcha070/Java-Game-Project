@@ -19,7 +19,7 @@ public class TankyEnemy extends Enemy {
     private int drawSize = 96;
 
     public TankyEnemy() {
-        super(100, 1.5, 10);
+        super(80, 0.6, 40);
 
         enemySheet = new EnemySheet(Asset.VAMPIRE, 64, 64);
 

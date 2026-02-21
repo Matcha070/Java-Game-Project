@@ -137,7 +137,7 @@ public class GamePanel extends JPanel {
                         AudioManager.playSFX(Asset.SFX_BROKENTOWER);
                         towers.remove(i);
                         // Asset.play(Asset.SFX_BROKENTOWER);
-                        PlayerStat.towers++;
+                        PlayerStat.towers--;
 
                         setCanDelete(false); // ปิดโหมดลบ
                     }
@@ -230,24 +230,26 @@ public class GamePanel extends JPanel {
             ArrayList<Tower> allTowers = new ArrayList<>(java.util.List.of(
                     new BaseTower(cx, cy), new SpeedShootTower(cx, cy),
                     new SniperTower(cx, cy), new MagicTower(cx, cy)));
-            if (id == -1 || PlayerStat.towers++ > PlayerStat.towerCap) {
+            if (id == -1 || PlayerStat.towers >= PlayerStat.towerCap) {
                 System.out.println("no tower selected");
                 System.out.println(PlayerStat.towers + " / " + PlayerStat.towerCap);
                 return;
             }
             Tower t = allTowers.get(id);
             if (money.getAmount() >= t.getPrice()) {
-                PlayerStat.towers--;
+                PlayerStat.towers++;
                 t.place(money);
                 towers.add(t);
             } else {
                 errorMessage = "Not enough money!";
                 errorTimer = 60;
                 System.out.println("Not enough money");
+                System.out.println(PlayerStat.towers + " / " + PlayerStat.towerCap);
             }
 
             id = -1;
             System.out.println("Current money: " + money.getAmount());
+            System.out.println(PlayerStat.towers + " / " + PlayerStat.towerCap);
         }
     }
 
@@ -260,7 +262,7 @@ public class GamePanel extends JPanel {
                 if (t.contains(p)) {
 
                     towers.remove(i);
-                    PlayerStat.towers++;
+                    PlayerStat.towers--;
 
                     setCanDelete(false); // ปิดโหมดลบ
 

@@ -11,8 +11,10 @@ public abstract class Enemy {
     protected int size = MapData.TILE_SIZE;
     protected double speed;
 
+    protected int antiHealTimer = 0; //att
+
     protected int regenAmount = 5; // ฟื้นต่อครั้ง
-    protected int regenDelay = 15; // ทุกกี่ frame
+    protected int regenDelay = 60; // ทุกกี่ frame
     protected int regenTimer = 0;
     protected int dirX = 0; // -1 ซ้าย, 1 ขวา
     protected int dirY = 0; // -1 ขึ้น, 1 ลง
@@ -52,6 +54,11 @@ public abstract class Enemy {
     public void update() {
         EnemyWalk();
         EnemyOutOfRange();
+
+        if(antiHealTimer > 0){
+            antiHealTimer--;
+        }
+
         onUpdate();
     }
 
@@ -105,6 +112,12 @@ public abstract class Enemy {
     }
 
     protected void DrawHpBar(Graphics g) {
+
+        if(antiHealTimer > 0){
+            g.setColor(Color.MAGENTA);
+            g.drawOval((int)x-20,(int)y-20,40,40);
+        }
+
         if (showHpBar) {
             g.setColor(Color.gray);
             g.fillRect(
@@ -168,5 +181,9 @@ public abstract class Enemy {
         childrenToSpawn.clear();
         return temp;
     }
+
+    public void applyAntiHeal(int duration){
+        antiHealTimer = duration;
+}
 
 }

@@ -6,11 +6,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+import Map.MapData;
+
 
 public class SniperTower extends Tower {
 
     public SniperTower(int x, int y) {
-        super("Sniper Tower",x, y, 60, 250, 60, 40, 10);
+        super("Sniper Tower",x, y, 50, MapData.TILE_SIZE * 6, 150, 220, 25);
     }
 
     @Override

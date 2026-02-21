@@ -6,7 +6,7 @@ public class Wave12 extends Wave {
 
     public Wave12() {
         spawnDelay = 30;
-        PlayerStat.towerCap = 18;
+        // PlayerStat.towerCap = 18;
 
         // for (int i = 0; i < 15; i++)
         //     spawnQueue.add(new ShieldEnemy());

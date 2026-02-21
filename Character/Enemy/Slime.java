@@ -24,7 +24,7 @@ public class Slime extends Enemy {
     }
 
     public Slime(boolean isChild) {
-        super(isChild ? 15 : 30, 2.5, isChild ? 2 : 5);
+        super(isChild ? 30 : 60, 1.2, isChild ? 5 : 20);
 
         this.isChild = isChild;
         enemySheet = new EnemySheet(Asset.SLIME, 64, 64);

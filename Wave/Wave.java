@@ -22,4 +22,5 @@ public abstract class Wave {
     public boolean isFinished() {
         return spawnQueue.isEmpty();
     }
+
 }

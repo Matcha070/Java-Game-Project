@@ -19,7 +19,7 @@ public class RegenEnemy extends Enemy {
     private int drawSize = 96;
 
     public RegenEnemy() {
-        super(50, 1, 10);
+        super(70, 1.2, 25);
 
         enemySheet = new EnemySheet(Asset.Tree1, 64, 64);
 
@@ -52,9 +52,13 @@ public class RegenEnemy extends Enemy {
         regenTimer++;
 
         if (regenTimer >= regenDelay) {
-            hp += regenAmount;
-            if (hp > maxHp)
-                hp = maxHp;
+
+            if(antiHealTimer <= 0){ 
+                hp += regenAmount;
+                if (hp > maxHp)
+                    hp = maxHp;
+            }
+
             regenTimer = 0;
         }
 

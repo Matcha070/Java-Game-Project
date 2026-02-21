@@ -25,6 +25,7 @@ public abstract class Tower {
     protected int hp;
     protected int maxHp;
     protected int currentHp;
+    protected int antiHeal = 0;
 
     public Tower(String name, int x, int y, int damage, int range, int fireRate, int price, int hp) {
         this.name = name;
@@ -113,11 +114,13 @@ public abstract class Tower {
         dirX /= len;
         dirY /= len;
 
-        Bullet bullet = new Bullet(x, y, (int) bulletSpeed, damage);
+        Bullet bullet = new Bullet(x , y , (int) bulletSpeed, damage);
         bullet.vx = dirX * bullet.speed;
         bullet.vy = dirY * bullet.speed;
 
         takeDamage();
+
+        enemy.applyAntiHeal(antiHeal);
 
         return bullet;
     }
