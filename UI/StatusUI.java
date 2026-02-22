@@ -9,7 +9,10 @@ import javax.swing.*;
 public class StatusUI extends JPanel {
     GamePanel game;
     private final Color BOX_COLOR = new Color(0, 0, 0, 150);
+    private final Color BOX_OVER_COLOR = new Color(0, 0, 0, 180);
+    private final Stroke STORKE = new BasicStroke(2f);
     private final Font FONT_22 = new Font("Tahoma", Font.BOLD, 22);
+    private final Font FONT_80 = new Font("Tahoma", Font.BOLD, 80);
 
     public StatusUI(GamePanel gamePanel) {
         this.game = gamePanel;
@@ -40,7 +43,6 @@ public class StatusUI extends JPanel {
         int currentMoney = game.getMoney().getAmount();
         String text = String.valueOf(currentMoney);
 
-        
         g2.setFont(FONT_22);
 
         FontMetrics fm = g2.getFontMetrics();
@@ -71,7 +73,7 @@ public class StatusUI extends JPanel {
 
         // ===== วาดขอบ =====
         g2.setColor(Color.WHITE);
-        g2.setStroke(new BasicStroke(2f));
+        g2.setStroke(STORKE);
         g2.drawRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
 
         // ===== วาดไอคอน =====
@@ -86,7 +88,6 @@ public class StatusUI extends JPanel {
 
         String text = String.valueOf(PlayerStat.HP);
 
-        
         g2.setFont(FONT_22);
         FontMetrics fm = g2.getFontMetrics();
 
@@ -123,12 +124,12 @@ public class StatusUI extends JPanel {
 
     private void drawGameOver(Graphics2D g2) {
 
-        g2.setColor(new Color(0, 0, 0, 180));
+        g2.setColor(BOX_OVER_COLOR);
         g2.fillRect(0, 0, getWidth(), getHeight());
 
         String text = "GAME OVER!";
 
-        g2.setFont(new Font("Tahoma", Font.BOLD, 80));
+        g2.setFont(FONT_80);
         FontMetrics fm = g2.getFontMetrics();
 
         int x = (getWidth() - fm.stringWidth(text)) / 2;

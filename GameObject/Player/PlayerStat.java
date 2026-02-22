@@ -2,7 +2,7 @@ package GameObject.Player;
 
 public class PlayerStat {
 
-    public static int MaxHP = 100;
+    public static int MaxHP = 10;
     public static int towerCap ;
     public static int towers ;
     public static int HP = MaxHP;
@@ -11,7 +11,7 @@ public class PlayerStat {
     public static boolean GAMEOVER = false;
 
     public PlayerStat() {
-        MaxHP = 100;
+        MaxHP = 10;
         HP = MaxHP;
         currentWave = 0;
         towers = 0;

@@ -196,4 +196,26 @@ public abstract class Tower extends GameObject{
         }
     }
 
+    public Enemy getFrontEnemy(java.util.List<Enemy> enemies) {
+
+        Enemy bestTarget = null;
+        int maxProgress = -1;
+
+        for (Enemy enemy : enemies) {
+
+            if (!enemy.isAlive()) continue;
+
+            if (!isEnemyInRange(enemy)) continue;
+
+            int progress = enemy.getTargetIndex();
+
+            if (progress > maxProgress) {
+                maxProgress = progress;
+                bestTarget = enemy;
+            }
+        }
+
+        return bestTarget;
+    }
+
 }

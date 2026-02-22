@@ -48,6 +48,10 @@ public class GamePanel extends JPanel {
     private String errorMessage = "";
     private int errorTimer = 0;
 
+
+    private final Font FONT_24 = new Font("Tahoma", Font.BOLD, 24);
+    private final Color BACK_COLOR = new Color(0, 0, 0, 120);
+
     // field ของ GamePanel
     ArrayList<Prop> props = new ArrayList<>();
 
@@ -93,21 +97,28 @@ public class GamePanel extends JPanel {
                         enemies.addAll(enemy.getChildrenToSpawn());
 
                         enemies.remove(i);
-                    }
-                    else if(enemy.isOutOfRange()){
+                    } else if (enemy.isOutOfRange()) {
                         enemies.remove(i);
                     }
                 }
 
                 for (Tower tower : towers) {
 
-                    Enemy target = null;
                     tower.update();
-                    // หาเป้าหมาย
+
+                    Enemy target = null;
+                    int maxProgress = -1;
+
                     for (Enemy enemy : enemies) {
-                        if (tower.isEnemyInRange(enemy)) {
+
+                        if (!enemy.isAlive()) continue;
+                        if (!tower.isEnemyInRange(enemy)) continue;
+
+                        int progress = enemy.getTargetIndex();
+
+                        if (progress > maxProgress) {
+                            maxProgress = progress;
                             target = enemy;
-                            break; // เจอตัวแรกพอ
                         }
                     }
 
@@ -370,17 +381,16 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
 
         drawMap(g);
-        
+
         List<GameObject> renderList = new ArrayList<>();
         renderList.addAll(towers);
         renderList.addAll(props);
-        
+
         renderList.sort(Comparator.comparingDouble(GameObject::getY));
 
         for (GameObject obj : renderList) {
             obj.draw(g);
         }
-
 
         for (Enemy enemy : enemies) {
             enemy.draw(g);
@@ -391,21 +401,21 @@ public class GamePanel extends JPanel {
         }
 
         GhostPreview(g);
-
         drawErrorMessage(g);
 
         if (pause) {
-
             Graphics2D g2 = (Graphics2D) g;
-
-            // สีเทาจางทั้งจอ
             g2.setColor(new Color(0, 0, 0, 120));
             g2.fillRect(0, 0, getWidth(), getHeight());
         }
     }
+    
 
     private void drawErrorMessage(Graphics g) {
         if (errorTimer > 0) {
+
+            g.setFont(FONT_24);
+            g.setColor(Color.RED);
             g.setFont(new Font("Tahoma", Font.BOLD, 24));
 
             FontMetrics fm = g.getFontMetrics();
@@ -443,8 +453,12 @@ public class GamePanel extends JPanel {
         for (int row = 0; row < MapData.MAP.length; row++) {
             for (int col = 0; col < MapData.MAP[0].length; col++) {
 
-                BufferedImage img = (MapData.MAP[row][col] == 1 || MapData.MAP[row][col] == 2
-                        || MapData.MAP[row][col] == 3) ? Asset.DIRT : Asset.GRASS;
+                BufferedImage img =
+                        (MapData.MAP[row][col] == 1 ||
+                        MapData.MAP[row][col] == 2 ||
+                        MapData.MAP[row][col] == 3)
+                        ? Asset.DIRT
+                        : Asset.GRASS;
 
                 g.drawImage(
                         img,
@@ -452,9 +466,8 @@ public class GamePanel extends JPanel {
                         row * MapData.TILE_SIZE,
                         MapData.TILE_SIZE,
                         MapData.TILE_SIZE,
-                        null);
-
-
+                        null
+                );
             }
         }
     }
@@ -506,7 +519,7 @@ public class GamePanel extends JPanel {
         if (window instanceof JFrame) {
             ((JFrame) window).dispose();
         }
-        
+
     }
 
     public void togglePause() {
@@ -553,7 +566,6 @@ public class GamePanel extends JPanel {
         return this.timer;
     }
 
-
     public boolean isPause() {
         return pause;
     }
@@ -598,13 +610,12 @@ public class GamePanel extends JPanel {
         return isOver;
     }
 
-    public boolean getIsSelectTower(){
+    public boolean getIsSelectTower() {
         return isSelectTower;
     }
 
-    public void setIsSelectTower(boolean B){
+    public void setIsSelectTower(boolean B) {
         isSelectTower = B;
     }
-
 }
 

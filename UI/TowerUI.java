@@ -17,7 +17,9 @@ import javax.swing.*;
 public class TowerUI extends JPanel {
 
     private final Color BOX_COLOR = new Color(0, 0, 0, 150);
+    private final Color TEXT_GOLD = new Color(255, 215, 0);
     private final Font FONT = new Font("Tahoma", Font.BOLD, 18);
+    private final Stroke STROKE = new BasicStroke(2f);
 
     GamePanel game;
     ArrayList<Tower> allTowers = new ArrayList<>(java.util.List.of(
@@ -140,29 +142,29 @@ public class TowerUI extends JPanel {
     }
 
     public void handleClickSelect(Point p) {
-        
+
         if (game.isPause() || game.isOver() || game.getCanDelete())
             return;
         GamePanel.isSelectTower = true;
         GamePanel.delete = false;
         for (HitButton b : selectTowers)
-            if (b.isClick(p)){
+            if (b.isClick(p)) {
                 game.setId(b.getId());
             }
     }
 
     public void handleClickDelete(Point p) {
-    if (game.isPause() || game.isOver())
-        return;
+        if (game.isPause() || game.isOver())
+            return;
 
-    for (DeleteTower d : deleteTowers) {
-        if (d.isClick(p)) {
-            GamePanel.isSelectTower = false; // reset select mode ก่อน
-            game.setId(-1);                  // ยกเลิก tower ที่เลือกอยู่
-            game.setCanDelete(true);
+        for (DeleteTower d : deleteTowers) {
+            if (d.isClick(p)) {
+                GamePanel.isSelectTower = false; // reset select mode ก่อน
+                game.setId(-1); // ยกเลิก tower ที่เลือกอยู่
+                game.setCanDelete(true);
+            }
         }
     }
-}
 
     public void handleHover(Point p) {
 
@@ -205,7 +207,7 @@ public class TowerUI extends JPanel {
         g2.rotate(Math.toRadians(currentAngle),
                 btnX + btnW / 2,
                 btnY + btnH / 2);
-        
+
         g2.drawImage(Asset.ARROWTOGGLE, btnX, btnY, btnW, btnH, null);
 
         g2.setTransform(old);
@@ -262,15 +264,18 @@ public class TowerUI extends JPanel {
 
             int textX = boxX + padding;
             int textY = boxY + padding + fm.getAscent();
-            
+
             g2.setColor(BOX_COLOR);
             g2.fillRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
 
             g2.setColor(Color.WHITE);
-            g2.setStroke(new BasicStroke(2f));
+            g2.setStroke(STROKE);
             g2.drawRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
 
+            g2.setColor(TEXT_GOLD);
+
             g2.setColor(new Color(255, 215, 0));
+
             g2.drawString(name, textX, textY);
 
             // ===== Stat =====
@@ -329,6 +334,7 @@ public class TowerUI extends JPanel {
                 return "";
         }
     }
+
 }
 
 class DeleteTower {
@@ -346,7 +352,7 @@ class DeleteTower {
 
     public boolean isClick(Point p) {
         // if (GamePanel.isSelectTower) {
-        //     return false;
+        // return false;
         // }
         double dx = p.x - (x + size / 2);
         double dy = p.y - (y + size / 2);
@@ -374,7 +380,6 @@ class DeleteTower {
         g2.setColor(Color.WHITE);
         g2.setStroke(new BasicStroke(2));
         g2.drawOval(x, y, size, size);
-
 
         // =========================
         // วาดไอคอนตรงกลาง
