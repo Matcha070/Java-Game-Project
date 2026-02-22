@@ -8,15 +8,17 @@ public class WaveManager {
     private List<Wave> waves = new ArrayList<>();
     private int currentWaveIndex = -1;
 
-    private boolean waitingNextWave = false;
-    private int waitTimer = 0;
-    private final int WAIT_TIME = 5000; // 1000 ms = 1 วิ
+    private WaveState state = WaveState.SPAWNING;
+
+    private double waitTimer = 0;
+    private final double WAIT_TIME = 5.0; // วินาที
 
     public WaveManager() {
         createWaves();
     }
 
     private void createWaves() {
+        waves.add(new Wave0());
         waves.add(new Wave1());
         waves.add(new Wave2());
         waves.add(new Wave4());
@@ -30,23 +32,47 @@ public class WaveManager {
         waves.add(new Wave12());
     }
 
-    public void update(List<Enemy> enemies) {
-        if (currentWaveIndex >= waves.size()) return;
+    public void update(List<Enemy> enemies, double deltaTime) {
 
-        if (currentWaveIndex == -1){
+        if (currentWaveIndex >= waves.size()) {
+            state = WaveState.FINISHED;
+            return;
+        }
+
+        if (currentWaveIndex == -1) {
             PlayerStat.towerCap = 6;
             currentWaveIndex++;
         }
 
-        Wave current = waves.get(currentWaveIndex);
-        current.update(enemies);
-        
-        if (current.isFinished() && enemies.isEmpty()) {
-            System.out.println(currentWaveIndex);
-            currentWaveIndex++;
-            increaseTowerCap(currentWaveIndex);
-        }
+        switch (state) {
 
+            case SPAWNING:
+
+                Wave current = waves.get(currentWaveIndex);
+                current.update(enemies);
+
+                if (current.isFinished() && enemies.isEmpty()) {
+                    state = WaveState.WAITING;
+                    waitTimer = 0;
+                }
+
+                break;
+
+            case WAITING:
+
+                waitTimer += deltaTime;
+
+                if (waitTimer >= WAIT_TIME) {
+                    currentWaveIndex++;
+                    increaseTowerCap(currentWaveIndex);
+                    state = WaveState.SPAWNING;
+                }
+
+                break;
+
+            case FINISHED:
+                break;
+        }
     }
 
     public int getCurrentWaveNumber() {
@@ -68,27 +94,43 @@ public class WaveManager {
     private void increaseTowerCap(int waveIndex) {
 
         switch (waveIndex) {
-            case 0:
+            case 1:
                 PlayerStat.towerCap = 6;
                 break;
-            case 2:
+            case 3:
                 PlayerStat.towerCap = 8;
                 System.out.println("Wave up");
                 break;
-            case 4:
+            case 5:
                 PlayerStat.towerCap = 10;
                 break;
-            case 6:
+            case 7:
                 PlayerStat.towerCap = 12;
                 break;
-            case 8:
+            case 9:
                 PlayerStat.towerCap = 15;
                 break;
-            case 10:
+            case 11:
                 PlayerStat.towerCap = 18;
                 break;
             default:
                 break;
         }
+    }
+
+
+    public boolean isWaiting() {
+        return state == WaveState.WAITING;
+    }
+
+    public double getRemainingTimeExact() {
+        if (state == WaveState.WAITING) {
+            return Math.max(0, WAIT_TIME - waitTimer);
+        }
+        return 0;
+    }
+
+    public int getRemainingTime() {
+        return (int) Math.ceil(getRemainingTimeExact());
     }
 }

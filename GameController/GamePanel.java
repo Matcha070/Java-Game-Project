@@ -47,6 +47,7 @@ public class GamePanel extends JPanel {
     WaveManager waveManager;
     private String errorMessage = "";
     private int errorTimer = 0;
+    private long lastTime = System.nanoTime();
 
 
     private final Font FONT_24 = new Font("Tahoma", Font.BOLD, 24);
@@ -78,8 +79,13 @@ public class GamePanel extends JPanel {
 
         timer = new Timer(16, e -> {
 
+            long now = System.nanoTime();
+            double deltaTime = (now - lastTime) / 1_000_000_000.0; // วินาที
+            lastTime = now;
+
+
             if (!pause && !isOver) {
-                waveManager.update(enemies);
+                waveManager.update(enemies,deltaTime);
                 if (towerUi != null)
                     towerUi.update();
 
@@ -407,6 +413,30 @@ public class GamePanel extends JPanel {
             Graphics2D g2 = (Graphics2D) g;
             g2.setColor(new Color(0, 0, 0, 120));
             g2.fillRect(0, 0, getWidth(), getHeight());
+        }
+        if (waveManager.isWaiting()) {
+
+            Graphics2D g2 = (Graphics2D) g;
+
+            int seconds = waveManager.getRemainingTime();
+
+            String text = "Next Wave in: " + seconds;
+
+            g2.setFont(new Font("Arial", Font.BOLD, 40));
+
+            FontMetrics fm = g2.getFontMetrics();
+            int textWidth = fm.stringWidth(text);
+
+            int x = (getWidth() - textWidth) / 2;
+            int y = 120;
+
+            // เงา
+            g2.setColor(Color.BLACK);
+            g2.drawString(text, x + 3, y + 3);
+
+            // ตัวหนังสือหลัก
+            g2.setColor(Color.YELLOW);
+            g2.drawString(text, x, y);
         }
     }
     
