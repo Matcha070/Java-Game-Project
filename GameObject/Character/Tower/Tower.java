@@ -21,6 +21,7 @@ public abstract class Tower extends GameObject{
     protected boolean hovered = false;
     protected int price;
 
+    protected boolean isPreciseBullet = false;
     protected String name;
     protected String description;
     protected double bulletSpeed = 30.0;
@@ -119,7 +120,7 @@ public abstract class Tower extends GameObject{
         dirX /= len;
         dirY /= len;
 
-        Bullet bullet = new Bullet(x , y , (int) bulletSpeed, damage);
+        Bullet bullet = new Bullet(x , y , (int) bulletSpeed, damage, isPreciseBullet);
         bullet.setVx(dirX * bullet.getSpeed());
         bullet.setVy(dirY * bullet.getSpeed());
 
@@ -188,6 +189,10 @@ public abstract class Tower extends GameObject{
 
     public String getDescription(){
         return description;
+    }
+
+    public boolean  isPreciseBullet(){
+        return isPreciseBullet;
     }
 
     private void takeDamage() {

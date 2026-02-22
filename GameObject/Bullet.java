@@ -10,11 +10,13 @@ public class Bullet extends GameObject{
     int size = 12;
     double speed;
     int damage;
+    private boolean isPBulllet;
 
-    public Bullet(double x, double y, double speed, int damage) {
+    public Bullet(double x, double y, double speed, int damage, boolean isPBulllet) {
         super(x, y);
         this.speed = speed;
         this.damage = damage;
+        this.isPBulllet = isPBulllet;
     }
 
     public void update() {
@@ -66,5 +68,9 @@ public class Bullet extends GameObject{
 
     public double getSpeed(){
         return this.speed;
+    }
+
+    public boolean isPBulllet() {
+        return isPBulllet;
     }
 }
