@@ -1,16 +1,21 @@
-package Character.Tower;
+package GameObject.Character.Tower;
 
+import Map.MapData;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+public class MagicTower extends Tower {
 
-public class SniperTower extends Tower {
-
-    public SniperTower(int x, int y) {
-        super("Sniper Tower",x, y, 60, 250, 60, 40, 10);
+    public MagicTower(int x, int y) {
+        super("Magic Tower",x, y, 12, MapData.TILE_SIZE * 3,
+        48, 
+        150, 
+        40, 
+        "Make the enemy unable heal");
+        antiHeal = 150;
     }
 
     @Override
@@ -42,18 +47,19 @@ public class SniperTower extends Tower {
     }
 
     public void ShowRange(Graphics2D g2) {
-        g2.setComposite(
-                AlphaComposite.getInstance(
-                        AlphaComposite.SRC_OVER, 0.3f));
-        g2.setColor(Color.YELLOW);
-        g2.fillOval(
-                x - range,
-                y - range,
-                range * 2,
-                range * 2);
-        g2.setComposite(
-                AlphaComposite.getInstance(
-                        AlphaComposite.SRC_OVER, 1f));
-        }
+            g2.setComposite(
+                    AlphaComposite.getInstance(
+                            AlphaComposite.SRC_OVER, 0.3f));
+            g2.setColor(Color.YELLOW);
+            g2.fillOval(
+                    (int) getX() - range,
+                    (int) getY() - range,
+                    range * 2,
+                    range * 2);
+            g2.setComposite(
+                    AlphaComposite.getInstance(
+                            AlphaComposite.SRC_OVER, 1f));
+    }
+    
 
 }

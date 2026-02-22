@@ -1,5 +1,6 @@
-package Character.Tower;
+package GameObject.Character.Tower;
 
+import Map.MapData;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
@@ -7,7 +8,11 @@ import java.awt.geom.AffineTransform;
 public class BaseTower extends Tower {
 
     public BaseTower(int x, int y) {
-        super("Base Tower",x, y, 20, 150, 30, 20, 20);
+        super("Base Tower",x, y, 20, MapData.TILE_SIZE * 4, 
+        75, 
+        100, 
+        30, 
+        "Just a normal tower");
     }
 
     @Override
@@ -44,8 +49,8 @@ public class BaseTower extends Tower {
                         AlphaComposite.SRC_OVER, 0.3f));
         g2.setColor(Color.YELLOW);
         g2.fillOval(
-                x - range,
-                y - range,
+                (int) getX() - range,
+                (int) getY() - range,
                 range * 2,
                 range * 2);
         g2.setComposite(

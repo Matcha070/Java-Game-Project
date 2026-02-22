@@ -1,8 +1,10 @@
-package Character.Tower;
+package GameObject.Player;
 
 public class PlayerStat {
 
     public static int MaxHP = 100;
+    public static int towerCap ;
+    public static int towers ;
     public static int HP = MaxHP;
     public static int STARTERCOIN;
     public static int currentWave;
@@ -12,6 +14,7 @@ public class PlayerStat {
         MaxHP = 100;
         HP = MaxHP;
         currentWave = 0;
+        towers = 0;
     }
 
     public static void takeDMG(int DMGtaken) {

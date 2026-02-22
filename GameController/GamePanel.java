@@ -1,13 +1,15 @@
 package GameController;
 
-import Character.Enemy.Enemy;
-import Character.Tower.BaseTower;
-import Character.Tower.Bullet;
-import Character.Tower.MagicTower;
-import Character.Tower.PlayerStat;
-import Character.Tower.SniperTower;
-import Character.Tower.SpeedShootTower;
-import Character.Tower.Tower;
+import GameObject.Bullet;
+import GameObject.Character.Enemy.Enemy;
+import GameObject.Character.Tower.BaseTower;
+import GameObject.Character.Tower.MagicTower;
+import GameObject.Character.Tower.SniperTower;
+import GameObject.Character.Tower.SpeedShootTower;
+import GameObject.Character.Tower.Tower;
+import GameObject.GameObject;
+import GameObject.Player.PlayerStat;
+import GameObject.Prop;
 import Map.MapData;
 import UI.PauseMenu.PauseUI;
 import UI.TowerUI;
@@ -18,6 +20,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import javax.swing.*;
 
 public class GamePanel extends JPanel {
@@ -33,7 +36,7 @@ public class GamePanel extends JPanel {
     public static boolean delete = false;
     boolean pause = false;
     boolean isOver = false;
-    int towerCap = 10;
+
 
     Point mousePoint = null;
     Timer timer;
@@ -45,13 +48,18 @@ public class GamePanel extends JPanel {
     private String errorMessage = "";
     private int errorTimer = 0;
 
+
     private final Font FONT_24 = new Font("Tahoma", Font.BOLD, 24);
     private final Color BACK_COLOR = new Color(0, 0, 0, 120);
+
+    // field ของ GamePanel
+    ArrayList<Prop> props = new ArrayList<>();
 
     public GamePanel() {
 
         Asset.load();
         MapData.buildPath();
+        loadMapProps();
 
         AudioManager.playBGM(Asset.BGM_WAVE);
 
@@ -85,6 +93,9 @@ public class GamePanel extends JPanel {
 
                     if (!enemy.isAlive()) {
                         enemy.moneyDrop(money);
+
+                        enemies.addAll(enemy.getChildrenToSpawn());
+
                         enemies.remove(i);
                     } else if (enemy.isOutOfRange()) {
                         enemies.remove(i);
@@ -132,7 +143,7 @@ public class GamePanel extends JPanel {
                         AudioManager.playSFX(Asset.SFX_BROKENTOWER);
                         towers.remove(i);
                         // Asset.play(Asset.SFX_BROKENTOWER);
-                        towerCap++;
+                        PlayerStat.towers--;
 
                         setCanDelete(false); // ปิดโหมดลบ
                     }
@@ -169,6 +180,41 @@ public class GamePanel extends JPanel {
 
     }
 
+    private void loadMapProps() {
+
+        for (int row = 0; row < MapData.MAP.length; row++) {
+            for (int col = 0; col < MapData.MAP[0].length; col++) {
+
+                int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
+                int footY = row * MapData.TILE_SIZE + MapData.TILE_SIZE;
+
+                if (MapData.MAP[row][col] == 4) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        MapData.TILE_SIZE * 5,
+                        MapData.TILE_SIZE * 5,
+                        90,              // 🔥 ปรับค่านี้ให้พอดีพื้น
+                        Asset.TREE1
+                    ));
+                }
+
+                if (MapData.MAP[row][col] == 5) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        MapData.TILE_SIZE,
+                        MapData.TILE_SIZE,
+                        0,              
+                        Asset.ROCK1
+                    ));
+                }
+            }
+        }
+    }
+
     public void handleClick(Point p) {
 
         // ถ้า pause อยู่ ให้ UI จัดการก่อน
@@ -178,44 +224,53 @@ public class GamePanel extends JPanel {
         }
         int col = p.x / MapData.TILE_SIZE;
         int row = p.y / MapData.TILE_SIZE;
+        System.out.println("Clicked at: (" + col + ", " + row + ")");
 
         if (row < 0 || row >= MapData.MAP.length ||
                 col < 0 || col >= MapData.MAP[0].length)
             return;
 
-        if (towers.stream().anyMatch(t -> t.contains(p)) && delete == false)
-            return;
+        boolean hasTower = towers.stream().anyMatch(t ->
+        (int)(t.getX() / MapData.TILE_SIZE) == col &&
+        (int)((t.getY() - 1) / MapData.TILE_SIZE) == row
+        );
 
+        if (hasTower && !delete) return;
+        
         PutTower(col, row);
 
         DeleteTower(p);
     }
 
     private void PutTower(int col, int row) {
+        
         if (MapData.MAP[row][col] == 0) {
+
             int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
-            int cy = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
+            int footY = row * MapData.TILE_SIZE + MapData.TILE_SIZE;
             ArrayList<Tower> allTowers = new ArrayList<>(java.util.List.of(
-                    new BaseTower(cx, cy), new SpeedShootTower(cx, cy),
-                    new SniperTower(cx, cy), new MagicTower(cx, cy)));
-            if (id == -1) {
+                    new BaseTower(cx, footY), new SpeedShootTower(cx, footY),
+                    new SniperTower(cx, footY), new MagicTower(cx, footY)));
+            if (id == -1 || PlayerStat.towers >= PlayerStat.towerCap) {
                 System.out.println("no tower selected");
-                System.out.println(towerCap);
+                System.out.println(PlayerStat.towers + " / " + PlayerStat.towerCap);
                 return;
             }
             Tower t = allTowers.get(id);
             if (money.getAmount() >= t.getPrice()) {
-                towerCap--;
+                PlayerStat.towers++;
                 t.place(money);
                 towers.add(t);
             } else {
                 errorMessage = "Not enough money!";
                 errorTimer = 60;
                 System.out.println("Not enough money");
+                System.out.println(PlayerStat.towers + " / " + PlayerStat.towerCap);
             }
 
             id = -1;
             System.out.println("Current money: " + money.getAmount());
+            System.out.println(PlayerStat.towers + " / " + PlayerStat.towerCap);
         }
     }
 
@@ -228,7 +283,7 @@ public class GamePanel extends JPanel {
                 if (t.contains(p)) {
 
                     towers.remove(i);
-                    towerCap++;
+                    PlayerStat.towers--;
 
                     setCanDelete(false); // ปิดโหมดลบ
 
@@ -250,8 +305,14 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for (int row = 0; row < MapData.MAP.length; row++) {
-            for (int col = 0; col < MapData.MAP[0].length; col++) {
+        drawMap(g);
+        
+        List<GameObject> renderList = new ArrayList<>();
+        renderList.addAll(towers);
+        renderList.addAll(props);
+        
+        renderList.sort(Comparator.comparingDouble(GameObject::getY));
+
 
                 BufferedImage img = (MapData.MAP[row][col] == 1 || MapData.MAP[row][col] == 2
                         || MapData.MAP[row][col] == 3) ? Asset.DIRT : Asset.GRASS;
@@ -259,21 +320,34 @@ public class GamePanel extends JPanel {
                 g.drawImage(img, col * MapData.TILE_SIZE, row * MapData.TILE_SIZE, MapData.TILE_SIZE, MapData.TILE_SIZE,
                         null);
             }
-        }
 
-        GhostPreview(g);
+        for (GameObject obj : renderList) {
+            obj.draw(g);
+
 
         for (Enemy enemy : enemies) {
             enemy.draw(g);
         }
+
         for (Bullet bullet : bullets) {
             bullet.draw(g);
         }
 
-        towers.sort(Comparator.comparingInt(t -> t.getY()));
-        for (Tower tower : towers) {
-            tower.draw(g);
+        GhostPreview(g);
+
+        drawErrorMessage(g);
+
+        if (pause) {
+
+            Graphics2D g2 = (Graphics2D) g;
+
+            // สีเทาจางทั้งจอ
+            g2.setColor(new Color(0, 0, 0, 120));
+            g2.fillRect(0, 0, getWidth(), getHeight());
         }
+    }
+
+    private void drawErrorMessage(Graphics g) {
         if (errorTimer > 0) {
 
             g.setFont(FONT_24);
@@ -309,14 +383,30 @@ public class GamePanel extends JPanel {
             g.setColor(Color.RED);
             g.drawString(errorMessage, tx, ty);
         }
+    }
 
-        if (pause) {
+    private void drawMap(Graphics g) {
+        for (int row = 0; row < MapData.MAP.length; row++) {
+            for (int col = 0; col < MapData.MAP[0].length; col++) {
 
-            Graphics2D g2 = (Graphics2D) g;
+                BufferedImage img = (MapData.MAP[row][col] == 1 || MapData.MAP[row][col] == 2
+                        || MapData.MAP[row][col] == 3) ? Asset.DIRT : Asset.GRASS;
+
 
             // สีเทาจางทั้งจอ
             g2.setColor(BACK_COLOR);
             g2.fillRect(0, 0, getWidth(), getHeight());
+
+                g.drawImage(
+                        img,
+                        col * MapData.TILE_SIZE,
+                        row * MapData.TILE_SIZE,
+                        MapData.TILE_SIZE,
+                        MapData.TILE_SIZE,
+                        null);
+
+
+            }
         }
     }
 
@@ -391,7 +481,7 @@ public class GamePanel extends JPanel {
     }
 
     public int getTowerCap() {
-        return this.towerCap;
+        return PlayerStat.towerCap;
     }
 
     public boolean getCanDelete() {

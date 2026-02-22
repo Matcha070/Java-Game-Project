@@ -1,15 +1,19 @@
-package Character.Tower;
+package GameObject.Character.Tower;
 
-import Character.Enemy.Enemy;
 import GameController.Money;
+import GameObject.Bullet;
+import GameObject.Character.Enemy.Enemy;
+import GameObject.GameObject;
 import asset.Asset;
 import asset.AudioManager;
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
 
-public abstract class Tower {
-    protected int x, y;
+public abstract class Tower extends GameObject{
+
     protected int size = 30;
 
     protected double angle = 0;
@@ -18,6 +22,7 @@ public abstract class Tower {
     protected int price;
 
     protected String name;
+    protected String description;
     protected double bulletSpeed = 30.0;
     protected int range;
     protected int fireRate;
@@ -25,11 +30,11 @@ public abstract class Tower {
     protected int hp;
     protected int maxHp;
     protected int currentHp;
+    protected int antiHeal = 0;
 
-    public Tower(String name, int x, int y, int damage, int range, int fireRate, int price, int hp) {
+    public Tower(String name, int x, int y, int damage, int range, int fireRate, int price, int hp, String description) {
+        super(x, y);
         this.name = name;
-        this.x = x;
-        this.y = y;
         this.damage = damage;
         this.range = range;
         this.fireRate = fireRate;
@@ -37,6 +42,7 @@ public abstract class Tower {
         this.hp = hp;
         this.maxHp = hp;
         this.currentHp = hp;
+        this.description = description;
     }
 
     public abstract void draw(Graphics g);
@@ -47,8 +53,8 @@ public abstract class Tower {
 
     public boolean contains(Point p) {
         Rectangle rect = new Rectangle(
-                x - size / 2,
-                y - size / 2,
+                (int) getX() - size / 2,
+                (int) getY() - size / 2,
                 size,
                 size);
         return rect.contains(p);
@@ -113,52 +119,35 @@ public abstract class Tower {
         dirX /= len;
         dirY /= len;
 
-        Bullet bullet = new Bullet(x, y, (int) bulletSpeed, damage);
-        bullet.vx = dirX * bullet.speed;
-        bullet.vy = dirY * bullet.speed;
+        Bullet bullet = new Bullet(x , y , (int) bulletSpeed, damage);
+        bullet.setVx(dirX * bullet.getSpeed());
+        bullet.setVy(dirY * bullet.getSpeed());
 
         takeDamage();
+
+        enemy.applyAntiHeal(antiHeal);
 
         return bullet;
     }
 
     protected void DrawTower(Graphics2D g2) {
 
-        if (Asset.TOWER_ICON[3] != null) {
+        BufferedImage img = Asset.TOWER_ICON[3];
+        if (img == null) return;
 
-            BufferedImage img = Asset.TOWER_ICON[3];
+        int imgW = img.getWidth();
+        int imgH = img.getHeight();
 
-            int imgW = img.getWidth();
-            int imgH = img.getHeight();
+        int drawSize = 128;
+        double scale = (double) drawSize / Math.max(imgW, imgH);
 
-            int drawSize = 128;
-            double scale = (double) drawSize / Math.max(imgW, imgH);
+        int newW = (int)(imgW * scale);
+        int newH = (int)(imgH * scale);
 
-            int newW = (int) (imgW * scale);
-            int newH = (int) (imgH * scale);
+        int drawX = (int)(getX() - newW / 2);
+        int drawY = (int)(getY() - newH); // วาดจากพื้นขึ้น
 
-            int offsetY = 45;
-            int drawX = x - newW / 2;
-            int drawY = y - newH / 2 - offsetY;
-
-            float hpPercent = (float) currentHp / maxHp;
-
-            if (hpPercent < 0.5f) {
-
-                float darkFactor = hpPercent / 0.5f; // 1 → 0
-
-                float[] scales = { darkFactor, darkFactor, darkFactor, 1f };
-                float[] offsets = { 0f, 0f, 0f, 0f };
-
-                RescaleOp op = new RescaleOp(scales, offsets, null);
-                BufferedImage darkImg = op.filter(img, null);
-
-                g2.drawImage(darkImg, drawX, drawY, newW, newH, null);
-
-            } else {
-                g2.drawImage(img, drawX, drawY, newW, newH, null);
-            }
-        }
+        g2.drawImage(img, drawX, drawY, newW, newH, null);
     }
 
     public void setHovered(boolean hovered) {
@@ -197,14 +186,14 @@ public abstract class Tower {
         return this.currentHp;
     }
 
+    public String getDescription(){
+        return description;
+    }
+
     private void takeDamage() {
         if (currentHp > 0) {
             currentHp--;
         }
-    }
-
-    public int getY() {
-        return this.y;
     }
 
 }

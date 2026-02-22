@@ -1,13 +1,11 @@
-package Character.Enemy;
-
-import asset.Asset;
-import asset.EnemySheet;
-
-import java.awt.*;
+package GameObject.Character.Enemy;
 
 import GameController.Animation;
+import asset.Asset;
+import asset.EnemySheet;
+import java.awt.Graphics;
 
-public class Slime extends Enemy {
+public class TankyEnemy extends Enemy {
 
     private EnemySheet enemySheet;
 
@@ -20,21 +18,20 @@ public class Slime extends Enemy {
 
     private int drawSize = 96;
 
-    public Slime() {
-        super(30, 2.0, 5);
+    public TankyEnemy() {
+        super(80, 0.6, 40);
 
-        enemySheet = new EnemySheet(Asset.SLIME, 64, 64);
+        enemySheet = new EnemySheet(Asset.VAMPIRE, 64, 64);
 
-        enemyDown = enemySheet.createAnim(0, 4, true);
-        enemyUp = enemySheet.createAnim(1, 4, true);
-        enemyWalk_left = enemySheet.createAnim(2, 4, true);
-        enemyWalk_right = enemySheet.createAnim(3, 4, true);
+        enemyDown = enemySheet.createAnim(0, 8, true);
+        enemyUp = enemySheet.createAnim(1, 8, true);
+        enemyWalk_left = enemySheet.createAnim(2, 8, true);
+        enemyWalk_right = enemySheet.createAnim(3, 8, true);
 
         currentAnim = enemyWalk_right;
 
     }
 
-    @Override
     public void draw(Graphics g) {
         DrawEnemy(g);
         super.DrawHpBar(g);
@@ -52,14 +49,6 @@ public class Slime extends Enemy {
 
     @Override
     protected void onUpdate() {
-        regenTimer++;
-
-        if (regenTimer >= regenDelay) {
-            hp += regenAmount;
-            if (hp > maxHp)
-                hp = maxHp;
-            regenTimer = 0;
-        }
 
         if (dirX == 1) {
             currentAnim = enemyWalk_right;

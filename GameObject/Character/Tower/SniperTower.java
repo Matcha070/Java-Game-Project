@@ -1,5 +1,6 @@
-package Character.Tower;
+package GameObject.Character.Tower;
 
+import Map.MapData;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,10 +8,14 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
 
-public class SpeedShootTower extends Tower {
+public class SniperTower extends Tower {
 
-    public SpeedShootTower(int x, int y) {
-        super("Speed Shoot Tower", x, y, 20, 130, 15, 30, 25);
+    public SniperTower(int x, int y) {
+        super("Sniper Tower",x, y, 50, MapData.TILE_SIZE * 6, 
+        150,
+        220,
+        25,
+        "Shoot slow but high damage");
     }
 
     @Override
@@ -47,13 +52,13 @@ public class SpeedShootTower extends Tower {
                         AlphaComposite.SRC_OVER, 0.3f));
         g2.setColor(Color.YELLOW);
         g2.fillOval(
-                x - range,
-                y - range,
+                (int) getX() - range,
+                (int) getY() - range,
                 range * 2,
                 range * 2);
         g2.setComposite(
                 AlphaComposite.getInstance(
                         AlphaComposite.SRC_OVER, 1f));
-    }
+        }
 
 }

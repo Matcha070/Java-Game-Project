@@ -1,6 +1,7 @@
 package UI.PauseMenu;
 
 import GameController.GamePanel;
+import GameObject.Player.PlayerStat;
 import java.awt.*;
 
 public class RestartButton {
@@ -45,6 +46,7 @@ public class RestartButton {
     public void handleClick(Point p) {
         if (contains(p)) {
             game.RestartGame();
+            PlayerStat.towers = 0;
         }
     }
 

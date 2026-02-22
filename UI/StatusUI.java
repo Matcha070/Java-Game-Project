@@ -1,7 +1,7 @@
 package UI;
 
-import Character.Tower.PlayerStat;
 import GameController.GamePanel;
+import GameObject.Player.PlayerStat;
 import asset.Asset;
 import java.awt.*;
 import javax.swing.*;

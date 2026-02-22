@@ -1,21 +1,31 @@
-package Character.Enemy;
+package GameObject.Character.Enemy;
 
-import Character.Tower.PlayerStat;
 import GameController.Money;
+import GameObject.GameObject;
+import GameObject.Player.PlayerStat;
 import Map.MapData;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class Enemy {
+public abstract class Enemy extends GameObject{
     protected int size = MapData.TILE_SIZE;
     protected double speed;
 
+    protected int antiHealTimer = 0; //att
+
     protected int regenAmount = 5; // ฟื้นต่อครั้ง
-    protected int regenDelay = 15; // ทุกกี่ frame
+    protected int regenDelay = 60; // ทุกกี่ frame
     protected int regenTimer = 0;
     protected int dirX = 0; // -1 ซ้าย, 1 ขวา
     protected int dirY = 0; // -1 ขึ้น, 1 ลง
 
-    protected double x, y;
+    protected double nodeOffsetX = 0;
+    protected double nodeOffsetY = 0;
+
+    protected double laneOffset = 0;
     protected double vx, vy;
     protected int targetIndex = 0;
 
@@ -28,12 +38,12 @@ public abstract class Enemy {
 
     protected int valueEnemy;
 
+    protected List<Enemy> childrenToSpawn = new ArrayList<>();
+
     public Enemy(int hp, double speed, int valueEnemy) {
 
         // Start ที่ จุด start
-        Point start = MapData.pathPoints.get(0);
-        this.x = start.x;
-        this.y = start.y;
+        super(MapData.pathPoints.get(0).x, MapData.pathPoints.get(0).y);
 
         this.hp = hp;
         this.maxHp = hp;
@@ -44,6 +54,11 @@ public abstract class Enemy {
     public void update() {
         EnemyWalk();
         EnemyOutOfRange();
+
+        if(antiHealTimer > 0){
+            antiHealTimer--;
+        }
+
         onUpdate();
     }
 
@@ -60,13 +75,13 @@ public abstract class Enemy {
     private void EnemyWalk() {
         Point target = MapData.pathPoints.get(targetIndex);
 
-        double dx = target.x - x;
-        double dy = target.y - y;
+        double dx = (target.x + laneOffset) - x;
+        double dy = (target.y + laneOffset) - y;
         double dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < speed) { // กัน Case
-            x = target.x;
-            y = target.y;
+            x = target.x + nodeOffsetX;
+            y = target.y + nodeOffsetY;
             targetIndex++;
         } else { // walk
             vx = (dx / dist) * speed;
@@ -91,11 +106,18 @@ public abstract class Enemy {
         hp -= damage;
         if (hp <= 0) {
             alive = false;
+            onDeath();
         }
         showHpBar = true;
     }
 
     protected void DrawHpBar(Graphics g) {
+
+        if(antiHealTimer > 0){
+            g.setColor(Color.MAGENTA);
+            g.drawOval((int)x-20,(int)y-20,40,40);
+        }
+
         if (showHpBar) {
             g.setColor(Color.gray);
             g.fillRect(
@@ -125,6 +147,7 @@ public abstract class Enemy {
         return alive;
     }
 
+
     public Point getPosition() {
         return new Point((int) x, (int) y);
     }
@@ -141,6 +164,10 @@ public abstract class Enemy {
         //
     }
 
+    protected void onDeath() {
+        //
+    }
+
     public boolean isOutOfRange(){
         return outOfRange;
     }
@@ -148,5 +175,15 @@ public abstract class Enemy {
     public void moneyDrop(Money money) {
         money.increseAmount(valueEnemy);
     }
+
+    public List<Enemy> getChildrenToSpawn() {
+        List<Enemy> temp = new ArrayList<>(childrenToSpawn);
+        childrenToSpawn.clear();
+        return temp;
+    }
+
+    public void applyAntiHeal(int duration){
+        antiHealTimer = duration;
+}
 
 }
