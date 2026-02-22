@@ -314,24 +314,16 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
 
         drawMap(g);
-        
+
         List<GameObject> renderList = new ArrayList<>();
         renderList.addAll(towers);
         renderList.addAll(props);
-        
+
         renderList.sort(Comparator.comparingDouble(GameObject::getY));
-
-
-                BufferedImage img = (MapData.MAP[row][col] == 1 || MapData.MAP[row][col] == 2
-                        || MapData.MAP[row][col] == 3) ? Asset.DIRT : Asset.GRASS;
-
-                g.drawImage(img, col * MapData.TILE_SIZE, row * MapData.TILE_SIZE, MapData.TILE_SIZE, MapData.TILE_SIZE,
-                        null);
-            }
 
         for (GameObject obj : renderList) {
             obj.draw(g);
-
+        }
 
         for (Enemy enemy : enemies) {
             enemy.draw(g);
@@ -342,18 +334,15 @@ public class GamePanel extends JPanel {
         }
 
         GhostPreview(g);
-
         drawErrorMessage(g);
 
         if (pause) {
-
             Graphics2D g2 = (Graphics2D) g;
-
-            // สีเทาจางทั้งจอ
             g2.setColor(new Color(0, 0, 0, 120));
             g2.fillRect(0, 0, getWidth(), getHeight());
         }
     }
+    
 
     private void drawErrorMessage(Graphics g) {
         if (errorTimer > 0) {
@@ -397,13 +386,12 @@ public class GamePanel extends JPanel {
         for (int row = 0; row < MapData.MAP.length; row++) {
             for (int col = 0; col < MapData.MAP[0].length; col++) {
 
-                BufferedImage img = (MapData.MAP[row][col] == 1 || MapData.MAP[row][col] == 2
-                        || MapData.MAP[row][col] == 3) ? Asset.DIRT : Asset.GRASS;
-
-
-            // สีเทาจางทั้งจอ
-            g2.setColor(BACK_COLOR);
-            g2.fillRect(0, 0, getWidth(), getHeight());
+                BufferedImage img =
+                        (MapData.MAP[row][col] == 1 ||
+                        MapData.MAP[row][col] == 2 ||
+                        MapData.MAP[row][col] == 3)
+                        ? Asset.DIRT
+                        : Asset.GRASS;
 
                 g.drawImage(
                         img,
@@ -411,9 +399,8 @@ public class GamePanel extends JPanel {
                         row * MapData.TILE_SIZE,
                         MapData.TILE_SIZE,
                         MapData.TILE_SIZE,
-                        null);
-
-
+                        null
+                );
             }
         }
     }
@@ -564,3 +551,4 @@ public class GamePanel extends JPanel {
         isSelectTower = B;
     }
 }
+
