@@ -1,24 +1,23 @@
-package Map;
+package GameObject;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-public class Prop {
-    private int x, y;
+public class Prop extends GameObject{
+
     private int width, height;
     private BufferedImage img;
     
     
     public Prop(int x, int y, int width, int height, BufferedImage img) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
         this.width = width;
         this.height = height;
         this.img = img;
     }
 
     public void draw(Graphics g) {
-        g.drawImage(img, x, y, width, height, null);
+        g.drawImage(img, (int) getX(), (int) getY(), width, height, null);
     }
 
     // ปรับจุดศูนย์กลางของ prop 

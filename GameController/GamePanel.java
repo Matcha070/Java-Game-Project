@@ -7,9 +7,10 @@ import GameObject.Character.Tower.MagicTower;
 import GameObject.Character.Tower.SniperTower;
 import GameObject.Character.Tower.SpeedShootTower;
 import GameObject.Character.Tower.Tower;
+import GameObject.GameObject;
 import GameObject.Player.PlayerStat;
+import GameObject.Prop;
 import Map.MapData;
-import Map.Prop;
 import UI.PauseMenu.PauseUI;
 import UI.TowerUI;
 import Wave.WaveManager;
@@ -18,6 +19,8 @@ import asset.AudioManager;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import javax.swing.*;
 
 public class GamePanel extends JPanel {
@@ -52,6 +55,7 @@ public class GamePanel extends JPanel {
 
         Asset.load();
         MapData.buildPath();
+        loadMapProps();
 
         AudioManager.playBGM(Asset.BGM_WAVE);
 
@@ -167,11 +171,7 @@ public class GamePanel extends JPanel {
             1 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
             MapData.TILE_SIZE, MapData.TILE_SIZE, Asset.ROCK2));
 
-        props.add(Prop.centered(
-            8 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            4 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            192,192, Asset.TREE1));
-
+        
         props.add(Prop.centered(
             15 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
             5* MapData.TILE_SIZE + MapData.TILE_SIZE/2,
@@ -194,6 +194,33 @@ public class GamePanel extends JPanel {
         setFocusable(true);
         requestFocusInWindow();
 
+    }
+
+    private void loadMapProps() {
+
+        for (int row = 0; row < MapData.MAP.length; row++) {
+            for (int col = 0; col < MapData.MAP[0].length; col++) {
+
+                int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
+                int cy = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
+
+                if (MapData.MAP[row][col] == 4) {
+                    props.add(Prop.centered(
+                        cx, cy,
+                        MapData.TILE_SIZE * 5,
+                        MapData.TILE_SIZE * 5,
+                        Asset.TREE1));
+                }
+
+                if (MapData.MAP[row][col] == 5) {
+                    props.add(Prop.centered(
+                        cx, cy,
+                        192,
+                        192,
+                        Asset.TREE1));
+                }
+            }
+        }
     }
 
     public void handleClick(Point p) {
@@ -282,23 +309,19 @@ public class GamePanel extends JPanel {
 
         drawMap(g);
 
-        GhostPreview(g);
-        
-        for (Enemy enemy : enemies) {
-            enemy.draw(g);
-        }
-        for (Bullet bullet : bullets) {
-            bullet.draw(g);
-        }
-        
-        for (Tower tower : towers) {
-            tower.draw(g);
+        List<GameObject> renderList = new ArrayList<>();
+        renderList.addAll(props);
+        renderList.addAll(towers);
+        renderList.addAll(enemies);
+        renderList.addAll(bullets);
+
+        renderList.sort(Comparator.comparingDouble(GameObject::getY));
+
+        for (GameObject obj : renderList) {
+            obj.draw(g);
         }
 
-        // ===== วาด props =====
-        for (Prop p : props) {
-            p.draw(g);
-        }
+        GhostPreview(g);
 
         if (errorTimer > 0) {
             g.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -357,17 +380,6 @@ public class GamePanel extends JPanel {
                         MapData.TILE_SIZE,
                         MapData.TILE_SIZE,
                         null);
-
-                // draw prop
-                if(MapData.MAP[row][col] == 4){
-                    props.add(Prop.centered(
-                    2 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-                    3 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-                    MapData.TILE_SIZE, MapData.TILE_SIZE, Asset.ROCK1));
-                }
-                if(MapData.MAP[row][col] == 5){
-
-                }
             }
         }
     }

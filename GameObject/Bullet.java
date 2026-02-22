@@ -4,16 +4,15 @@ import GameObject.Character.Enemy.Enemy;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Bullet{
-    double x, y;
+public class Bullet extends GameObject{
+    
     double vx, vy;
     int size = 12;
     double speed;
     int damage;
 
     public Bullet(double x, double y, double speed, int damage) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
         this.speed = speed;
         this.damage = damage;
     }
@@ -27,6 +26,7 @@ public class Bullet{
         y += vy;
     }
 
+    @Override
     public void draw(Graphics g) {
         DrawBullet(g);
     }

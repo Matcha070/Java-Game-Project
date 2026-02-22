@@ -1,16 +1,16 @@
 package GameObject.Character.Enemy;
 
+import GameController.Money;
+import GameObject.GameObject;
+import GameObject.Player.PlayerStat;
+import Map.MapData;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.List;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.List;
 
-import GameObject.Player.PlayerStat;
-import GameController.Money;
-import Map.MapData;
-
-public abstract class Enemy {
+public abstract class Enemy extends GameObject{
     protected int size = MapData.TILE_SIZE;
     protected double speed;
 
@@ -44,9 +44,10 @@ public abstract class Enemy {
     public Enemy(int hp, double speed, int valueEnemy) {
 
         // Start ที่ จุด start
-        Point start = MapData.pathPoints.get(0);
-        this.x = start.x;
-        this.y = start.y;
+        super(
+            MapData.pathPoints.get(0).x,
+            MapData.pathPoints.get(0).y
+        );
 
         this.hp = hp;
         this.maxHp = hp;

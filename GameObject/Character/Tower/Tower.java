@@ -3,6 +3,7 @@ package GameObject.Character.Tower;
 import GameController.Money;
 import GameObject.Bullet;
 import GameObject.Character.Enemy.Enemy;
+import GameObject.GameObject;
 import asset.Asset;
 import asset.AudioManager;
 import java.awt.Graphics;
@@ -12,8 +13,8 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 
-public abstract class Tower {
-    protected int x, y;
+public abstract class Tower extends GameObject{
+
     protected int size = 30;
 
     protected double angle = 0;
@@ -33,9 +34,8 @@ public abstract class Tower {
     protected int antiHeal = 0;
 
     public Tower(String name, int x, int y, int damage, int range, int fireRate, int price, int hp, String description) {
+        super(x, y);
         this.name = name;
-        this.x = x;
-        this.y = y;
         this.damage = damage;
         this.range = range;
         this.fireRate = fireRate;
@@ -54,8 +54,8 @@ public abstract class Tower {
 
     public boolean contains(Point p) {
         Rectangle rect = new Rectangle(
-                x - size / 2,
-                y - size / 2,
+                (int) getX() - size / 2,
+                (int) getY() - size / 2,
                 size,
                 size);
         return rect.contains(p);
@@ -147,8 +147,8 @@ public abstract class Tower {
             int newH = (int) (imgH * scale);
 
             int offsetY = 45;
-            int drawX = x - newW / 2;
-            int drawY = y - newH / 2 - offsetY;
+            int drawX = (int) getX() - newW / 2;
+            int drawY = (int) getY() - newH / 2 - offsetY;
 
             float hpPercent = (float) currentHp / maxHp;
 
@@ -214,10 +214,6 @@ public abstract class Tower {
         if (currentHp > 0) {
             currentHp--;
         }
-    }
-
-    public int getY() {
-        return this.y;
     }
 
 }

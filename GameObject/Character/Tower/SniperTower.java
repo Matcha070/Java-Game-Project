@@ -52,8 +52,8 @@ public class SniperTower extends Tower {
                         AlphaComposite.SRC_OVER, 0.3f));
         g2.setColor(Color.YELLOW);
         g2.fillOval(
-                x - range,
-                y - range,
+                (int) getX() - range,
+                (int) getY() - range,
                 range * 2,
                 range * 2);
         g2.setComposite(
