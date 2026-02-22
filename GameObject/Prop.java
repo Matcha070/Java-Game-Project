@@ -3,27 +3,30 @@ package GameObject;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-public class Prop extends GameObject{
+public class Prop extends GameObject {
 
     private int width, height;
+    private int baseOffset; // ระยะชดเชยพื้น
     private BufferedImage img;
-    
-    
-    public Prop(int x, int y, int width, int height, BufferedImage img) {
-        super(x, y);
+
+    public Prop(double footX, double footY,
+                int width, int height,
+                int baseOffset,
+                BufferedImage img) {
+
+        super(footX, footY);
         this.width = width;
         this.height = height;
+        this.baseOffset = baseOffset;
         this.img = img;
     }
 
+    @Override
     public void draw(Graphics g) {
-        g.drawImage(img, (int) getX(), (int) getY(), width, height, null);
-    }
 
-    // ปรับจุดศูนย์กลางของ prop 
-    public static Prop centered(int centerX, int centerY, int width, int height, BufferedImage img) {
-        int topLeftX = centerX - width / 2;
-        int topLeftY = centerY - height / 2;
-        return new Prop(topLeftX, topLeftY, width, height, img);
+        int drawX = (int)(x - width / 2);
+        int drawY = (int)(y - height + baseOffset);
+
+        g.drawImage(img, drawX, drawY, width, height, null);
     }
 }

@@ -11,7 +11,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
 
 public abstract class Tower extends GameObject{
 
@@ -133,41 +132,22 @@ public abstract class Tower extends GameObject{
 
     protected void DrawTower(Graphics2D g2) {
 
-        if (Asset.TOWER_ICON[3] != null) {
+        BufferedImage img = Asset.TOWER_ICON[3];
+        if (img == null) return;
 
-            BufferedImage img = Asset.TOWER_ICON[3];
+        int imgW = img.getWidth();
+        int imgH = img.getHeight();
 
-            int imgW = img.getWidth();
-            int imgH = img.getHeight();
+        int drawSize = 128;
+        double scale = (double) drawSize / Math.max(imgW, imgH);
 
-            int drawSize = 128;
-            double scale = (double) drawSize / Math.max(imgW, imgH);
+        int newW = (int)(imgW * scale);
+        int newH = (int)(imgH * scale);
 
-            int newW = (int) (imgW * scale);
-            int newH = (int) (imgH * scale);
+        int drawX = (int)(getX() - newW / 2);
+        int drawY = (int)(getY() - newH); // วาดจากพื้นขึ้น
 
-            int offsetY = 45;
-            int drawX = (int) getX() - newW / 2;
-            int drawY = (int) getY() - newH / 2 - offsetY;
-
-            float hpPercent = (float) currentHp / maxHp;
-
-            if (hpPercent < 0.5f) {
-
-                float darkFactor = hpPercent / 0.5f; // 1 → 0
-
-                float[] scales = { darkFactor, darkFactor, darkFactor, 1f };
-                float[] offsets = { 0f, 0f, 0f, 0f };
-
-                RescaleOp op = new RescaleOp(scales, offsets, null);
-                BufferedImage darkImg = op.filter(img, null);
-
-                g2.drawImage(darkImg, drawX, drawY, newW, newH, null);
-
-            } else {
-                g2.drawImage(img, drawX, drawY, newW, newH, null);
-            }
-        }
+        g2.drawImage(img, drawX, drawY, newW, newH, null);
     }
 
     public void setHovered(boolean hovered) {

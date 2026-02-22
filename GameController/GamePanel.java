@@ -183,22 +183,30 @@ public class GamePanel extends JPanel {
             for (int col = 0; col < MapData.MAP[0].length; col++) {
 
                 int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
-                int cy = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
+                int footY = row * MapData.TILE_SIZE + MapData.TILE_SIZE;
 
                 if (MapData.MAP[row][col] == 4) {
-                    props.add(Prop.centered(
-                        cx, cy,
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
                         MapData.TILE_SIZE * 5,
                         MapData.TILE_SIZE * 5,
-                        Asset.TREE1));
+                        90,              // 🔥 ปรับค่านี้ให้พอดีพื้น
+                        Asset.TREE1
+                    ));
                 }
 
                 if (MapData.MAP[row][col] == 5) {
-                    props.add(Prop.centered(
-                        cx, cy,
-                        192,
-                        192,
-                        Asset.TREE1));
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        MapData.TILE_SIZE,
+                        MapData.TILE_SIZE,
+                        0,              
+                        Asset.ROCK1
+                    ));
                 }
             }
         }
@@ -219,21 +227,27 @@ public class GamePanel extends JPanel {
                 col < 0 || col >= MapData.MAP[0].length)
             return;
 
-        if (towers.stream().anyMatch(t -> t.contains(p)) && delete == false)
-            return;
+        boolean hasTower = towers.stream().anyMatch(t ->
+        (int)(t.getX() / MapData.TILE_SIZE) == col &&
+        (int)((t.getY() - 1) / MapData.TILE_SIZE) == row
+        );
 
+        if (hasTower && !delete) return;
+        
         PutTower(col, row);
 
         DeleteTower(p);
     }
 
     private void PutTower(int col, int row) {
+        
         if (MapData.MAP[row][col] == 0) {
+
             int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
-            int cy = row * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
+            int footY = row * MapData.TILE_SIZE + MapData.TILE_SIZE;
             ArrayList<Tower> allTowers = new ArrayList<>(java.util.List.of(
-                    new BaseTower(cx, cy), new SpeedShootTower(cx, cy),
-                    new SniperTower(cx, cy), new MagicTower(cx, cy)));
+                    new BaseTower(cx, footY), new SpeedShootTower(cx, footY),
+                    new SniperTower(cx, footY), new MagicTower(cx, footY)));
             if (id == -1 || PlayerStat.towers >= PlayerStat.towerCap) {
                 System.out.println("no tower selected");
                 System.out.println(PlayerStat.towers + " / " + PlayerStat.towerCap);
@@ -288,18 +302,18 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        drawMap(g);
         
         List<GameObject> renderList = new ArrayList<>();
-        renderList.addAll(props);
         renderList.addAll(towers);
+        renderList.addAll(props);
         
-        drawMap(g);
-
         renderList.sort(Comparator.comparingDouble(GameObject::getY));
 
         for (GameObject obj : renderList) {
             obj.draw(g);
         }
+
 
         for (Enemy enemy : enemies) {
             enemy.draw(g);
@@ -375,9 +389,6 @@ public class GamePanel extends JPanel {
 
 
             }
-        }
-        for(Prop prop : props){
-            prop.draw(g);
         }
     }
 
