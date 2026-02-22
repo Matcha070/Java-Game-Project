@@ -291,7 +291,29 @@ public class GamePanel extends JPanel {
                         Asset.TREE4
                     ));
                 }
-            }   
+                if(Map.MapData.MAP[row][col] == 12) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE ),
+                        (int)(MapData.TILE_SIZE ),
+                         0,           
+                        Asset.ROCK3
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 13) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE ),
+                        (int)(MapData.TILE_SIZE ),
+                         0,           
+                        Asset.ROCK2
+                    ));
+                }
+            }
         }
         
     }
