@@ -10,8 +10,8 @@ public class Wave12 extends Wave {
         for (int i = 0; i < 15; i++)
             spawnQueue.add(new ShieldEnemy());
 
-        // for (int i = 0; i < 10; i++)
-        //     spawnQueue.add(new BerserkerEnemy());
+        for (int i = 0; i < 10; i++)
+            spawnQueue.add(new BerserkerEnemy());
 
         for (int i = 0; i < 10; i++)
             spawnQueue.add(new Slime());
