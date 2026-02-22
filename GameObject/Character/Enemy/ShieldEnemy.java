@@ -18,10 +18,10 @@ public class ShieldEnemy extends Enemy {
     private int drawSize = 96;
 
     public ShieldEnemy() {
-        super(100, 1.2, 30);   
+        super(50, 1.2, 30);   
 
-        this.maxArmorHP = 60;
-        this.armorHP = 60;
+        this.maxArmorHP = 90;
+        this.armorHP = 90;
 
         enemySheet = new EnemySheet(Asset.Tree2, 64, 64);
 
