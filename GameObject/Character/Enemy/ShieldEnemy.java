@@ -18,10 +18,10 @@ public class ShieldEnemy extends Enemy {
     private int drawSize = 96;
 
     public ShieldEnemy() {
-        super(100, 1.2, 30);   
+        super(50, 1.2, 30);   
 
-        this.maxArmorHP = 60;
-        this.armorHP = 60;
+        this.maxArmorHP = 90;
+        this.armorHP = 90;
 
         enemySheet = new EnemySheet(Asset.Tree2, 64, 64);
 
@@ -36,21 +36,51 @@ public class ShieldEnemy extends Enemy {
     @Override
     public void draw(Graphics g) {
         DrawEnemy((Graphics2D) g);
-        super.DrawHpBar(g);
-        DrawArmorBar(g);
+        DrawArmorHpBar(g);
     }
 
-    private void DrawEnemy(Graphics2D g) {
+    private void DrawEnemy(Graphics g) {
         if (!currentAnim.isRight) {
-            g.drawImage(currentAnim.getCurrentFrame(),
-                    (int) x - size - 10,
-                    (int) y - size - 10,
-                    drawSize, drawSize, null);
+            g.drawImage(currentAnim.getCurrentFrame(), (int) x - size - 10, (int) y - size - 10, drawSize, drawSize,
+                    null);
         } else {
-            g.drawImage(currentAnim.getCurrentFrame(),
-                    (int) x - size - 12,
-                    (int) y - size - 10,
-                    -drawSize, drawSize, null);
+            g.drawImage(currentAnim.getCurrentFrame(), (int) x - size - 15, (int) y - size - 10, -drawSize, drawSize,
+                    null);
+        }
+    }
+
+    private void DrawArmorHpBar(Graphics g) {
+
+        int barWidth = 50;
+        int barHeight = 6;
+
+        int barX = (int) x - barWidth / 2;
+        int barY = (int) y - size / 2 - 15;
+
+        int totalMax = maxHp + maxArmorHP;
+
+        // พื้นหลัง
+        g.setColor(Color.DARK_GRAY);
+        g.fillRect(barX, barY, barWidth, barHeight);
+
+        int currentX = barX;
+
+        //วาดเลือดก่อน
+        if (hp > 0) {
+            int hpWidth = barWidth * hp / totalMax;
+
+            g.setColor(Color.RED);
+            g.fillRect(currentX, barY, hpWidth, barHeight);
+
+            currentX += hpWidth;
+        }
+
+        // วาดเกราะต่อด้านหลัง
+        if (armorHP > 0) {
+            int armorWidth = barWidth * armorHP / totalMax;
+
+            g.setColor(Color.CYAN);
+            g.fillRect(currentX, barY, armorWidth, barHeight);
         }
     }
 

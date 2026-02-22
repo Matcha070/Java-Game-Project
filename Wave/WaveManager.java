@@ -8,6 +8,10 @@ public class WaveManager {
     private List<Wave> waves = new ArrayList<>();
     private int currentWaveIndex = -1;
 
+    private boolean waitingNextWave = false;
+    private int waitTimer = 0;
+    private final int WAIT_TIME = 5000; // 1000 ms = 1 วิ
+
     public WaveManager() {
         createWaves();
     }

@@ -43,6 +43,7 @@ public abstract class Enemy extends GameObject{
     protected boolean showHpBar = false;
 
     protected int valueEnemy;
+    
 
     protected List<Enemy> childrenToSpawn = new ArrayList<>();
 
@@ -110,8 +111,8 @@ public abstract class Enemy extends GameObject{
     public abstract void draw(Graphics g);
 
     public void takeDamage(int damage) {
-        takeDamage(damage, false);
-    }
+    takeDamage(damage, false);
+}
 
     public void takeDamage(int damage, boolean HighisPreciseBullet) {
 
@@ -123,6 +124,7 @@ public abstract class Enemy extends GameObject{
             // ถ้าเป็น P bullet ยิงโดนเลือด
             if (HighisPreciseBullet) {
                 hp -= damage;
+                System.out.println("3");
             }else{
                 armorHP -= damage;
             }
