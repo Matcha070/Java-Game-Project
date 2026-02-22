@@ -26,7 +26,6 @@ public abstract class Enemy extends GameObject{
     protected double nodeOffsetY = 0;
 
     protected double laneOffset = 0;
-    protected double x, y;
     protected double vx, vy;
     protected int targetIndex = 0;
 
@@ -44,10 +43,7 @@ public abstract class Enemy extends GameObject{
     public Enemy(int hp, double speed, int valueEnemy) {
 
         // Start ที่ จุด start
-        super(
-            MapData.pathPoints.get(0).x,
-            MapData.pathPoints.get(0).y
-        );
+        super(MapData.pathPoints.get(0).x, MapData.pathPoints.get(0).y);
 
         this.hp = hp;
         this.maxHp = hp;

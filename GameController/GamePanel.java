@@ -163,25 +163,6 @@ public class GamePanel extends JPanel {
                 MapData.MAP[0].length * MapData.TILE_SIZE,
                 MapData.MAP.length * MapData.TILE_SIZE));
 
-        // add props
-        
-
-        props.add(Prop.centered(
-            5 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            1 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            MapData.TILE_SIZE, MapData.TILE_SIZE, Asset.ROCK2));
-
-        
-        props.add(Prop.centered(
-            15 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            5* MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            100,100, Asset.Ruin1));
-        
-        props.add(Prop.centered(
-            2 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            13 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            48,48, Asset.TREE2));
-
         // import delete tower
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Image image = toolkit.getImage("asset/Ui/delete_cursor.png");
@@ -307,18 +288,25 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        drawMap(g);
-
+        
         List<GameObject> renderList = new ArrayList<>();
         renderList.addAll(props);
         renderList.addAll(towers);
-        renderList.addAll(enemies);
-        renderList.addAll(bullets);
+        
+        drawMap(g);
 
         renderList.sort(Comparator.comparingDouble(GameObject::getY));
 
         for (GameObject obj : renderList) {
             obj.draw(g);
+        }
+
+        for (Enemy enemy : enemies) {
+            enemy.draw(g);
+        }
+
+        for (Bullet bullet : bullets) {
+            bullet.draw(g);
         }
 
         GhostPreview(g);
@@ -380,7 +368,12 @@ public class GamePanel extends JPanel {
                         MapData.TILE_SIZE,
                         MapData.TILE_SIZE,
                         null);
+
+
             }
+        }
+        for(Prop prop : props){
+            prop.draw(g);
         }
     }
 
