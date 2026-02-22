@@ -17,8 +17,11 @@ public class Asset {
     public static BufferedImage ROCK3;
     public static BufferedImage TREE1;
     public static BufferedImage TREE2;
+    public static BufferedImage TREE3;
+    public static BufferedImage TREE4;
     public static BufferedImage RUIN1;
     public static BufferedImage RUIN2;
+    public static BufferedImage RUIN3;
     
 
     // ---------Enemy----------
@@ -75,8 +78,11 @@ public class Asset {
             ROCK3 = ImageIO.read(Asset.class.getResource("/asset/Props/Rock/Rock1_3.png"));
             TREE1 = ImageIO.read(Asset.class.getResource("/asset/Props/Tree/Tree1.png"));
             TREE2 = ImageIO.read(Asset.class.getResource("/asset/Props/Tree/Broken_tree5.png"));
+            TREE3 = ImageIO.read(Asset.class.getResource("/asset/Props/Tree/Tree2.png"));
+            TREE4 = ImageIO.read(Asset.class.getResource("/asset/Props/Tree/Broken_tree4.png"));
             RUIN1 = ImageIO.read(Asset.class.getResource("/asset/Props/ruins/Brown_ruins1.png"));
-            RUIN2 = ImageIO.read(Asset.class.getResource("/asset/Props/ruins/Brown-gray_ruins1.png"));
+            RUIN2 = ImageIO.read(Asset.class.getResource("/asset/Props/ruins/Brown_ruins3.png"));
+            RUIN3 = ImageIO.read(Asset.class.getResource("/asset/Props/ruins/Brown_ruins5.png"));
             
             
 
