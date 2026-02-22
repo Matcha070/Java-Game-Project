@@ -311,6 +311,19 @@ public class GamePanel extends JPanel {
 
         GhostPreview(g);
 
+        drawErrorMessage(g);
+
+        if (pause) {
+
+            Graphics2D g2 = (Graphics2D) g;
+
+            // สีเทาจางทั้งจอ
+            g2.setColor(new Color(0, 0, 0, 120));
+            g2.fillRect(0, 0, getWidth(), getHeight());
+        }
+    }
+
+    private void drawErrorMessage(Graphics g) {
         if (errorTimer > 0) {
             g.setFont(new Font("Tahoma", Font.BOLD, 24));
 
@@ -342,15 +355,6 @@ public class GamePanel extends JPanel {
             // ===== วาดข้อความ =====
             g.setColor(Color.RED);
             g.drawString(errorMessage, tx, ty);
-        }
-
-        if (pause) {
-
-            Graphics2D g2 = (Graphics2D) g;
-
-            // สีเทาจางทั้งจอ
-            g2.setColor(new Color(0, 0, 0, 120));
-            g2.fillRect(0, 0, getWidth(), getHeight());
         }
     }
 
