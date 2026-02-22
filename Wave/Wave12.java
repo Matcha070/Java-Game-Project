@@ -16,6 +16,6 @@ public class Wave12 extends Wave {
         for (int i = 0; i < 10; i++)
             spawnQueue.add(new Slime());
 
-        // spawnQueue.add(new BossEnemy());
+        spawnQueue.add(new BossEnemy());
     }
 }

@@ -16,6 +16,7 @@ public class SniperTower extends Tower {
         220,
         25,
         "Shoot slow but high damage");
+        isPreciseBullet = true;
     }
 
     @Override

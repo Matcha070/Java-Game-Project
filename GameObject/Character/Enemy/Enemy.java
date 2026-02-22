@@ -13,6 +13,11 @@ import java.util.List;
 public abstract class Enemy extends GameObject{
     protected int size = MapData.TILE_SIZE;
     protected double speed;
+    protected int armorHP = 0;
+    protected int maxArmorHP = 0;
+
+    protected boolean armorBroken = false;
+    protected double originalSpeed;
 
     protected int antiHealTimer = 0; //att
 
@@ -50,6 +55,7 @@ public abstract class Enemy extends GameObject{
         this.maxHp = hp;
         this.speed = speed;
         this.valueEnemy = valueEnemy;
+        this.originalSpeed = speed;
     }
 
     public void update() {
@@ -104,7 +110,33 @@ public abstract class Enemy extends GameObject{
     public abstract void draw(Graphics g);
 
     public void takeDamage(int damage) {
-        hp -= damage;
+        takeDamage(damage, false);
+    }
+
+    public void takeDamage(int damage, boolean HighisPreciseBullet) {
+
+        
+        //ยังมีเกราะอยู่
+        if (armorHP > 0) {
+
+
+            // ถ้าเป็น P bullet ยิงโดนเลือด
+            if (HighisPreciseBullet) {
+                hp -= damage;
+            }else{
+                armorHP -= damage;
+            }
+
+            if (armorHP <= 0) {
+                armorHP = 0;
+                breakArmor();
+            }
+
+        } else {
+            // ไม่มีเกราะ ยิงเลือดปกติ
+            hp -= damage;
+        }
+
         if (hp <= 0) {
             alive = false;
             onDeath();
@@ -193,6 +225,18 @@ public abstract class Enemy extends GameObject{
 
     public void applyAntiHeal(int duration){
         antiHealTimer = duration;
-}
+    }
+
+    public boolean hasArmor(){
+        return armorHP > 0;
+    }
+
+    private void breakArmor() {
+        if (!armorBroken) {
+            armorBroken = true;
+
+            speed = originalSpeed * 1.8; //วิ่งไวขึ้น
+        }
+    }
 
 }

@@ -17,12 +17,12 @@ public class BossEnemy extends Enemy {
 
     private Animation currentAnim;
 
-    private int drawSize = 96;
+    private int drawSize = 170;
 
     public BossEnemy() {
         super(2000, 0.4, 3000);
 
-        enemySheet = new EnemySheet(Asset.VAMPIRE, 64, 64);
+        enemySheet = new EnemySheet(Asset.VAMPIRE3, 64, 64);
 
         enemyDown = enemySheet.createAnim(0, 8, true);
         enemyUp = enemySheet.createAnim(1, 8, true);

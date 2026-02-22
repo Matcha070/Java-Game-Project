@@ -27,6 +27,7 @@ public class Asset {
     public static BufferedImage Tree2;
 
     public static BufferedImage VAMPIRE;
+    public static BufferedImage VAMPIRE3;
 
 
     public static BufferedImage Tree3;
@@ -85,6 +86,7 @@ public class Asset {
             Tree1 = ImageIO.read(Asset.class.getResource("/asset/enemy/Plant1.png"));
             Tree2 = ImageIO.read(Asset.class.getResource("/asset/enemy/Plant2.png"));
             VAMPIRE = ImageIO.read(Asset.class.getResource("/asset/enemy/Vampires1.png"));
+            VAMPIRE3 = ImageIO.read(Asset.class.getResource("/asset/enemy/Vampire3.png"));
 
             // -----------UI------------
             TOWER_ICON[0] = ImageIO.read(Asset.class.getResource("/asset/tower/tower1.png"));
