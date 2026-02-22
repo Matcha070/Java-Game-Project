@@ -219,8 +219,75 @@ public class GamePanel extends JPanel {
                         Asset.ROCK1
                     ));
                 }
-            }
+                if (MapData.MAP[row][col] == 6) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 2.5),
+                        (int)(MapData.TILE_SIZE * 2.5),
+                        10,             
+                        Asset.RUIN1
+                    ));
+                }
+                if(MapData.MAP[row][col] == 7) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 1.5),
+                        (int)(MapData.TILE_SIZE * 1.5),
+                        10 ,           
+                        Asset.RUIN2
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 8) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        MapData.TILE_SIZE ,
+                        MapData.TILE_SIZE ,
+                         0,           
+                        Asset.RUIN3
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 9) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        MapData.TILE_SIZE ,
+                        MapData.TILE_SIZE ,
+                         0,           
+                        Asset.TREE2
+                    ));
+                }  
+                if(Map.MapData.MAP[row][col] == 10) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 2.15),
+                        (int)(MapData.TILE_SIZE * 2.15),
+                         0,           
+                        Asset.TREE3
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 11) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 2.5),
+                        (int)(MapData.TILE_SIZE * 2.5),
+                         40,           
+                        Asset.TREE4
+                    ));
+                }
+            }   
         }
+        
     }
 
     public void handleClick(Point p) {
