@@ -207,9 +207,9 @@ public class GamePanel extends JPanel {
                     props.add(new Prop(
                         cx,
                         footY,
-                        MapData.TILE_SIZE * 5,
-                        MapData.TILE_SIZE * 5,
-                        90,              // 🔥 ปรับค่านี้ให้พอดีพื้น
+                        (int)(MapData.TILE_SIZE * 2),
+                        (int)(MapData.TILE_SIZE * 2),
+                        0,              // 🔥 ปรับค่านี้ให้พอดีพื้น
                         Asset.TREE1
                     ));
                 }
@@ -230,9 +230,9 @@ public class GamePanel extends JPanel {
                     props.add(new Prop(
                         cx,
                         footY,
-                        (int)(MapData.TILE_SIZE * 2.5),
-                        (int)(MapData.TILE_SIZE * 2.5),
-                        10,             
+                        (int)(MapData.TILE_SIZE *2),
+                        (int)(MapData.TILE_SIZE *2.75),
+                        10,          
                         Asset.RUIN1
                     ));
                 }
@@ -263,8 +263,8 @@ public class GamePanel extends JPanel {
                     props.add(new Prop(
                         cx,
                         footY,
-                        MapData.TILE_SIZE ,
-                        MapData.TILE_SIZE ,
+                        (int)(MapData.TILE_SIZE * 1),
+                        (int)(MapData.TILE_SIZE * 1),
                          0,           
                         Asset.TREE2
                     ));
@@ -274,9 +274,9 @@ public class GamePanel extends JPanel {
                     props.add(new Prop(
                         cx,
                         footY,
-                        (int)(MapData.TILE_SIZE * 2.15),
-                        (int)(MapData.TILE_SIZE * 2.15),
-                         0,           
+                        (int)(MapData.TILE_SIZE * 3.5),
+                        (int)(MapData.TILE_SIZE * 3.5),
+                         40,           
                         Asset.TREE3
                     ));
                 }
@@ -313,9 +313,174 @@ public class GamePanel extends JPanel {
                         Asset.ROCK2
                     ));
                 }
+                 if(Map.MapData.MAP[row][col] == 14) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 2.5 ),
+                        (int)(MapData.TILE_SIZE * 2.5 ),
+                         0,           
+                        Asset.RUIN4
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 15) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 1.5),
+                        (int)(MapData.TILE_SIZE * 1.5 ),
+                         0,           
+                        Asset.RUIN5
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 16) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 1.25),
+                        (int)(MapData.TILE_SIZE * 1.25 ),
+                         0,           
+                        Asset.RUIN6
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 17) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 2),
+                        (int)(MapData.TILE_SIZE * 2 ),
+                         0,           
+                        Asset.RUIN7
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 18) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 2),
+                        (int)(MapData.TILE_SIZE * 2.5),
+                         10,           
+                        Asset.RUIN8
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 19) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 3),
+                        (int)(MapData.TILE_SIZE * 3),
+                         0,           
+                        Asset.RUIN9
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 20) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 2),
+                        (int)(MapData.TILE_SIZE * 2),
+                         0,           
+                        Asset.TREE5
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 21) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 3),
+                        (int)(MapData.TILE_SIZE * 3),
+                         20,           
+                        Asset.TREE6
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 22) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 2),
+                        (int)(MapData.TILE_SIZE * 2.5),
+                         0,           
+                        Asset.RUIN10
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 23) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 1.5),
+                        (int)(MapData.TILE_SIZE * 1.5),
+                         0,           
+                        Asset.RUIN11
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 24) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 0.5),
+                        (int)(MapData.TILE_SIZE * 0.5),
+                         0,           
+                        Asset.ROCK4
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 25) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 1.2),
+                        (int)(MapData.TILE_SIZE * 1.2),
+                         0,           
+                        Asset.RUIN12
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 26) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 1.75),
+                        (int)(MapData.TILE_SIZE * 1.75),
+                         0,           
+                        Asset.RUIN13
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 27) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 1),
+                        (int)(MapData.TILE_SIZE * 1),
+                         0,           
+                        Asset.ROCK5
+                    ));
+                }
+                if(Map.MapData.MAP[row][col] == 28) {
+
+                    props.add(new Prop(
+                        cx,
+                        footY,
+                        (int)(MapData.TILE_SIZE * 1),
+                        (int)(MapData.TILE_SIZE * 1),
+                         0,
+                        Asset.ROCK6
+                    ));
+                }
             }
         }
-        
+    
     }
 
     public void handleClick(Point p) {
