@@ -1,17 +1,20 @@
-package Character.Tower;
+package GameObject.Character.Tower;
 
+import Map.MapData;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
-import Map.MapData;
-
 public class MagicTower extends Tower {
 
     public MagicTower(int x, int y) {
-        super("Magic Tower",x, y, 12, MapData.TILE_SIZE * 3, 48, 150, 40);
+        super("Magic Tower",x, y, 12, MapData.TILE_SIZE * 3,
+        48, 
+        150, 
+        40, 
+        "Make the enemy unable heal");
         antiHeal = 150;
     }
 

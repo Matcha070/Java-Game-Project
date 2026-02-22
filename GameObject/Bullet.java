@@ -1,6 +1,6 @@
-package Character.Tower;
+package GameObject;
 
-import Character.Enemy.Enemy;
+import GameObject.Character.Enemy.Enemy;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -46,5 +46,25 @@ public class Bullet{
 
     public int getDamage() {
         return damage;
+    }
+
+    public double getVx(){
+        return vx;
+    }
+
+    public void setVx(double vx){
+        this.vx = vx;
+    }
+
+    public double getVy(){
+        return vy;
+    }
+
+    public void setVy(double vy){
+        this.vy = vy;
+    }
+
+    public double getSpeed(){
+        return this.speed;
     }
 }

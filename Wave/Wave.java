@@ -1,6 +1,7 @@
 package Wave;
-import Character.Enemy.Enemy;
 import java.util.*;
+
+import GameObject.Character.Enemy.Enemy;
 
 
 public abstract class Wave {

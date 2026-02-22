@@ -1,11 +1,11 @@
-package Character.Enemy;
+package GameObject.Character.Enemy;
 
 import GameController.Animation;
 import asset.Asset;
 import asset.EnemySheet;
 import java.awt.*;
 
-public class RegenEnemy extends Enemy {
+public class Slime extends Enemy {
 
     private EnemySheet enemySheet;
 
@@ -13,25 +13,32 @@ public class RegenEnemy extends Enemy {
     private Animation enemyDown;
     private Animation enemyWalk_left;
     private Animation enemyWalk_right;
+    private boolean isChild = false;
 
     private Animation currentAnim;
 
     private int drawSize = 96;
 
-    public RegenEnemy() {
-        super(70, 1.2, 25);
+    public Slime() {
+        this(false);
+    }
 
-        enemySheet = new EnemySheet(Asset.Tree1, 64, 64);
+    public Slime(boolean isChild) {
+        super(isChild ? 30 : 60, 1.2, isChild ? 5 : 20);
 
-        enemyDown = enemySheet.createAnim(0, 8, true);
-        enemyUp = enemySheet.createAnim(1, 8, true);
-        enemyWalk_left = enemySheet.createAnim(2, 8, true);
-        enemyWalk_right = enemySheet.createAnim(3, 8, true);
+        this.isChild = isChild;
+        enemySheet = new EnemySheet(Asset.SLIME, 64, 64);
+
+        enemyDown = enemySheet.createAnim(0, 4, true);
+        enemyUp = enemySheet.createAnim(1, 4, true);
+        enemyWalk_left = enemySheet.createAnim(2, 4, true);
+        enemyWalk_right = enemySheet.createAnim(3, 4, true);
 
         currentAnim = enemyWalk_right;
 
     }
 
+    @Override
     public void draw(Graphics g) {
         DrawEnemy(g);
         super.DrawHpBar(g);
@@ -49,18 +56,6 @@ public class RegenEnemy extends Enemy {
 
     @Override
     protected void onUpdate() {
-        regenTimer++;
-
-        if (regenTimer >= regenDelay) {
-
-            if(antiHealTimer <= 0){ 
-                hp += regenAmount;
-                if (hp > maxHp)
-                    hp = maxHp;
-            }
-
-            regenTimer = 0;
-        }
 
         if (dirX == 1) {
             currentAnim = enemyWalk_right;
@@ -72,5 +67,36 @@ public class RegenEnemy extends Enemy {
             currentAnim = enemyUp;
         }
         currentAnim.update();
+    }
+
+    private void spawnChildren() {
+
+        Slime child1 = new Slime(true);
+        Slime child2 = new Slime(true);
+
+        child1.nodeOffsetY = -12;
+        child2.nodeOffsetY = 12;
+
+        child1.nodeOffsetX = -12;
+        child2.nodeOffsetX = 12;
+
+        child1.x = this.x ;
+        child1.y = this.y ;
+
+        child2.x = this.x ;
+        child2.y = this.y ;
+
+        child1.targetIndex = this.targetIndex;
+        child2.targetIndex = this.targetIndex;
+
+        childrenToSpawn.add(child1);
+        childrenToSpawn.add(child2);
+    }
+
+    @Override
+    protected void onDeath() {
+        if (!isChild) {
+            spawnChildren();
+        }
     }
 }

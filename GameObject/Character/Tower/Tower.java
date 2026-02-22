@@ -1,10 +1,14 @@
-package Character.Tower;
+package GameObject.Character.Tower;
 
-import Character.Enemy.Enemy;
 import GameController.Money;
+import GameObject.Bullet;
+import GameObject.Character.Enemy.Enemy;
 import asset.Asset;
 import asset.AudioManager;
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 
@@ -18,6 +22,7 @@ public abstract class Tower {
     protected int price;
 
     protected String name;
+    protected String description;
     protected double bulletSpeed = 30.0;
     protected int range;
     protected int fireRate;
@@ -27,7 +32,7 @@ public abstract class Tower {
     protected int currentHp;
     protected int antiHeal = 0;
 
-    public Tower(String name, int x, int y, int damage, int range, int fireRate, int price, int hp) {
+    public Tower(String name, int x, int y, int damage, int range, int fireRate, int price, int hp, String description) {
         this.name = name;
         this.x = x;
         this.y = y;
@@ -38,6 +43,7 @@ public abstract class Tower {
         this.hp = hp;
         this.maxHp = hp;
         this.currentHp = hp;
+        this.description = description;
     }
 
     public abstract void draw(Graphics g);
@@ -115,8 +121,8 @@ public abstract class Tower {
         dirY /= len;
 
         Bullet bullet = new Bullet(x , y , (int) bulletSpeed, damage);
-        bullet.vx = dirX * bullet.speed;
-        bullet.vy = dirY * bullet.speed;
+        bullet.setVx(dirX * bullet.getSpeed());
+        bullet.setVy(dirY * bullet.getSpeed());
 
         takeDamage();
 
@@ -198,6 +204,10 @@ public abstract class Tower {
 
     public float getCurrentHp() {
         return this.currentHp;
+    }
+
+    public String getDescription(){
+        return description;
     }
 
     private void takeDamage() {

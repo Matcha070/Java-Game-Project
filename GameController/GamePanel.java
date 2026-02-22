@@ -1,13 +1,13 @@
 package GameController;
 
-import Character.Enemy.Enemy;
-import Character.Tower.BaseTower;
-import Character.Tower.Bullet;
-import Character.Tower.MagicTower;
-import Character.Tower.PlayerStat;
-import Character.Tower.SniperTower;
-import Character.Tower.SpeedShootTower;
-import Character.Tower.Tower;
+import GameObject.Bullet;
+import GameObject.Character.Enemy.Enemy;
+import GameObject.Character.Tower.BaseTower;
+import GameObject.Character.Tower.MagicTower;
+import GameObject.Character.Tower.SniperTower;
+import GameObject.Character.Tower.SpeedShootTower;
+import GameObject.Character.Tower.Tower;
+import GameObject.Player.PlayerStat;
 import Map.MapData;
 import Map.Prop;
 import UI.PauseMenu.PauseUI;
@@ -18,7 +18,6 @@ import asset.AudioManager;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Comparator;
 import javax.swing.*;
 
 public class GamePanel extends JPanel {
@@ -161,10 +160,7 @@ public class GamePanel extends JPanel {
                 MapData.MAP.length * MapData.TILE_SIZE));
 
         // add props
-        props.add(Prop.centered(
-            2 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            3 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            MapData.TILE_SIZE, MapData.TILE_SIZE, Asset.ROCK1));
+        
 
         props.add(Prop.centered(
             5 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
@@ -284,20 +280,19 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for (int row = 0; row < MapData.MAP.length; row++) {
-            for (int col = 0; col < MapData.MAP[0].length; col++) {
+        drawMap(g);
 
-                BufferedImage img = (MapData.MAP[row][col] == 1 || MapData.MAP[row][col] == 2
-                        || MapData.MAP[row][col] == 3) ? Asset.DIRT : Asset.GRASS;
-
-                g.drawImage(
-                        img,
-                        col * MapData.TILE_SIZE,
-                        row * MapData.TILE_SIZE,
-                        MapData.TILE_SIZE,
-                        MapData.TILE_SIZE,
-                        null);
-            }
+        GhostPreview(g);
+        
+        for (Enemy enemy : enemies) {
+            enemy.draw(g);
+        }
+        for (Bullet bullet : bullets) {
+            bullet.draw(g);
+        }
+        
+        for (Tower tower : towers) {
+            tower.draw(g);
         }
 
         // ===== วาด props =====
@@ -305,19 +300,6 @@ public class GamePanel extends JPanel {
             p.draw(g);
         }
 
-        GhostPreview(g);
-
-        for (Enemy enemy : enemies) {
-            enemy.draw(g);
-        }
-        for (Bullet bullet : bullets) {
-            bullet.draw(g);
-        }
-
-        towers.sort(Comparator.comparingInt(t -> t.getY()));
-        for (Tower tower : towers) {
-            tower.draw(g);
-        }
         if (errorTimer > 0) {
             g.setFont(new Font("Tahoma", Font.BOLD, 24));
 
@@ -358,6 +340,35 @@ public class GamePanel extends JPanel {
             // สีเทาจางทั้งจอ
             g2.setColor(new Color(0, 0, 0, 120));
             g2.fillRect(0, 0, getWidth(), getHeight());
+        }
+    }
+
+    private void drawMap(Graphics g) {
+        for (int row = 0; row < MapData.MAP.length; row++) {
+            for (int col = 0; col < MapData.MAP[0].length; col++) {
+
+                BufferedImage img = (MapData.MAP[row][col] == 1 || MapData.MAP[row][col] == 2
+                        || MapData.MAP[row][col] == 3) ? Asset.DIRT : Asset.GRASS;
+
+                g.drawImage(
+                        img,
+                        col * MapData.TILE_SIZE,
+                        row * MapData.TILE_SIZE,
+                        MapData.TILE_SIZE,
+                        MapData.TILE_SIZE,
+                        null);
+
+                // draw prop
+                if(MapData.MAP[row][col] == 4){
+                    props.add(Prop.centered(
+                    2 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
+                    3 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
+                    MapData.TILE_SIZE, MapData.TILE_SIZE, Asset.ROCK1));
+                }
+                if(MapData.MAP[row][col] == 5){
+
+                }
+            }
         }
     }
 

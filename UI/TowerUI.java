@@ -1,16 +1,17 @@
 package UI;
 
-import Character.Tower.BaseTower;
-import Character.Tower.MagicTower;
-import Character.Tower.SniperTower;
-import Character.Tower.SpeedShootTower;
-import Character.Tower.Tower;
 import GameController.GamePanel;
+import GameObject.Character.Tower.BaseTower;
+import GameObject.Character.Tower.MagicTower;
+import GameObject.Character.Tower.SniperTower;
+import GameObject.Character.Tower.SpeedShootTower;
+import GameObject.Character.Tower.Tower;
 import Map.MapData;
 import asset.Asset;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
 public class TowerUI extends JPanel {
@@ -233,6 +234,7 @@ public class TowerUI extends JPanel {
             int dmg = tower.getDamage();
             int range = tower.getRange();
             int firerate = tower.getFirerate();
+            String description = tower.getDescription();
 
             g2.setFont(FONT);
             FontMetrics fm = g2.getFontMetrics();
@@ -241,6 +243,7 @@ public class TowerUI extends JPanel {
             String dmgText = "Damage: " + dmg;
             String rangeText = "Range: " + range;
             String fireText = "Fire Rate: " + firerate;
+            String descriptionText = description;
 
             int maxTextWidth = Math.max(
                     fm.stringWidth(name),
@@ -249,7 +252,10 @@ public class TowerUI extends JPanel {
                             Math.max(fm.stringWidth(rangeText), fm.stringWidth(fireText))));
 
             int boxWidth = maxTextWidth + padding * 2;
-            int boxHeight = lineHeight * 5 + padding * 2;
+            List<String> wrappedDesc = wrapText(descriptionText, fm, maxTextWidth);
+            int descLines = wrappedDesc.size();
+
+            int boxHeight = lineHeight * (5 + descLines) + padding * 2 - 10;
 
             int boxX = getWidth() - boxWidth - padding;
             int boxY = padding + 240;
@@ -273,7 +279,40 @@ public class TowerUI extends JPanel {
             g2.drawString(dmgText, textX, textY + lineHeight * 2);
             g2.drawString(rangeText, textX, textY + lineHeight * 3);
             g2.drawString(fireText, textX, textY + lineHeight * 4);
+            int descY = textY + lineHeight * 5 + 5;
+
+            // สี description ให้นุ่มลง
+            g2.setColor(new Color(200, 200, 255));
+
+            wrappedDesc = wrapText(descriptionText, fm, boxWidth - padding * 2);
+
+            for (String line : wrappedDesc) {
+                g2.drawString(line, textX, descY);
+                descY += lineHeight - 5;
+            }
         }
+    }
+
+    private List<String> wrapText(String text, FontMetrics fm, int maxWidth) {
+        List<String> lines = new ArrayList<>();
+        String[] words = text.split(" ");
+        StringBuilder currentLine = new StringBuilder();
+
+        for (String word : words) {
+            String testLine = currentLine + word + " ";
+            if (fm.stringWidth(testLine) > maxWidth) {
+                lines.add(currentLine.toString());
+                currentLine = new StringBuilder(word + " ");
+            } else {
+                currentLine.append(word).append(" ");
+            }
+        }
+
+        if (!currentLine.isEmpty()) {
+            lines.add(currentLine.toString());
+        }
+
+        return lines;
     }
 
     private String getHoverText(int id) {

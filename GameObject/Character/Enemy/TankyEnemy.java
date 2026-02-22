@@ -1,11 +1,11 @@
-package Character.Enemy;
+package GameObject.Character.Enemy;
 
 import GameController.Animation;
 import asset.Asset;
 import asset.EnemySheet;
-import java.awt.*;
+import java.awt.Graphics;
 
-public class SpeedyEnemy extends Enemy {
+public class TankyEnemy extends Enemy {
 
     private EnemySheet enemySheet;
 
@@ -15,31 +15,34 @@ public class SpeedyEnemy extends Enemy {
     private Animation enemyWalk_right;
 
     private Animation currentAnim;
+
     private int drawSize = 96;
 
-    public SpeedyEnemy() {
-        super(15, 7, 20);
+    public TankyEnemy() {
+        super(80, 0.6, 40);
 
-        enemySheet = new EnemySheet(Asset.Tree2, 64, 64);
+        enemySheet = new EnemySheet(Asset.VAMPIRE, 64, 64);
 
-        enemyDown = enemySheet.createAnim(0, 12, true);
-        enemyUp = enemySheet.createAnim(1, 12, true);
-        enemyWalk_left = enemySheet.createAnim(2, 12, true);
-        enemyWalk_right = enemySheet.createAnim(3, 12, true);
+        enemyDown = enemySheet.createAnim(0, 8, true);
+        enemyUp = enemySheet.createAnim(1, 8, true);
+        enemyWalk_left = enemySheet.createAnim(2, 8, true);
+        enemyWalk_right = enemySheet.createAnim(3, 8, true);
+
         currentAnim = enemyWalk_right;
+
     }
 
     public void draw(Graphics g) {
-        DrawEnemy((Graphics2D) g);
+        DrawEnemy(g);
         super.DrawHpBar(g);
     }
 
-    private void DrawEnemy(Graphics2D g) {
+    private void DrawEnemy(Graphics g) {
         if (!currentAnim.isRight) {
             g.drawImage(currentAnim.getCurrentFrame(), (int) x - size - 10, (int) y - size - 10, drawSize, drawSize,
                     null);
         } else {
-            g.drawImage(currentAnim.getCurrentFrame(), (int) x - size - 12, (int) y - size - 10, -drawSize, drawSize,
+            g.drawImage(currentAnim.getCurrentFrame(), (int) x - size - 15, (int) y - size - 10, -drawSize, drawSize,
                     null);
         }
     }

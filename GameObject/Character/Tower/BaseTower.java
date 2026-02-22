@@ -1,15 +1,18 @@
-package Character.Tower;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
+package GameObject.Character.Tower;
 
 import Map.MapData;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 
 public class BaseTower extends Tower {
 
     public BaseTower(int x, int y) {
-        super("Base Tower",x, y, 20, MapData.TILE_SIZE * 4, 75, 100, 30);
+        super("Base Tower",x, y, 20, MapData.TILE_SIZE * 4, 
+        75, 
+        100, 
+        30, 
+        "Just a normal tower");
     }
 
     @Override

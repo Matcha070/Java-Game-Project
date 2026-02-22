@@ -1,11 +1,14 @@
-package Character.Enemy;
+package GameObject.Character.Enemy;
 
-import Character.Tower.PlayerStat;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.List;
+import java.awt.Point;
+import java.util.ArrayList;
+
+import GameObject.Player.PlayerStat;
 import GameController.Money;
 import Map.MapData;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Enemy {
     protected int size = MapData.TILE_SIZE;

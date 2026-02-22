@@ -1,18 +1,21 @@
-package Character.Tower;
+package GameObject.Character.Tower;
 
+import Map.MapData;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
-import Map.MapData;
-
 
 public class SniperTower extends Tower {
 
     public SniperTower(int x, int y) {
-        super("Sniper Tower",x, y, 50, MapData.TILE_SIZE * 6, 150, 220, 25);
+        super("Sniper Tower",x, y, 50, MapData.TILE_SIZE * 6, 
+        150,
+        220,
+        25,
+        "Shoot slow but high damage");
     }
 
     @Override

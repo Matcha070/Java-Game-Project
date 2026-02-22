@@ -1,9 +1,8 @@
 package UI.PauseMenu;
 
 import GameController.GamePanel;
+import GameObject.Player.PlayerStat;
 import java.awt.*;
-
-import Character.Tower.PlayerStat;
 
 public class RestartButton {
 

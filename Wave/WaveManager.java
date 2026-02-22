@@ -1,6 +1,6 @@
 package Wave;
-import Character.Enemy.Enemy;
-import Character.Tower.PlayerStat;
+import GameObject.Character.Enemy.Enemy;
+import GameObject.Player.PlayerStat;
 import java.util.*;
 
 public class WaveManager {

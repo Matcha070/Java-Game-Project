@@ -1,18 +1,21 @@
-package Character.Tower;
+package GameObject.Character.Tower;
 
+import Map.MapData;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
-import Map.MapData;
-
 
 public class SpeedShootTower extends Tower {
 
     public SpeedShootTower(int x, int y) {
-        super("Speed Shoot Tower", x, y, 6, MapData.TILE_SIZE * 3, 15, 180, 80);
+        super("Speed Shoot Tower", x, y, 6, MapData.TILE_SIZE * 3, 
+        15, 
+        180, 
+        80, 
+        "This tower is so fast");
     }
 
     @Override

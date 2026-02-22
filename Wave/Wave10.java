@@ -1,6 +1,5 @@
 package Wave;
-import Character.Enemy.*;
-import Character.Tower.PlayerStat;
+import GameObject.Character.Enemy.*;
 
 public class Wave10 extends Wave {
 

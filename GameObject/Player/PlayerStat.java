@@ -1,4 +1,4 @@
-package Character.Tower;
+package GameObject.Player;
 
 public class PlayerStat {
 
