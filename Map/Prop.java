@@ -4,9 +4,9 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 public class Prop {
-    private int x, y;
     private int width, height;
     private BufferedImage img;
+    private int x, y;
     
     
     public Prop(int x, int y, int width, int height, BufferedImage img) {
@@ -21,10 +21,9 @@ public class Prop {
         g.drawImage(img, x, y, width, height, null);
     }
 
-    // ปรับจุดศูนย์กลางของ prop 
-    public static Prop centered(int centerX, int centerY, int width, int height, BufferedImage img) {
-        int topLeftX = centerX - width / 2;
-        int topLeftY = centerY - height / 2;
-        return new Prop(topLeftX, topLeftY, width, height, img);
+    public static Prop centered(Graphics g, int x, int y, int width, int height, BufferedImage img) {
+        int drawX = x - width / 2;
+        int drawY = y - height / 2;
+        return new Prop(drawX, drawY, width, height, img);
     }
 }

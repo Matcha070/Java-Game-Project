@@ -159,29 +159,6 @@ public class GamePanel extends JPanel {
                 MapData.MAP[0].length * MapData.TILE_SIZE,
                 MapData.MAP.length * MapData.TILE_SIZE));
 
-        // add props
-        
-
-        props.add(Prop.centered(
-            5 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            1 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            MapData.TILE_SIZE, MapData.TILE_SIZE, Asset.ROCK2));
-
-        props.add(Prop.centered(
-            8 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            4 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            192,192, Asset.TREE1));
-
-        props.add(Prop.centered(
-            15 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            5* MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            100,100, Asset.Ruin1));
-        
-        props.add(Prop.centered(
-            2 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            13 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-            48,48, Asset.TREE2));
-
         // import delete tower
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Image image = toolkit.getImage("asset/Ui/delete_cursor.png");
@@ -295,11 +272,6 @@ public class GamePanel extends JPanel {
             tower.draw(g);
         }
 
-        // ===== วาด props =====
-        for (Prop p : props) {
-            p.draw(g);
-        }
-
         if (errorTimer > 0) {
             g.setFont(new Font("Tahoma", Font.BOLD, 24));
 
@@ -360,15 +332,27 @@ public class GamePanel extends JPanel {
 
                 // draw prop
                 if(MapData.MAP[row][col] == 4){
-                    props.add(Prop.centered(
-                    2 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-                    3 * MapData.TILE_SIZE + MapData.TILE_SIZE/2,
-                    MapData.TILE_SIZE, MapData.TILE_SIZE, Asset.ROCK1));
+                    props.add(new Prop(col * MapData.TILE_SIZE, row * MapData.TILE_SIZE, MapData.TILE_SIZE, MapData.TILE_SIZE, Asset.ROCK1));
                 }
                 if(MapData.MAP[row][col] == 5){
-
+                    props.add(new Prop(col * MapData.TILE_SIZE, row * MapData.TILE_SIZE, MapData.TILE_SIZE, MapData.TILE_SIZE, Asset.ROCK2));
+                }
+                if(MapData.MAP[row][col] == 6){
+                    props.add(new Prop(col * MapData.TILE_SIZE, row * MapData.TILE_SIZE, MapData.TILE_SIZE, MapData.TILE_SIZE, Asset.TREE1));
+                }
+                if(MapData.MAP[row][col] == 7){
+                    props.add(new Prop(col * MapData.TILE_SIZE, row * MapData.TILE_SIZE, MapData.TILE_SIZE, MapData.TILE_SIZE, Asset.TREE2));
+                }
+                if(MapData.MAP[row][col] == 8){
+                    props.add(new Prop(col * MapData.TILE_SIZE, row * MapData.TILE_SIZE, MapData.TILE_SIZE, MapData.TILE_SIZE, Asset.RUIN1));
+                }
+                if(MapData.MAP[row][col] == 9){
+                    props.add(new Prop(col * MapData.TILE_SIZE, row * MapData.TILE_SIZE, MapData.TILE_SIZE, MapData.TILE_SIZE, Asset.ROCK3));
                 }
             }
+        }
+        for(Prop prop : props){
+            prop.draw(g);
         }
     }
 
