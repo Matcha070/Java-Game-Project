@@ -31,6 +31,7 @@ public abstract class Enemy extends GameObject{
 
     protected int hp;
     protected int maxHp;
+    protected int damage = 1;
     protected boolean alive = true;
     protected boolean outOfRange = false;
 
@@ -65,7 +66,7 @@ public abstract class Enemy extends GameObject{
     private boolean EnemyOutOfRange() {
         if (targetIndex >= MapData.pathPoints.size()) {
             System.out.println("Take dmg");
-            PlayerStat.takeDMG(hp);
+            PlayerStat.takeDMG(damage);
             outOfRange = true;
             return true;
         }
@@ -159,6 +160,14 @@ public abstract class Enemy extends GameObject{
     public double getVy() {
         return vy;
     }
+
+    public int getTargetIndex() {
+        return targetIndex;
+    }
+
+    public int getDMG(){
+        return damage;
+    } 
 
     protected void onUpdate() {
         //

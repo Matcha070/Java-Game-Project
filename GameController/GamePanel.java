@@ -101,13 +101,21 @@ public class GamePanel extends JPanel {
 
                 for (Tower tower : towers) {
 
-                    Enemy target = null;
                     tower.update();
-                    // หาเป้าหมาย
+
+                    Enemy target = null;
+                    int maxProgress = -1;
+
                     for (Enemy enemy : enemies) {
-                        if (tower.isEnemyInRange(enemy)) {
+
+                        if (!enemy.isAlive()) continue;
+                        if (!tower.isEnemyInRange(enemy)) continue;
+
+                        int progress = enemy.getTargetIndex();
+
+                        if (progress > maxProgress) {
+                            maxProgress = progress;
                             target = enemy;
-                            break; // เจอตัวแรกพอ
                         }
                     }
 

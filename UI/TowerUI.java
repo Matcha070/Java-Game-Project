@@ -329,6 +329,7 @@ public class TowerUI extends JPanel {
                 return "";
         }
     }
+
 }
 
 class DeleteTower {
