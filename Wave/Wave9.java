@@ -10,7 +10,7 @@ public class Wave9 extends Wave {
         for (int i = 0; i < 20; i++)
             spawnQueue.add(new TankyEnemy());
 
-        // for (int i = 0; i < 10; i++)
-        //     spawnQueue.add(new BerserkerEnemy());
+        for (int i = 0; i < 10; i++)
+            spawnQueue.add(new BerserkerEnemy());
     }
 }

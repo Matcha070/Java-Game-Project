@@ -47,14 +47,16 @@ public class Asset {
 
     // ---------Enemy----------
     public static BufferedImage SLIME;
+    public static BufferedImage SLIME3;
+
     public static BufferedImage Tree1;
     public static BufferedImage Tree2;
+    public static BufferedImage Tree3;
 
     public static BufferedImage VAMPIRE;
     public static BufferedImage VAMPIRE3;
 
 
-    public static BufferedImage Tree3;
     
 
     // -----------UI------------
@@ -155,8 +157,10 @@ public class Asset {
 
             // ---------Enemy----------
             SLIME = ImageIO.read(Asset.class.getResource("/asset/enemy/Slime1.png"));
+            SLIME3 = ImageIO.read(Asset.class.getResource("/asset/enemy/Slime3.png"));
             Tree1 = ImageIO.read(Asset.class.getResource("/asset/enemy/Plant1.png"));
             Tree2 = ImageIO.read(Asset.class.getResource("/asset/enemy/Plant2.png"));
+            Tree3 = ImageIO.read(Asset.class.getResource("/asset/enemy/Plant3.png"));
             VAMPIRE = ImageIO.read(Asset.class.getResource("/asset/enemy/Vampires1.png"));
             VAMPIRE3 = ImageIO.read(Asset.class.getResource("/asset/enemy/Vampire3.png"));
 

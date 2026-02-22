@@ -23,7 +23,7 @@ public class ShieldEnemy extends Enemy {
         this.maxArmorHP = 90;
         this.armorHP = 90;
 
-        enemySheet = new EnemySheet(Asset.Tree2, 64, 64);
+        enemySheet = new EnemySheet(Asset.SLIME3, 64, 64);
 
         enemyDown = enemySheet.createAnim(0, 12, true);
         enemyUp = enemySheet.createAnim(1, 12, true);
@@ -98,7 +98,7 @@ public class ShieldEnemy extends Enemy {
     @Override
     protected void onUpdate() {
 
-        // 🎬 animation
+        // animation
         if (dirX == 1) {
             currentAnim = enemyWalk_right;
         } else if (dirX == -1) {
