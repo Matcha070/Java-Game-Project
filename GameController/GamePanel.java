@@ -48,6 +48,10 @@ public class GamePanel extends JPanel {
     private String errorMessage = "";
     private int errorTimer = 0;
 
+
+    private final Font FONT_24 = new Font("Tahoma", Font.BOLD, 24);
+    private final Color BACK_COLOR = new Color(0, 0, 0, 120);
+
     // field ของ GamePanel
     ArrayList<Prop> props = new ArrayList<>();
 
@@ -93,8 +97,7 @@ public class GamePanel extends JPanel {
                         enemies.addAll(enemy.getChildrenToSpawn());
 
                         enemies.remove(i);
-                    }
-                    else if(enemy.isOutOfRange()){
+                    } else if (enemy.isOutOfRange()) {
                         enemies.remove(i);
                     }
                 }
@@ -318,9 +321,16 @@ public class GamePanel extends JPanel {
         
         renderList.sort(Comparator.comparingDouble(GameObject::getY));
 
+
+                BufferedImage img = (MapData.MAP[row][col] == 1 || MapData.MAP[row][col] == 2
+                        || MapData.MAP[row][col] == 3) ? Asset.DIRT : Asset.GRASS;
+
+                g.drawImage(img, col * MapData.TILE_SIZE, row * MapData.TILE_SIZE, MapData.TILE_SIZE, MapData.TILE_SIZE,
+                        null);
+            }
+
         for (GameObject obj : renderList) {
             obj.draw(g);
-        }
 
 
         for (Enemy enemy : enemies) {
@@ -347,6 +357,9 @@ public class GamePanel extends JPanel {
 
     private void drawErrorMessage(Graphics g) {
         if (errorTimer > 0) {
+
+            g.setFont(FONT_24);
+            g.setColor(Color.RED);
             g.setFont(new Font("Tahoma", Font.BOLD, 24));
 
             FontMetrics fm = g.getFontMetrics();
@@ -386,6 +399,11 @@ public class GamePanel extends JPanel {
 
                 BufferedImage img = (MapData.MAP[row][col] == 1 || MapData.MAP[row][col] == 2
                         || MapData.MAP[row][col] == 3) ? Asset.DIRT : Asset.GRASS;
+
+
+            // สีเทาจางทั้งจอ
+            g2.setColor(BACK_COLOR);
+            g2.fillRect(0, 0, getWidth(), getHeight());
 
                 g.drawImage(
                         img,
@@ -447,7 +465,7 @@ public class GamePanel extends JPanel {
         if (window instanceof JFrame) {
             ((JFrame) window).dispose();
         }
-        
+
     }
 
     public void togglePause() {
@@ -494,7 +512,6 @@ public class GamePanel extends JPanel {
         return this.timer;
     }
 
-
     public boolean isPause() {
         return pause;
     }
@@ -539,13 +556,11 @@ public class GamePanel extends JPanel {
         return isOver;
     }
 
-    public boolean getIsSelectTower(){
+    public boolean getIsSelectTower() {
         return isSelectTower;
     }
 
-    public void setIsSelectTower(boolean B){
+    public void setIsSelectTower(boolean B) {
         isSelectTower = B;
     }
-
 }
-
