@@ -275,13 +275,11 @@ public class GamePanel extends JPanel {
             tower.draw(g);
         }
         if (errorTimer > 0) {
-<<<<<<< HEAD
+
             g.setFont(FONT_24);
             g.setColor(Color.RED);
-=======
             g.setFont(new Font("Tahoma", Font.BOLD, 24));
 
->>>>>>> 83ebb55b17b56e50554d8876d80ebc64bf7fb192
             FontMetrics fm = g.getFontMetrics();
             int textWidth = fm.stringWidth(errorMessage);
             int textHeight = fm.getHeight();
@@ -369,7 +367,7 @@ public class GamePanel extends JPanel {
         if (window instanceof JFrame) {
             ((JFrame) window).dispose();
         }
-        
+
     }
 
     public void togglePause() {
@@ -416,7 +414,6 @@ public class GamePanel extends JPanel {
         return this.timer;
     }
 
-
     public boolean isPause() {
         return pause;
     }
@@ -461,12 +458,11 @@ public class GamePanel extends JPanel {
         return isOver;
     }
 
-    public boolean getIsSelectTower(){
+    public boolean getIsSelectTower() {
         return isSelectTower;
     }
 
-    public void setIsSelectTower(boolean B){
+    public void setIsSelectTower(boolean B) {
         isSelectTower = B;
     }
 }
-
