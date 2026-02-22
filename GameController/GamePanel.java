@@ -137,7 +137,7 @@ public class GamePanel extends JPanel {
                         Enemy enemy = enemies.get(j);
 
                         if (bullet.hitEnemy(enemy)) {
-                            enemy.takeDamage(bullet.getDamage());
+                            enemy.takeDamage(bullet.getDamage(),bullet.isPBulllet());
                             bullets.remove(i);
                             break;
                         }
