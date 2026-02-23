@@ -17,13 +17,15 @@ import Wave.WaveManager;
 import asset.Asset;
 import asset.AudioManager;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import javax.swing.*;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements KeyListener {
 
     BufferedImage grass, path;
     // Enemy enemy;
@@ -37,7 +39,6 @@ public class GamePanel extends JPanel {
     boolean pause = false;
     boolean isOver = false;
 
-
     Point mousePoint = null;
     Timer timer;
     Money money;
@@ -48,7 +49,6 @@ public class GamePanel extends JPanel {
     private String errorMessage = "";
     private int errorTimer = 0;
     private long lastTime = System.nanoTime();
-
 
     private final Font FONT_24 = new Font("Tahoma", Font.BOLD, 24);
     private final Color BACK_COLOR = new Color(0, 0, 0, 120);
@@ -83,9 +83,8 @@ public class GamePanel extends JPanel {
             double deltaTime = (now - lastTime) / 1_000_000_000.0; // วินาที
             lastTime = now;
 
-
             if (!pause && !isOver) {
-                waveManager.update(enemies,deltaTime);
+                waveManager.update(enemies, deltaTime);
                 if (towerUi != null)
                     towerUi.update();
 
@@ -117,8 +116,10 @@ public class GamePanel extends JPanel {
 
                     for (Enemy enemy : enemies) {
 
-                        if (!enemy.isAlive()) continue;
-                        if (!tower.isEnemyInRange(enemy)) continue;
+                        if (!enemy.isAlive())
+                            continue;
+                        if (!tower.isEnemyInRange(enemy))
+                            continue;
 
                         int progress = enemy.getTargetIndex();
 
@@ -143,7 +144,7 @@ public class GamePanel extends JPanel {
                         Enemy enemy = enemies.get(j);
 
                         if (bullet.hitEnemy(enemy)) {
-                            enemy.takeDamage(bullet.getDamage(),bullet.isPBulllet());
+                            enemy.takeDamage(bullet.getDamage(), bullet.isPBulllet());
                             bullets.remove(i);
                             break;
                         }
@@ -190,6 +191,7 @@ public class GamePanel extends JPanel {
                 "DeleteCursor");
 
         setFocusable(true);
+        addKeyListener(this);
         requestFocusInWindow();
 
     }
@@ -205,282 +207,257 @@ public class GamePanel extends JPanel {
                 if (MapData.MAP[row][col] == 4) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 2),
-                        (int)(MapData.TILE_SIZE * 2),
-                        0,              // 🔥 ปรับค่านี้ให้พอดีพื้น
-                        Asset.TREE1
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 2),
+                            (int) (MapData.TILE_SIZE * 2),
+                            0, // 🔥 ปรับค่านี้ให้พอดีพื้น
+                            Asset.TREE1));
                 }
 
                 if (MapData.MAP[row][col] == 5) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        MapData.TILE_SIZE,
-                        MapData.TILE_SIZE,
-                        0,              
-                        Asset.ROCK1
-                    ));
+                            cx,
+                            footY,
+                            MapData.TILE_SIZE,
+                            MapData.TILE_SIZE,
+                            0,
+                            Asset.ROCK1));
                 }
                 if (MapData.MAP[row][col] == 6) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE *2),
-                        (int)(MapData.TILE_SIZE *2.75),
-                        10,          
-                        Asset.RUIN1
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 2),
+                            (int) (MapData.TILE_SIZE * 2.75),
+                            10,
+                            Asset.RUIN1));
                 }
-                if(MapData.MAP[row][col] == 7) {
+                if (MapData.MAP[row][col] == 7) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 1.5),
-                        (int)(MapData.TILE_SIZE * 1.5),
-                        10 ,           
-                        Asset.RUIN2
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 1.5),
+                            (int) (MapData.TILE_SIZE * 1.5),
+                            10,
+                            Asset.RUIN2));
                 }
-                if(Map.MapData.MAP[row][col] == 8) {
+                if (Map.MapData.MAP[row][col] == 8) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        MapData.TILE_SIZE ,
-                        MapData.TILE_SIZE ,
-                         0,           
-                        Asset.RUIN3
-                    ));
+                            cx,
+                            footY,
+                            MapData.TILE_SIZE,
+                            MapData.TILE_SIZE,
+                            0,
+                            Asset.RUIN3));
                 }
-                if(Map.MapData.MAP[row][col] == 9) {
+                if (Map.MapData.MAP[row][col] == 9) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 1),
-                        (int)(MapData.TILE_SIZE * 1),
-                         0,           
-                        Asset.TREE2
-                    ));
-                }  
-                if(Map.MapData.MAP[row][col] == 10) {
-
-                    props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 3.5),
-                        (int)(MapData.TILE_SIZE * 3.5),
-                         40,           
-                        Asset.TREE3
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 1),
+                            (int) (MapData.TILE_SIZE * 1),
+                            0,
+                            Asset.TREE2));
                 }
-                if(Map.MapData.MAP[row][col] == 11) {
+                if (Map.MapData.MAP[row][col] == 10) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 2.5),
-                        (int)(MapData.TILE_SIZE * 2.5),
-                         40,           
-                        Asset.TREE4
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 3.5),
+                            (int) (MapData.TILE_SIZE * 3.5),
+                            40,
+                            Asset.TREE3));
                 }
-                if(Map.MapData.MAP[row][col] == 12) {
+                if (Map.MapData.MAP[row][col] == 11) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE ),
-                        (int)(MapData.TILE_SIZE ),
-                         0,           
-                        Asset.ROCK3
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 2.5),
+                            (int) (MapData.TILE_SIZE * 2.5),
+                            40,
+                            Asset.TREE4));
                 }
-                if(Map.MapData.MAP[row][col] == 13) {
+                if (Map.MapData.MAP[row][col] == 12) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE ),
-                        (int)(MapData.TILE_SIZE ),
-                         0,           
-                        Asset.ROCK2
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE),
+                            (int) (MapData.TILE_SIZE),
+                            0,
+                            Asset.ROCK3));
                 }
-                 if(Map.MapData.MAP[row][col] == 14) {
+                if (Map.MapData.MAP[row][col] == 13) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 2.5 ),
-                        (int)(MapData.TILE_SIZE * 2.5 ),
-                         0,           
-                        Asset.RUIN4
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE),
+                            (int) (MapData.TILE_SIZE),
+                            0,
+                            Asset.ROCK2));
                 }
-                if(Map.MapData.MAP[row][col] == 15) {
+                if (Map.MapData.MAP[row][col] == 14) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 1.5),
-                        (int)(MapData.TILE_SIZE * 1.5 ),
-                         0,           
-                        Asset.RUIN5
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 2.5),
+                            (int) (MapData.TILE_SIZE * 2.5),
+                            0,
+                            Asset.RUIN4));
                 }
-                if(Map.MapData.MAP[row][col] == 16) {
+                if (Map.MapData.MAP[row][col] == 15) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 1.25),
-                        (int)(MapData.TILE_SIZE * 1.25 ),
-                         0,           
-                        Asset.RUIN6
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 1.5),
+                            (int) (MapData.TILE_SIZE * 1.5),
+                            0,
+                            Asset.RUIN5));
                 }
-                if(Map.MapData.MAP[row][col] == 17) {
+                if (Map.MapData.MAP[row][col] == 16) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 2),
-                        (int)(MapData.TILE_SIZE * 2 ),
-                         0,           
-                        Asset.RUIN7
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 1.25),
+                            (int) (MapData.TILE_SIZE * 1.25),
+                            0,
+                            Asset.RUIN6));
                 }
-                if(Map.MapData.MAP[row][col] == 18) {
+                if (Map.MapData.MAP[row][col] == 17) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 2),
-                        (int)(MapData.TILE_SIZE * 2.5),
-                         10,           
-                        Asset.RUIN8
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 2),
+                            (int) (MapData.TILE_SIZE * 2),
+                            0,
+                            Asset.RUIN7));
                 }
-                if(Map.MapData.MAP[row][col] == 19) {
+                if (Map.MapData.MAP[row][col] == 18) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 3),
-                        (int)(MapData.TILE_SIZE * 3),
-                         0,           
-                        Asset.RUIN9
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 2),
+                            (int) (MapData.TILE_SIZE * 2.5),
+                            10,
+                            Asset.RUIN8));
                 }
-                if(Map.MapData.MAP[row][col] == 20) {
+                if (Map.MapData.MAP[row][col] == 19) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 2),
-                        (int)(MapData.TILE_SIZE * 2),
-                         0,           
-                        Asset.TREE5
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 3),
+                            (int) (MapData.TILE_SIZE * 3),
+                            0,
+                            Asset.RUIN9));
                 }
-                if(Map.MapData.MAP[row][col] == 21) {
+                if (Map.MapData.MAP[row][col] == 20) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 3),
-                        (int)(MapData.TILE_SIZE * 3),
-                         20,           
-                        Asset.TREE6
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 2),
+                            (int) (MapData.TILE_SIZE * 2),
+                            0,
+                            Asset.TREE5));
                 }
-                if(Map.MapData.MAP[row][col] == 22) {
+                if (Map.MapData.MAP[row][col] == 21) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 2),
-                        (int)(MapData.TILE_SIZE * 2.5),
-                         0,           
-                        Asset.RUIN10
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 3),
+                            (int) (MapData.TILE_SIZE * 3),
+                            20,
+                            Asset.TREE6));
                 }
-                if(Map.MapData.MAP[row][col] == 23) {
+                if (Map.MapData.MAP[row][col] == 22) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 1.5),
-                        (int)(MapData.TILE_SIZE * 1.5),
-                         0,           
-                        Asset.RUIN11
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 2),
+                            (int) (MapData.TILE_SIZE * 2.5),
+                            0,
+                            Asset.RUIN10));
                 }
-                if(Map.MapData.MAP[row][col] == 24) {
+                if (Map.MapData.MAP[row][col] == 23) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 0.5),
-                        (int)(MapData.TILE_SIZE * 0.5),
-                         0,           
-                        Asset.ROCK4
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 1.5),
+                            (int) (MapData.TILE_SIZE * 1.5),
+                            0,
+                            Asset.RUIN11));
                 }
-                if(Map.MapData.MAP[row][col] == 25) {
+                if (Map.MapData.MAP[row][col] == 24) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 1.2),
-                        (int)(MapData.TILE_SIZE * 1.2),
-                         0,           
-                        Asset.RUIN12
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 0.5),
+                            (int) (MapData.TILE_SIZE * 0.5),
+                            0,
+                            Asset.ROCK4));
                 }
-                if(Map.MapData.MAP[row][col] == 26) {
+                if (Map.MapData.MAP[row][col] == 25) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 1.75),
-                        (int)(MapData.TILE_SIZE * 1.75),
-                         0,           
-                        Asset.RUIN13
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 1.2),
+                            (int) (MapData.TILE_SIZE * 1.2),
+                            0,
+                            Asset.RUIN12));
                 }
-                if(Map.MapData.MAP[row][col] == 27) {
+                if (Map.MapData.MAP[row][col] == 26) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 1),
-                        (int)(MapData.TILE_SIZE * 1),
-                         0,           
-                        Asset.ROCK5
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 1.75),
+                            (int) (MapData.TILE_SIZE * 1.75),
+                            0,
+                            Asset.RUIN13));
                 }
-                if(Map.MapData.MAP[row][col] == 28) {
+                if (Map.MapData.MAP[row][col] == 27) {
 
                     props.add(new Prop(
-                        cx,
-                        footY,
-                        (int)(MapData.TILE_SIZE * 1),
-                        (int)(MapData.TILE_SIZE * 1),
-                         0,
-                        Asset.ROCK6
-                    ));
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 1),
+                            (int) (MapData.TILE_SIZE * 1),
+                            0,
+                            Asset.ROCK5));
+                }
+                if (Map.MapData.MAP[row][col] == 28) {
+
+                    props.add(new Prop(
+                            cx,
+                            footY,
+                            (int) (MapData.TILE_SIZE * 1),
+                            (int) (MapData.TILE_SIZE * 1),
+                            0,
+                            Asset.ROCK6));
                 }
             }
         }
-    
+
     }
 
     public void handleClick(Point p) {
@@ -498,20 +475,19 @@ public class GamePanel extends JPanel {
                 col < 0 || col >= MapData.MAP[0].length)
             return;
 
-        boolean hasTower = towers.stream().anyMatch(t ->
-        (int)(t.getX() / MapData.TILE_SIZE) == col &&
-        (int)((t.getY() - 1) / MapData.TILE_SIZE) == row
-        );
+        boolean hasTower = towers.stream().anyMatch(t -> (int) (t.getX() / MapData.TILE_SIZE) == col &&
+                (int) ((t.getY() - 1) / MapData.TILE_SIZE) == row);
 
-        if (hasTower && !delete) return;
-        
+        if (hasTower && !delete)
+            return;
+
         PutTower(col, row);
 
         DeleteTower(p);
     }
 
     private void PutTower(int col, int row) {
-        
+
         if (MapData.MAP[row][col] == 0) {
 
             int cx = col * MapData.TILE_SIZE + MapData.TILE_SIZE / 2;
@@ -626,7 +602,6 @@ public class GamePanel extends JPanel {
             g2.drawString(text, x, y);
         }
     }
-    
 
     private void drawErrorMessage(Graphics g) {
         if (errorTimer > 0) {
@@ -667,7 +642,8 @@ public class GamePanel extends JPanel {
     }
 
     private void drawMap(Graphics g) {
-        if (Asset.Map == null) return;
+        if (Asset.Map == null)
+            return;
 
         int imgW = Asset.Map.getWidth();
         int imgH = Asset.Map.getHeight();
@@ -686,24 +662,24 @@ public class GamePanel extends JPanel {
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g2.drawImage(Asset.Map, x, y, drawW, drawH, null);
         // for (int row = 0; row < MapData.MAP.length; row++) {
-        //     for (int col = 0; col < MapData.MAP[0].length; col++) {
+        // for (int col = 0; col < MapData.MAP[0].length; col++) {
 
-        //         BufferedImage img =
-        //                 (MapData.MAP[row][col] == 1 ||
-        //                 MapData.MAP[row][col] == 2 ||
-        //                 MapData.MAP[row][col] == 3)
-        //                 ? Asset.DIRT
-        //                 : Asset.GRASS;
+        // BufferedImage img =
+        // (MapData.MAP[row][col] == 1 ||
+        // MapData.MAP[row][col] == 2 ||
+        // MapData.MAP[row][col] == 3)
+        // ? Asset.DIRT
+        // : Asset.GRASS;
 
-        //         g.drawImage(
-        //                 img,
-        //                 col * MapData.TILE_SIZE,
-        //                 row * MapData.TILE_SIZE,
-        //                 MapData.TILE_SIZE,
-        //                 MapData.TILE_SIZE,
-        //                 null
-        //         );
-        //     }
+        // g.drawImage(
+        // img,
+        // col * MapData.TILE_SIZE,
+        // row * MapData.TILE_SIZE,
+        // MapData.TILE_SIZE,
+        // MapData.TILE_SIZE,
+        // null
+        // );
+        // }
         // }
     }
 
@@ -854,5 +830,19 @@ public class GamePanel extends JPanel {
     public void setIsSelectTower(boolean B) {
         isSelectTower = B;
     }
-}
 
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (isOver && e.getKeyCode() == KeyEvent.VK_ENTER) {
+            RestartGame();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+}

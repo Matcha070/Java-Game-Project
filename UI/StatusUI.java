@@ -4,6 +4,7 @@ import GameController.GamePanel;
 import GameObject.Player.PlayerStat;
 import asset.Asset;
 import java.awt.*;
+
 import javax.swing.*;
 
 public class StatusUI extends JPanel {
@@ -32,9 +33,8 @@ public class StatusUI extends JPanel {
         MoneyUi(g2);
         HeartUi(g2);
 
-        if (PlayerStat.HP <= 0) {
+        if (game.isOver()) {
             drawGameOver(g2);
-            game.setGameOver(true);
         }
 
     }
@@ -137,6 +137,11 @@ public class StatusUI extends JPanel {
 
         g2.setColor(Color.RED);
         g2.drawString(text, x, y);
+
+        g2.setFont(FONT_22);
+        g2.setColor(Color.WHITE);
+        g2.drawString("Enter To Restart.", x + 175, y + 50);
+
     }
 
 }
