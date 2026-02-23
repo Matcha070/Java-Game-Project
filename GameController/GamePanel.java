@@ -554,19 +554,13 @@ public class GamePanel extends JPanel implements KeyListener {
         List<GameObject> renderList = new ArrayList<>();
         renderList.addAll(towers);
         renderList.addAll(props);
+        renderList.addAll(enemies);
+        renderList.addAll(bullets);
 
         renderList.sort(Comparator.comparingDouble(GameObject::getY));
 
         for (GameObject obj : renderList) {
             obj.draw(g);
-        }
-
-        for (Enemy enemy : enemies) {
-            enemy.draw(g);
-        }
-
-        for (Bullet bullet : bullets) {
-            bullet.draw(g);
         }
 
         GhostPreview(g);
