@@ -1,6 +1,8 @@
 package Wave;
 import GameObject.Character.Enemy.Enemy;
 import GameObject.Player.PlayerStat;
+import asset.Asset;
+import asset.AudioManager;
 import java.util.*;
 
 public class WaveManager {
@@ -66,6 +68,7 @@ public class WaveManager {
                     currentWaveIndex++;
                     increaseTowerCap(currentWaveIndex);
                     state = WaveState.SPAWNING;
+                    AudioManager.playSFX(Asset.SFX_STARTING_WAVE);
                 }
 
                 break;

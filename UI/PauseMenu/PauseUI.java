@@ -3,6 +3,7 @@ package UI.PauseMenu;
 import GameController.GamePanel;
 import UI.QuitButton;
 import UI.ResumeButton;
+import asset.Asset;
 import asset.AudioManager;
 import java.awt.*;
 import javax.swing.*;
@@ -16,6 +17,7 @@ public class PauseUI extends JPanel {
     private RestartButton restartButton;
     private SettingButton settingButton;
     private QuitButton quitButton;
+    public static boolean isSettingOpen = false;
 
     public PauseUI(GamePanel game) {
 
@@ -46,10 +48,10 @@ public class PauseUI extends JPanel {
     // ================= CLICK =================
 
     public void handleClick(Point p) {
-
         // ===== ปุ่ม pause มุมซ้าย =====
         if (pauseButton.isClick(p)) {
-
+            AudioManager.playSFX(Asset.SFX_MENU_CLICK);
+            // System.out.println("111");
             if (game.isPause()) {
                 AudioManager.resumeBGM();
             } else {
@@ -69,11 +71,14 @@ public class PauseUI extends JPanel {
             restartButton.handleClick(p);
 
             // เปิด Setting (ไม่ resume เกม)
-            if (settingButton.isClick(p)) {
+            if (settingButton.isClick(p) && !isSettingOpen) {
+                AudioManager.playSFX(Asset.SFX_MENU_CLICK);
+                isSettingOpen=true;
                 new Setting();
             }
 
             quitButton.handleClick(p);
+
         }
 
         repaint();
@@ -133,5 +138,14 @@ public class PauseUI extends JPanel {
             settingButton.draw(g);
             quitButton.draw(g);
         }
+        
+    }
+
+    public void setIsSettingOpen(boolean isSettingOpen) {
+        this.isSettingOpen = isSettingOpen;
+    }
+
+    public boolean isSettingOpen() {
+        return isSettingOpen;
     }
 }

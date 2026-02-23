@@ -1,11 +1,14 @@
 package UI.PauseMenu;
 
+import asset.Asset;
+import asset.AudioManager;
 import java.awt.*;
 
 public class SettingButton {
 
     private int x, y, width, height;
     private boolean hover = false;
+    private boolean isEntry = false;
 
     public SettingButton(int x, int y, int width, int height) {
         this.x = x;
@@ -21,6 +24,14 @@ public class SettingButton {
 
     public void handleHover(Point p) {
         hover = isClick(p);
+        if(!isEntry && hover){
+            isEntry = true;
+            AudioManager.playSFX(Asset.SFX_MENU_HOVER);
+            // System.out.println("1");
+        }else if (!hover && isEntry) {
+            isEntry = false;
+            // System.out.println("2");
+        }
     }
 
     // ================= DRAW =================

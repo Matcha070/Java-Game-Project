@@ -8,11 +8,12 @@ import GameObject.Character.Tower.SpeedShootTower;
 import GameObject.Character.Tower.Tower;
 import Map.MapData;
 import asset.Asset;
+import asset.AudioManager;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
+import javax.swing.*;  
 
 public class TowerUI extends JPanel {
 
@@ -154,6 +155,8 @@ public class TowerUI extends JPanel {
     }
 
     public void handleClickDelete(Point p) {
+        AudioManager.playSFX(Asset.SFX_MENU_CLICK);
+        System.out.println("111");
         if (game.isPause() || game.isOver())
             return;
 

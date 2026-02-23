@@ -1,6 +1,8 @@
 package UI.PauseMenu;
 
 import GameController.GamePanel;
+import asset.Asset;
+import asset.AudioManager;
 import java.awt.*;
 
 public class PauseButton {
@@ -8,6 +10,7 @@ public class PauseButton {
     private GamePanel game;
     private int x, y, size;
     private boolean hover = false;
+    private boolean  isEntry = false;
 
     public PauseButton(GamePanel game, int x, int y, int size) {
         this.game = game;
@@ -24,6 +27,14 @@ public class PauseButton {
 
     public void handleHover(Point p) {
         hover = isClick(p);
+        if(hover && !isEntry){
+            AudioManager.playSFX(Asset.SFX_MENU_HOVER);
+            // System.out.println("1");
+           isEntry = true;
+        }else if (!hover && isEntry) {
+            isEntry = false;
+            // System.out.println("2");
+        }
     }
 
     public void draw(Graphics g) {

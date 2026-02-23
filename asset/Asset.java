@@ -1,15 +1,19 @@
 package asset;
 
+import Map.MapData;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
-import java.util.Map;
-import java.util.HashMap;
-import Map.MapData;
 
 public class Asset {
 
 //\\\\\\\\\\\\\\\\\\\\\\\\\\\PNG\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//
+
+    // ----------Art-----------
+    public static BufferedImage MainMenuPic;
+    public static BufferedImage Map;
 
     // ----------Map-----------
     public static BufferedImage GRASS;
@@ -94,6 +98,8 @@ public class Asset {
 
     public static final String SFX_BROKENTOWER = "/assetSFX/Tower/BrokenTower/TowerBreak.wav";
 
+    public static final String SFX_MENU_HOVER = "/assetSFX/UI/MenuHover.wav";
+
     public static final String SFX_MENU_CLICK = "/assetSFX/UI/MenuClick.wav";
 
     public static final String SFX_STARTING_WAVE = "/assetSFX/Wave/StartingWave.wav";
@@ -109,6 +115,11 @@ public class Asset {
         AudioManager.setBgmVolume(0.5f);
         try {
             // ----------PNG-----------
+            // ----------Art-----------
+
+            MainMenuPic = ImageIO.read(Asset.class.getResource("/asset/Art/Main.jpg"));
+            Map = ImageIO.read(Asset.class.getResource("/asset/Art/Map.png"));
+
             // ----------Map-----------
             GRASS = ImageIO.read(Asset.class.getResource("/asset/map/Grass.png"));
             DIRT = ImageIO.read(Asset.class.getResource("/asset/map/Dirt.png"));

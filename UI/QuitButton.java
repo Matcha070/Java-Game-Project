@@ -1,11 +1,14 @@
 package UI;
 
+import asset.Asset;
+import asset.AudioManager;
 import java.awt.*;
 
 public class QuitButton {
 
     private int x, y, width, height;
     private boolean hover = false;
+    private boolean isEntry = false;
 
     public QuitButton(int x, int y, int width, int height) {
         this.x = x;
@@ -41,12 +44,22 @@ public class QuitButton {
 
     public void handleClick(Point p) {
         if (contains(p)) {
+            AudioManager.playSFX(Asset.SFX_MENU_CLICK);
             System.exit(0);
         }
+
     }
 
     public void handleHover(Point p) {
         hover = contains(p);
+        if(!isEntry && hover){
+            isEntry = true;
+            AudioManager.playSFX(Asset.SFX_MENU_HOVER);
+            // System.out.println("1");
+        }else if (!hover && isEntry) {
+            isEntry = false;
+            // System.out.println("2");
+        }
     }
 
     private boolean contains(Point p) {

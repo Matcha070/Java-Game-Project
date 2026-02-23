@@ -4,6 +4,7 @@ import asset.AudioManager;
 import java.awt.*;
 import javax.swing.*;
 
+
 public class Setting extends JFrame {
 
     private boolean muted = false;
@@ -20,7 +21,8 @@ public class Setting extends JFrame {
         setSize(800, 600);
         setLocationRelativeTo(null);
         setResizable(false);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setUndecorated(true); 
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.BLACK);
@@ -108,7 +110,10 @@ public class Setting extends JFrame {
         backButton.setBounds(300, 450, 200, 40);
         panel.add(backButton);
 
-        backButton.addActionListener(e -> dispose());
+        backButton.addActionListener(e -> {
+            dispose();
+            PauseUI.isSettingOpen = false;
+        });
 
         setVisible(true);
     }

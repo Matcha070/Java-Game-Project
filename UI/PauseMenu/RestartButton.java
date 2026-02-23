@@ -2,6 +2,8 @@ package UI.PauseMenu;
 
 import GameController.GamePanel;
 import GameObject.Player.PlayerStat;
+import asset.Asset;
+import asset.AudioManager;
 import java.awt.*;
 
 public class RestartButton {
@@ -9,6 +11,7 @@ public class RestartButton {
     private int x, y, width, height;
     private boolean hover = false;
     private GamePanel game;
+    private boolean isEntry = false;
 
     public RestartButton(GamePanel game, int x, int y, int width, int height) {
         this.game = game;
@@ -45,6 +48,7 @@ public class RestartButton {
 
     public void handleClick(Point p) {
         if (contains(p)) {
+            AudioManager.playSFX(Asset.SFX_MENU_CLICK);
             game.RestartGame();
             PlayerStat.towers = 0;
         }
@@ -52,6 +56,15 @@ public class RestartButton {
 
     public void handleHover(Point p) {
         hover = contains(p);
+        if(!isEntry && hover){
+            isEntry = true;
+            AudioManager.playSFX(Asset.SFX_MENU_HOVER);
+            // System.out.println("1");
+        }else if (!hover && isEntry) {
+            isEntry = false;
+            // System.out.println("2");
+        }
+
     }
 
     private boolean contains(Point p) {
