@@ -667,26 +667,44 @@ public class GamePanel extends JPanel {
     }
 
     private void drawMap(Graphics g) {
-        for (int row = 0; row < MapData.MAP.length; row++) {
-            for (int col = 0; col < MapData.MAP[0].length; col++) {
+        if (Asset.Map == null) return;
 
-                BufferedImage img =
-                        (MapData.MAP[row][col] == 1 ||
-                        MapData.MAP[row][col] == 2 ||
-                        MapData.MAP[row][col] == 3)
-                        ? Asset.DIRT
-                        : Asset.GRASS;
+        int imgW = Asset.Map.getWidth();
+        int imgH = Asset.Map.getHeight();
+        int panelW = getWidth();
+        int panelH = getHeight();
 
-                g.drawImage(
-                        img,
-                        col * MapData.TILE_SIZE,
-                        row * MapData.TILE_SIZE,
-                        MapData.TILE_SIZE,
-                        MapData.TILE_SIZE,
-                        null
-                );
-            }
-        }
+        double scale = Math.max((double) panelW / imgW, (double) panelH / imgH);
+
+        int drawW = (int) (imgW * scale);
+        int drawH = (int) (imgH * scale);
+        int x = (panelW - drawW) / 2;
+        int y = (panelH - drawH) / 2;
+
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.drawImage(Asset.Map, x, y, drawW, drawH, null);
+        // for (int row = 0; row < MapData.MAP.length; row++) {
+        //     for (int col = 0; col < MapData.MAP[0].length; col++) {
+
+        //         BufferedImage img =
+        //                 (MapData.MAP[row][col] == 1 ||
+        //                 MapData.MAP[row][col] == 2 ||
+        //                 MapData.MAP[row][col] == 3)
+        //                 ? Asset.DIRT
+        //                 : Asset.GRASS;
+
+        //         g.drawImage(
+        //                 img,
+        //                 col * MapData.TILE_SIZE,
+        //                 row * MapData.TILE_SIZE,
+        //                 MapData.TILE_SIZE,
+        //                 MapData.TILE_SIZE,
+        //                 null
+        //         );
+        //     }
+        // }
     }
 
     private void GhostPreview(Graphics g) {
@@ -736,6 +754,8 @@ public class GamePanel extends JPanel {
         if (window instanceof JFrame) {
             ((JFrame) window).dispose();
         }
+
+        enemies = null;
 
     }
 
