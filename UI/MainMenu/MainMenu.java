@@ -48,6 +48,7 @@ public class MainMenu extends JFrame {
                 int y = (panelH - drawH) / 2;
 
                 g2.drawImage(Asset.MainMenuPic, x, y, drawW, drawH, null);
+                
             }
         };
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -80,6 +81,63 @@ public class MainMenu extends JFrame {
 
         menuPanel.add(playBtn);
         menuPanel.add(quitBtn);
+
+        JLabel titleLabel = new JLabel("Kingdom of the Last Tower", SwingConstants.CENTER) {
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+            Font font = getFont();
+            FontMetrics fm = g2.getFontMetrics(font);
+            String text = getText();
+
+            int textX = (getWidth() - fm.stringWidth(text)) / 2;
+            int textY = (getHeight() - fm.getHeight()) / 2 + fm.getAscent();
+
+            g2.setFont(font);
+
+            // ===== Glow (เรืองแสงสีทอง) =====
+            for (int i = 8; i >= 1; i--) {
+                float alpha = 0.04f * (9 - i);
+                g2.setColor(new Color(1f, 0.85f, 0.2f, alpha));
+                g2.drawString(text, textX - i, textY);
+                g2.drawString(text, textX + i, textY);
+                g2.drawString(text, textX, textY - i);
+                g2.drawString(text, textX, textY + i);
+            }
+
+            // ===== Outline ดำหนา =====
+            g2.setColor(new Color(0, 0, 0, 220));
+            for (int dx = -2; dx <= 2; dx++) {
+                for (int dy = -2; dy <= 2; dy++) {
+                    if (dx != 0 || dy != 0) {
+                        g2.drawString(text, textX + dx, textY + dy);
+                    }
+                }
+            }
+
+            // ===== ข้อความหลัก (Gradient ทอง) =====
+            GradientPaint gradient = new GradientPaint(
+                0, textY - fm.getAscent(), new Color(255, 245, 180),  // สีทองอ่อนบน
+                0, textY, new Color(200, 140, 20)                      // สีทองเข้มล่าง
+            );
+            g2.setPaint(gradient);
+            g2.drawString(text, textX, textY);
+        }
+    };
+
+    titleLabel.setFont(new Font("Georgia", Font.BOLD, 42));
+    titleLabel.setOpaque(false);
+
+    int titleW = 700;
+    int titleH = 80;
+    int titleX = (WIDTH - titleW) / 2;
+    int titleY = 60;
+
+    titleLabel.setBounds(titleX, titleY, titleW, titleH);
+    menuPanel.add(titleLabel);
 
         add(menuPanel);
 
