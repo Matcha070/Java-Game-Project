@@ -4,7 +4,6 @@ import GameController.GamePanel;
 import GameObject.Player.PlayerStat;
 import asset.Asset;
 import java.awt.*;
-
 import javax.swing.*;
 
 public class StatusUI extends JPanel {
@@ -32,6 +31,7 @@ public class StatusUI extends JPanel {
 
         MoneyUi(g2);
         HeartUi(g2);
+        drawCurrentWave(g2);
 
         if (game.isOver()) {
             drawGameOver(g2);
@@ -142,6 +142,35 @@ public class StatusUI extends JPanel {
         g2.setColor(Color.WHITE);
         g2.drawString("Enter To Restart.", x + 175, y + 50);
 
+    }
+
+    private void drawCurrentWave(Graphics2D g2){
+        int currentWave = game.getCurrentWave();
+        String text = "Wave: " + currentWave;
+
+        g2.setFont(FONT_22);
+        FontMetrics fm = g2.getFontMetrics();
+
+        int padding = 20;
+        int boxWidth = fm.stringWidth(text) + padding * 2;
+        int boxHeight = 40 + padding;
+
+        int boxX = (getWidth() - boxWidth) / 2;
+        int boxY = padding;
+
+        // ===== text กลางกล่องพอดี =====
+        int textX = boxX + (boxWidth - fm.stringWidth(text)) / 2;
+        int textY = boxY + (boxHeight - fm.getHeight()) / 2 + fm.getAscent();
+
+        g2.setColor(BOX_COLOR);
+        g2.fillRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
+
+        g2.setColor(Color.WHITE);
+        g2.setStroke(STORKE);
+        g2.drawRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
+
+        g2.setColor(Color.WHITE);
+        g2.drawString(text, textX, textY);
     }
 
 }

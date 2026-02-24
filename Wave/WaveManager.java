@@ -79,7 +79,7 @@ public class WaveManager {
     }
 
     public int getCurrentWaveNumber() {
-        return currentWaveIndex + 1;
+        return currentWaveIndex;
     }
 
     public boolean isGameClear() {

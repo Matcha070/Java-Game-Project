@@ -757,6 +757,10 @@ public class GamePanel extends JPanel implements KeyListener {
         return this.delete;
     }
 
+    public int getCurrentWave(){
+        return waveManager.getCurrentWaveNumber();
+    }
+
     public void setTowerUI(TowerUI towerUi) {
         this.towerUi = towerUi;
     }
