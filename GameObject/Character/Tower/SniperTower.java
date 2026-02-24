@@ -13,7 +13,7 @@ public class SniperTower extends Tower {
     public SniperTower(int x, int y) {
         super("Sniper Tower",x, y, 50, MapData.TILE_SIZE * 6, 
         150,
-        220,
+        400,
         25,
         "Shoot slow but high damage",2);
         isPreciseBullet = true;

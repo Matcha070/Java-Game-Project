@@ -13,7 +13,7 @@ public class SpeedShootTower extends Tower {
     public SpeedShootTower(int x, int y) {
         super("Speed Shoot Tower", x, y, 6, MapData.TILE_SIZE * 3, 
         15, 
-        180, 
+        200, 
         80, 
         "This tower is so fast",1);
     }
