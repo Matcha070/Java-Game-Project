@@ -12,7 +12,7 @@ public class BaseTower extends Tower {
         75, 
         100, 
         30, 
-        "Just a normal tower");
+        "Just a normal tower" , 0);
     }
 
     @Override

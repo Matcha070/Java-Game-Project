@@ -15,7 +15,7 @@ public class SpeedShootTower extends Tower {
         15, 
         180, 
         80, 
-        "This tower is so fast");
+        "This tower is so fast",1);
     }
 
     @Override

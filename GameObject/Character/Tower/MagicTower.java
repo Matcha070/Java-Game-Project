@@ -14,7 +14,7 @@ public class MagicTower extends Tower {
         48, 
         150, 
         40, 
-        "Make the enemy unable heal");
+        "Make the enemy unable heal" ,3);
         antiHeal = 150;
     }
 

@@ -32,8 +32,9 @@ public abstract class Tower extends GameObject{
     protected int maxHp;
     protected int currentHp;
     protected int antiHeal = 0;
+    protected int towerIconIndex;
 
-    public Tower(String name, int x, int y, int damage, int range, int fireRate, int price, int hp, String description) {
+    public Tower(String name, int x, int y, int damage, int range, int fireRate, int price, int hp, String description, int towerIconIndex) {
         super(x, y);
         this.name = name;
         this.damage = damage;
@@ -44,6 +45,7 @@ public abstract class Tower extends GameObject{
         this.maxHp = hp;
         this.currentHp = hp;
         this.description = description;
+        this.towerIconIndex = towerIconIndex;
     }
 
     public abstract void draw(Graphics g);
@@ -133,7 +135,7 @@ public abstract class Tower extends GameObject{
 
     protected void DrawTower(Graphics2D g2) {
 
-        BufferedImage img = Asset.TOWER_ICON[3];
+        BufferedImage img = Asset.TOWER_ICON[towerIconIndex];
         if (img == null) return;
 
         int imgW = img.getWidth();

@@ -177,7 +177,9 @@ public class Asset {
 
             // -----------UI------------
             TOWER_ICON[0] = ImageIO.read(Asset.class.getResource("/asset/tower/tower1.png"));
-            TOWER_ICON[3] = ImageIO.read(Asset.class.getResource("/asset/tower/tower1.png"));
+            TOWER_ICON[1] = ImageIO.read(Asset.class.getResource("/asset/tower/tower2.png"));
+            TOWER_ICON[2] = ImageIO.read(Asset.class.getResource("/asset/tower/tower3.png"));
+            TOWER_ICON[3] = ImageIO.read(Asset.class.getResource("/asset/tower/tower4.png"));
 
             FILLHp = ImageIO.read(Asset.class.getResource("/asset/Ui/fillHp.png"));
             ENEMYHPBAR = ImageIO.read(Asset.class.getResource("/asset/Ui/hpEnemyBar.png"));
